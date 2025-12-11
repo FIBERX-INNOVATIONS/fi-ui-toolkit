@@ -3,7 +3,7 @@ import BaseController               from "../../base_classes/base_controller";
 import ImgAvatarUIEventHandler      from "./img_avatar_ui_event_handler";
 
 class ImgAvatarUIController extends BaseController {
-    public event_handler: ImgAvatarUIEventHandler
+    public event_handler: ImgAvatarUIEventHandler;
 
     constructor(props: Record<string, any> = {}) {
         super("img_avatar_ui", props);

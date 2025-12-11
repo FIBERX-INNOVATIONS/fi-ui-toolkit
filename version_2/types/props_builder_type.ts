@@ -1,4 +1,5 @@
-import { Component, PropType } from "vue";
+import { Component, PropType }      from "vue";
+import { PropRenderFnType }         from "../types/component_type";
 
 export type InputValueType = string | number | boolean | null | string[];
 
@@ -394,9 +395,9 @@ export interface TableColumnInterface extends Partial<SortableHeaderCellUIPropsI
     content_type: "plain" | "formatted" | "component";
     field_key: string;
     col_class_style?: string;
-    formatter?: (value: any, record?: Record<string, any>) => string;
+    formatter?: <T>(value: any, record?: T) => string;
     component?: any;
-    component_props?: (record: Record<string, any>) => Record<string, any>;
+    component_props?: (record: any) => Record<string, any>;
 }
 
 export interface TableHeaderUIPropsInterface {
@@ -495,4 +496,66 @@ export interface ModalUIPropsInterface {
   on_modal_close?: (event: MouseEvent, layer: number) => boolean;
 }
 
+export interface ActivityListUIClassStylesInterface {
+    wrapper_class_style?: string;
+
+    activity_wrapper_class_style?: string;
+
+    activity_header_class_style?: string;
+
+    activity_header_section_1_class_style?: string;
+
+    activity_header_section_2_class_style?: string;
+
+    activity_body_class_style?: string;
+
+    activity_body_content_class_style?: string;
+
+    select_checkbox_wrapper_class_style?: string;
+
+    select_checkbox_class_style?: string;
+}
+
+export interface ActivityListUIRenderMethodsinterface {
+    getRecordId?: (record: Record<string, any>) => string | number;
+
+    onSelect?: (event: Event | InputEvent, record: Record<string, any>, checked: boolean) => void;
+
+    renderHeaderSection1Content?: PropRenderFnType;
+
+    renderHeaderSection2Content?: PropRenderFnType;
+
+    renderBodyContent?: PropRenderFnType;
+}
+
+
+export interface ActivityListUIPropsInterface {
+    select_mode: boolean;
+
+    selected_records: (string | number)[];
+
+    activity_records: Record<string, any>[];
+
+    getRecordId: (record: Record<string, any>) => string | number;
+
+    onSelect?: (event: Event | InputEvent, record: Record<string, any>, checked: boolean) => void;
+
+    renderHeaderSection1Content: PropRenderFnType;
+
+    renderHeaderSection2Content: PropRenderFnType;
+
+    renderBodyContent: PropRenderFnType;
+
+    loader_content_text?: string;
+
+    wrapper_class_style: string;
+    activity_wrapper_class_style: string;
+    activity_header_class_style: string;
+    activity_header_section_1_class_style: string;
+    activity_header_section_2_class_style: string;
+    activity_body_class_style: string;
+    activity_body_content_class_style: string;
+    select_checkbox_wrapper_class_style: string;
+    select_checkbox_class_style: string;
+}
 

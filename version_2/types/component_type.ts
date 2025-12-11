@@ -3,6 +3,12 @@ import BaseEventHandler from "../base_classes/base_event_handler";
 import BaseService      from "../base_classes/base_service";
 import { SortDirectionType } from "./props_builder_type";
 
+export type PropRenderFnType = (
+    index: number,
+    record: Record<string, any>,
+    records: Record<string, any>[]
+) => string | number | null;
+
 export interface ComponentDefinitionInterface {
     props: Record<string, any>;
     components: Record<string, any>;
@@ -44,3 +50,4 @@ export interface BaseEventHandlerInterface {
     component_name: string;
     [method: string]: any;
 }
+

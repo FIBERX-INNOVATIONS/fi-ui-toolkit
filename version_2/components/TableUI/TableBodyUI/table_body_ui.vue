@@ -38,14 +38,14 @@
                 >
                     <!-- Render plain string -->
                     <div v-if="col.content_type === 'plain'" :class="col.col_class_style">
-                        {{ InputTransformerUtil.getValueByDotPath(record, col?.field_key, "") }}
+                        {{ transformer_util_ref.getValueByDotPath(record, col?.field_key, "") }}
                     </div>
 
                     <!-- Render formatted string -->
                     <div 
                         v-else-if="col.content_type === 'formatted'" 
                         :class="col.col_class_style" 
-                        v-html="col?.formatter?.(InputTransformerUtil.getValueByDotPath(record, col?.field_key, null), record)"
+                        v-html="col?.formatter?.(transformer_util_ref.getValueByDotPath(record, col?.field_key, null), record)"
                     ></div>
 
                     <component 
@@ -67,9 +67,10 @@ import TableBodyUIProps         from "./table_body_ui_props";
 import TableBodyUIController    from "./table_body_ui_controller";
 import InputTransformerUtil     from "../../../utils/input_formatter_util";
 
-const props             = defineProps(TableBodyUIProps);
-const controller        = new TableBodyUIController(props);
-const event_handler     = controller.event_handler;
+const transformer_util_ref      = InputTransformerUtil;
+const props                     = defineProps(TableBodyUIProps);
+const controller                = new TableBodyUIController(props);
+const event_handler             = controller.event_handler;
 
 controller.getComponentDefinition();
 </script>
