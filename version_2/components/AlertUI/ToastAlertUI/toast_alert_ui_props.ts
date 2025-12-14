@@ -1,16 +1,14 @@
 
-import { ComponentClassStyles }     from "../../../enums/component_class_styles.enums";
-
-const ui_class_styles  = ComponentClassStyles.alert_ui.toast_alert_ui;
+import { ClassStyles }     from "./toast_alert_ui_class_styles";
 
 const ToastAlertUIProps   = {
-    wrapper_class_style: { type: String, default: ui_class_styles?.wrapper_class_style, required: false },
+    wrapper_class_style: { type: String, default: ClassStyles?.wrapper_class_style, required: false },
     
-    icon_wrapper_class_style: { type: String, default: ui_class_styles?.icon_wrapper_class_style, required: false },
+    icon_wrapper_class_style: { type: String, default: ClassStyles?.icon_wrapper_class_style, required: false },
 
-    icon_class_style: { type: String, default: ui_class_styles?.icon_class_style, required: false },
+    icon_class_style: { type: String, default: ClassStyles?.icon_class_style, required: false },
 
-    message_class_style: { type: String, default: ui_class_styles?.message_class_style, required: false },
+    message_class_style: { type: String, default: ClassStyles?.message_class_style, required: false },
 
     status_icon: { type: String, default: "", required: false }, 
 

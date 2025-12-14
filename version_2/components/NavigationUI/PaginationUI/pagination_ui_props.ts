@@ -1,18 +1,16 @@
 import { PropType }                 from "vue";
-import { ComponentClassStyles }     from "../../../enums/component_class_styles.enums";
-
-const ui_class_styles       = ComponentClassStyles?.navigation_ui?.pagination_ui;
+import { ClassStyles }              from "./pagination_ui_class_styles";
 
 const PaginationUIProps   = {
-    wrapper_class_style: { type: String, default: ui_class_styles.wrapper_class_style, required: false },
+    wrapper_class_style: { type: String, default: ClassStyles?.wrapper_class_style, required: false },
 
-    prev_button_class_style: { type: String, default: ui_class_styles.prev_button_class_style, required: false },
+    prev_button_class_style: { type: String, default: ClassStyles?.prev_button_class_style, required: false },
 
-    next_button_class_style: { type: String, default: ui_class_styles.next_button_class_style, required: false },
+    next_button_class_style: { type: String, default: ClassStyles?.next_button_class_style, required: false },
 
-    disabled_class_style: { type: String, default: ui_class_styles.disabled_class_style, required: false }, 
+    disabled_class_style: { type: String, default: ClassStyles?.disabled_class_style, required: false }, 
 
-    select_class_style: { type: String, default: ui_class_styles.select_class_style, required: false },
+    select_class_style: { type: String, default: ClassStyles?.select_class_style, required: false },
 
     prev_btn_content: { type: String, default: "Prev", required: false }, 
 

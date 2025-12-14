@@ -1,11 +1,6 @@
 import { PropType }                 from "vue";
-import { ComponentClassStyles }     from "../../../enums/component_class_styles.enums";
-
-import { 
-    TableColumnInterface,
-} from "../../../types/props_builder_type";
-
-const ui_class_styles  = ComponentClassStyles?.table_ui?.table_body_ui;
+import { ClassStyles }              from "./table_body_ui_class_styles"
+import { TableColumnInterface }     from "../../../types/props_builder_type";
 
 const TableBodyUIProps = {
     records: { type: Array as PropType<Record<string, any>[]>, default: [], required: true },
@@ -18,13 +13,13 @@ const TableBodyUIProps = {
 
     empty_text: { type: String, default: "No records found." },
     
-    wrapper_class_style: { type: String, default: ui_class_styles.wrapper_class_style },
+    wrapper_class_style: { type: String, default: ClassStyles?.wrapper_class_style },
 
-    body_row_class_style: { type: String, default: ui_class_styles.body_row_class_style },
+    body_row_class_style: { type: String, default: ClassStyles?.body_row_class_style },
 
-    body_cell_class_style: { type: String, default: ui_class_styles.body_cell_class_style },
+    body_cell_class_style: { type: String, default: ClassStyles?.body_cell_class_style },
 
-    selected_checkbox_class_style: { type: String, default: ui_class_styles.selected_checkbox_class_style },
+    selected_checkbox_class_style: { type: String, default: ClassStyles?.selected_checkbox_class_style },
 
     selected_records: { type: Array as PropType<(string | number | Record<string, any>)[]>, default: () => [] },
     

@@ -1,11 +1,7 @@
 import { PropType }                 from "vue";
-import { ComponentClassStyles }     from "../../../enums/component_class_styles.enums";
+import { ClassStyles }              from "./table_header_ui_class_styles";
+import { TableColumnInterface }     from "../../../types/props_builder_type";
 
-import { 
-    TableColumnInterface 
-} from "../../../types/props_builder_type";
-
-const ui_class_styles  = ComponentClassStyles?.table_ui?.table_header_ui;
 
 const TableHeaderUIProps = {
     columns: { type: Array as PropType<TableColumnInterface[]>, required: true },
@@ -14,13 +10,13 @@ const TableHeaderUIProps = {
     
     actions_text: { type: String, default: "Actions" },
     
-    wrapper_class_style: { type: String, default: ui_class_styles.wrapper_class_style },
+    wrapper_class_style: { type: String, default: ClassStyles?.wrapper_class_style },
 
-    header_row_class_style: { type: String, default: ui_class_styles.header_row_class_style },
+    header_row_class_style: { type: String, default: ClassStyles?.header_row_class_style },
 
-    header_cell_class_style: { type: String, default: ui_class_styles.header_cell_class_style },
+    header_cell_class_style: { type: String, default: ClassStyles?.header_cell_class_style },
 
-    selected_checkbox_class_style: { type: String, default: ui_class_styles.selected_checkbox_class_style },
+    selected_checkbox_class_style: { type: String, default: ClassStyles?.selected_checkbox_class_style },
 
     all_selected: { type: Boolean, default: false },
     

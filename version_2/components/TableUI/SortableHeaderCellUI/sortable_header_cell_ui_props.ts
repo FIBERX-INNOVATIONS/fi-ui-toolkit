@@ -1,10 +1,8 @@
 
 import { PropType }                 from "vue";
-import { ComponentClassStyles }     from "../../../enums/component_class_styles.enums";
-import { SortDirectionType } from "@v2/types/props_builder_type";
+import { ClassStyles }              from "./sortable_header_cell_ui_class_styles";
+import { SortDirectionType }        from "../../../types/props_builder_type";
 
-
-const ui_class_styles  = ComponentClassStyles?.table_ui?.sortable_header_cell_ui;
 
 const SortableHeaderCellUIProps = {
     id: { type: String, required: false },
@@ -19,11 +17,11 @@ const SortableHeaderCellUIProps = {
 
     on_sort: { type: Function as PropType<(event:MouseEvent, dir: SortDirectionType) => void>, default: null },
 
-    wrapper_class_style: { type: String, default: ui_class_styles.wrapper_class_style },
+    wrapper_class_style: { type: String, default: ClassStyles?.wrapper_class_style },
 
-    content_wrapper_class_style: { type: String, default: ui_class_styles.content_wrapper_class_style },
+    content_wrapper_class_style: { type: String, default: ClassStyles?.content_wrapper_class_style },
 
-    icon_class_style: { type: String, default: ui_class_styles.icon_class_style },
+    icon_class_style: { type: String, default: ClassStyles?.icon_class_style },
  
 }
 

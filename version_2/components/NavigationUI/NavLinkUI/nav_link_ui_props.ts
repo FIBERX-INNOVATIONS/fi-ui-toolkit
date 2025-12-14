@@ -1,19 +1,17 @@
 import { PropType }                 from "vue";
-import { ComponentClassStyles }     from "../../../enums/component_class_styles.enums";
+import { ClassStyles }              from "./nav_link_ui_class_styles";
 import { NavLinkUIPropsInterface } from "../../../types/props_builder_type";
 
-const ui_class_styles       = ComponentClassStyles?.navigation_ui?.nav_link_ui;
-
 const NavLinkUIProps   = {
-    wrapper_class_style: { type: String, default: ui_class_styles.wrapper_class_style, required: false },
+    wrapper_class_style: { type: String, default: ClassStyles?.wrapper_class_style, required: false },
 
-    active_menu_class_style: { type: String, default: ui_class_styles.active_menu_class_style, required: false },
+    active_menu_class_style: { type: String, default: ClassStyles?.active_menu_class_style, required: false },
 
-    icon_img_wrapper_class_style: { type: String, default: ui_class_styles.icon_img_wrapper_class_style, required: false },
+    icon_img_wrapper_class_style: { type: String, default: ClassStyles?.icon_img_wrapper_class_style, required: false },
 
-    icon_img_class_style: { type: String, default: ui_class_styles.icon_img_class_style, required: false },
+    icon_img_class_style: { type: String, default: ClassStyles?.icon_img_class_style, required: false },
 
-    content_class_style: { type: String, default: ui_class_styles.content_class_style, required: false },
+    content_class_style: { type: String, default: ClassStyles?.content_class_style, required: false },
 
     content:{ type: String, default: null, required: false },
 

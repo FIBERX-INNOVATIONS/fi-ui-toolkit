@@ -1,13 +1,12 @@
 
-import { ComponentClassStyles }     from "../../../enums/component_class_styles.enums";
+import { ClassStyles }     from "./list_loader_ui_class_styles";
 
-const ui_class_styles       = ComponentClassStyles?.loader_ui?.list_loader_ui;
 const ListLoaderUIProps   = {
-    wrapper_class_style: { type: String, default: ui_class_styles?.wrapper_class_style, required: false },
+    wrapper_class_style: { type: String, default: ClassStyles?.wrapper_class_style, required: false },
 
     number_of_bars: { type: Number, default: 10, required: false },
 
-    bar_class_style: { type: String, default: ui_class_styles?.bar_class_style, required: false },
+    bar_class_style: { type: String, default: ClassStyles?.bar_class_style, required: false },
 }
 
 export default ListLoaderUIProps;

@@ -1,10 +1,9 @@
 
 import { PropType }                 from "vue";
-import { ComponentClassStyles }     from "../../enums/component_class_styles.enums";
+import { ClassStyles }              from "./activity_list_ui_class_styles";
 import { PropRenderFnType }         from "../../types/component_type";
 import InputTransformerUtil         from "../../utils/input_formatter_util";
 
-const ui_class_styles       = ComponentClassStyles.activity_list_ui;
 
 const ActivityListUIProps   = {
     select_mode: { type: Boolean, default: false },
@@ -44,23 +43,23 @@ const ActivityListUIProps   = {
 
     loader_content_text: { type: String, default: "", required: false },
 
-    wrapper_class_style: { type: String, default: ui_class_styles.wrapper_class_style, required: false },
+    wrapper_class_style: { type: String, default: ClassStyles.wrapper_class_style, required: false },
 
-    activity_wrapper_class_style: { type: String, default: ui_class_styles.activity_wrapper_class_style, required: false },
+    activity_wrapper_class_style: { type: String, default: ClassStyles.activity_wrapper_class_style, required: false },
 
-    activity_header_class_style: { type: String, default: ui_class_styles.activity_header_class_style, required: false },
+    activity_header_class_style: { type: String, default: ClassStyles.activity_header_class_style, required: false },
 
-    activity_header_section_1_class_style: { type: String, default: ui_class_styles.activity_header_section_1_class_style, required: false },
+    activity_header_section_1_class_style: { type: String, default: ClassStyles.activity_header_section_1_class_style, required: false },
 
-    activity_header_section_2_class_style: { type: String, default: ui_class_styles.activity_header_section_2_class_style, required: false },
+    activity_header_section_2_class_style: { type: String, default: ClassStyles.activity_header_section_2_class_style, required: false },
 
-    activity_body_class_style: { type: String, default: ui_class_styles.activity_body_class_style, required: false },
+    activity_body_class_style: { type: String, default: ClassStyles.activity_body_class_style, required: false },
 
-    activtiy_body_content_class_style: { type: String, default: ui_class_styles.activtiy_body_content_class_style, required: false },
+    activtiy_body_content_class_style: { type: String, default: ClassStyles.activtiy_body_content_class_style, required: false },
 
-    select_checkbox_wrapper_class_style: { type: String, default: ui_class_styles.select_checkbox_wrapper_class_style, required: false },
+    select_checkbox_wrapper_class_style: { type: String, default: ClassStyles.select_checkbox_wrapper_class_style, required: false },
 
-    select_checkbox_class_style: { type: String, default: ui_class_styles.select_checkbox_class_style, required: false },
+    select_checkbox_class_style: { type: String, default: ClassStyles.select_checkbox_class_style, required: false },
 }
 
 export default ActivityListUIProps;

@@ -1,7 +1,6 @@
 import { PropType }                 from "vue";
-import { ComponentClassStyles }     from "../../enums/component_class_styles.enums";
+import { ClassStyles }              from "./input_ui_class_styles";
 
-const ui_class_styles       = ComponentClassStyles.input_ui;
 
 const InputUIProps   = {
     id: { type: String, required: true },
@@ -60,31 +59,31 @@ const InputUIProps   = {
 
     additional_parms: { type: Object, default: () => { return {}}, required: false },
     
-    input_class_style: { type: String, default: ui_class_styles.input_class_style, required: false },
+    input_class_style: { type: String, default: ClassStyles?.input_class_style, required: false },
 
-    wrapper_class_style: { type: String, default: ui_class_styles.wrapper_class_style, required: false },
+    wrapper_class_style: { type: String, default: ClassStyles?.wrapper_class_style, required: false },
 
-    loader_class_style: { type: String, default: ui_class_styles.loader_class_style, required: false },
+    loader_class_style: { type: String, default: ClassStyles?.loader_class_style, required: false },
 
-    switch_btn_class_style: { type: String, default: ui_class_styles.switch_btn_class_style, required: false },
+    switch_btn_class_style: { type: String, default: ClassStyles?.switch_btn_class_style, required: false },
 
-    label_text_class_style: { type: String, default: ui_class_styles.label_text_class_style, required: false }, 
+    label_text_class_style: { type: String, default: ClassStyles?.label_text_class_style, required: false }, 
 
-    knob_class_style: { type: String, default: ui_class_styles.knob_class_style, required: false }, 
+    knob_class_style: { type: String, default: ClassStyles?.knob_class_style, required: false }, 
 
-    active_class_style: { type: String, default: ui_class_styles.active_class_style, required: false }, 
+    active_class_style: { type: String, default: ClassStyles?.active_class_style, required: false }, 
 
-    inactive_class_style: { type: String, default: ui_class_styles.inactive_class_style, required: false }, 
+    inactive_class_style: { type: String, default: ClassStyles?.inactive_class_style, required: false }, 
 
-    caret_icon_class: { type: String, default: ui_class_styles.caret_icon_class, required: false }, 
+    caret_icon_class: { type: String, default: ClassStyles?.caret_icon_class, required: false }, 
 
-    dropdown_wrapper_class_style: { type: String, default: ui_class_styles.dropdown_wrapper_class_style, required: false }, 
+    dropdown_wrapper_class_style: { type: String, default: ClassStyles?.dropdown_wrapper_class_style, required: false }, 
 
-    options_wrapper_class_style: { type: String, default: ui_class_styles.options_wrapper_class_style, required: false }, 
+    options_wrapper_class_style: { type: String, default: ClassStyles?.options_wrapper_class_style, required: false }, 
 
-    option_class_style: { type: String, default: ui_class_styles.option_class_style, required: false }, 
+    option_class_style: { type: String, default: ClassStyles?.option_class_style, required: false }, 
 
-    option_content_class_style: { type: String, default: ui_class_styles.option_content_class_style, required: false }, 
+    option_content_class_style: { type: String, default: ClassStyles?.option_content_class_style, required: false }, 
 
     
 }

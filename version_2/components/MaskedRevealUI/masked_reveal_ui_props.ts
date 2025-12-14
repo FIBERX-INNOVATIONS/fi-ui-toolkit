@@ -1,8 +1,6 @@
 import { PropType }                 from "vue";
-import { ComponentClassStyles }     from "../../enums/component_class_styles.enums";
-import SVGIcons from "../../resources/svg_icon_resource";
-
-const ui_class_styles         = ComponentClassStyles.masked_reveal_ui;
+import { ClassStyles }              from "./masked_reveal_ui_class_styles";
+import SVGIcons                     from "../../resources/svg_icon_resource";
 
 const MaskedRevealUIProps  = {
 
@@ -10,25 +8,25 @@ const MaskedRevealUIProps  = {
 
     reveal_duration_in_seconds: { type: Number, default: 5, required: true },
 
-    wrapper_class_style: { type: String, default: ui_class_styles.wrapper_class_style, required: false },
+    wrapper_class_style: { type: String, default: ClassStyles?.wrapper_class_style, required: false },
 
-    secret_data_input_wrapper_class_style: { type: String, default: ui_class_styles.secret_data_input_wrapper_class_style, required: false },
+    secret_data_input_wrapper_class_style: { type: String, default: ClassStyles?.secret_data_input_wrapper_class_style, required: false },
 
-    secret_data_input_class_style: { type: String, default: ui_class_styles.secret_data_input_class_style, required: false },
+    secret_data_input_class_style: { type: String, default: ClassStyles?.secret_data_input_class_style, required: false },
 
-    action_btn_wrapper_class_style: { type: String, default: ui_class_styles.action_btn_wrapper_class_style, required: false },
+    action_btn_wrapper_class_style: { type: String, default: ClassStyles?.action_btn_wrapper_class_style, required: false },
 
-    reveal_btn_class_style: { type: String, default: ui_class_styles.reveal_btn_class_style, required: false },
+    reveal_btn_class_style: { type: String, default: ClassStyles?.reveal_btn_class_style, required: false },
 
-    reveal_btn_text_class_style: { type: String, default: ui_class_styles.reveal_btn_text_class_style, required: false },
+    reveal_btn_text_class_style: { type: String, default: ClassStyles?.reveal_btn_text_class_style, required: false },
 
-    reveal_btn_icon_class_style: { type: String, default: ui_class_styles.reveal_btn_icon_class_style, required: false },
+    reveal_btn_icon_class_style: { type: String, default: ClassStyles?.reveal_btn_icon_class_style, required: false },
 
-    copy_btn_class_style: { type: String, default: ui_class_styles.copy_btn_class_style, required: false },
+    copy_btn_class_style: { type: String, default: ClassStyles?.copy_btn_class_style, required: false },
 
-    copy_btn_text_class_style: { type: String, default: ui_class_styles.copy_btn_text_class_style, required: false },
+    copy_btn_text_class_style: { type: String, default: ClassStyles?.copy_btn_text_class_style, required: false },
 
-    copy_btn_icon_class_style: { type: String, default: ui_class_styles.copy_btn_icon_class_style, required: false },
+    copy_btn_icon_class_style: { type: String, default: ClassStyles?.copy_btn_icon_class_style, required: false },
 
     reveal_btn_text: { type: String, default: "Reveal", required: false },
 

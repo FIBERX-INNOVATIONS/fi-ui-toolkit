@@ -1,14 +1,11 @@
 import { PropType }                 from "vue";
-import { ComponentClassStyles }     from "../../../enums/component_class_styles.enums";
+import { ClassStyles }              from "./data_table_ui_class_styles";
 
 import { 
     TableHeaderUIPropsInterface,
     TableBodyUIPropsInterface
 } from "../../../types/props_builder_type";
 
-
-
-const ui_class_styles  = ComponentClassStyles?.table_ui?.data_table_ui;
 
 const DataTableUIProps = {
     table_id: { type: String, required: false },
@@ -21,11 +18,11 @@ const DataTableUIProps = {
 
     body_props: { type: Object as PropType<TableBodyUIPropsInterface>, required: true },
 
-    wrapper_class_style: { type: String, default: ui_class_styles.wrapper_class_style, required: false },
+    wrapper_class_style: { type: String, default: ClassStyles?.wrapper_class_style, required: false },
 
-    table_class_style: { type: String, default: ui_class_styles.table_class_style, required: false },
+    table_class_style: { type: String, default: ClassStyles?.table_class_style, required: false },
 
-    lg_table_wrapper_class_style: { type: String, default: ui_class_styles.lg_table_wrapper_class_style, required: false },
+    lg_table_wrapper_class_style: { type: String, default: ClassStyles?.lg_table_wrapper_class_style, required: false },
 };
 
 export default DataTableUIProps;

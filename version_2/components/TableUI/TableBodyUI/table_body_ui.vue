@@ -14,7 +14,7 @@
 
         <tr 
             v-for="(record, index) in props.records" 
-            :key="index"
+            :key="record?.id || record?.public_id"
             :class="props.body_row_class_style"
         >
                 <td v-if="props.sn_text" :class="props.body_cell_class_style">

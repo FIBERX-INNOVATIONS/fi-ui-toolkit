@@ -1,8 +1,8 @@
 <template>
     <div :class="wrapper_class_style">
         <div 
-            v-for="(record, index) in activity_records" 
-            :key="index" 
+            v-for="(record, index) in props.activity_records" 
+            :key="props.getRecordId(record) || record?.id || index" 
             :class="activity_wrapper_class_style"
         >
             <!-- Header -->
@@ -56,7 +56,7 @@ import InputTransformerUtil from "../../utils/input_formatter_util";
 
 const props             = defineProps(ActivityListUIProps);
 const controller        = new ActivityListUIController(props);
-const event_handler     = controller.event_handler
+const event_handler     = controller.event_handler;
 
 const { state_refs } = controller.getComponentDefinition();
 
