@@ -1,6 +1,6 @@
 
 import { reactive, Component  }         from "vue";
-import { ComponentClassStyles }         from "../../enums/component_class_styles.enums";
+import { ClassStyles }                  from "./confirm_action_ui_class_styles";
 import RenderHtmlUtil                   from "../../utils/render_html_util";
 import { ButtonUIPropsInterface }       from "../../types/props_builder_type"
 import { BaseEventHandlerInterface }    from "../../types/component_type";
@@ -14,7 +14,7 @@ class ConfirmActionUIPorpsBuilder {
         event_handler: BaseEventHandlerInterface,
         cancel_btn_content: string,
     ): ButtonUIPropsInterface {
-        const class_styles              = ComponentClassStyles?.confirm_action_ui?.cancel_action_btn_ui ?? {};
+        const class_styles              = ClassStyles?.cancel_action_btn_ui ?? {};
         const btn_class_style           = class_styles?.btn_class_style
         const btn_type                  = "button";
         const content_text              = cancel_btn_content;
@@ -31,7 +31,7 @@ class ConfirmActionUIPorpsBuilder {
         event_handler: BaseEventHandlerInterface,
         confirm_btn_content: string,
     ): ButtonUIPropsInterface {
-        const class_styles              = ComponentClassStyles?.confirm_action_ui?.confirm_action_btn_ui ?? {};
+        const class_styles              = ClassStyles?.confirm_action_btn_ui ?? {};
         const btn_class_style           = class_styles?.btn_class_style
         const btn_type                  = "button";
         const content_text              = confirm_btn_content;

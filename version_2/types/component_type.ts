@@ -9,6 +9,8 @@ export type PropRenderFnType = (
     records: Record<string, any>[]
 ) => string | number | null;
 
+export type PropRenderContentFnType = () => string | number | null;
+
 export interface ComponentDefinitionInterface {
     props: Record<string, any>;
     components: Record<string, any>;

@@ -2,7 +2,7 @@
 import { ref }                      from "vue";
 import BaseController               from "../../base_classes/base_controller";
 import ModalUIEventHandler          from "./modal_ui_event_handler";
-import { ComponentClassStyles }     from "../../enums/component_class_styles.enums";
+import { ClassStyles }              from "./modal_ui_class_styles";
 
 class ModalUIController extends BaseController {
     public event_handler: ModalUIEventHandler;
@@ -15,7 +15,7 @@ class ModalUIController extends BaseController {
     // Method to get modal position class style
     private getModalPositionClassStyle = (): string => {
         const { position = "center" } = this.props;
-        const ui_class_styles           = ComponentClassStyles.modal_ui;
+        const ui_class_styles           = ClassStyles;
 
         if (position === "left") { return ui_class_styles.left_modal_position_class_style; }
 
