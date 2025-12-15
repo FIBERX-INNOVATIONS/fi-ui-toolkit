@@ -1,6 +1,6 @@
 {
   "name": "fi-ui-toolkit",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "fi-ui-toolkit is a customizable Vue 3 component library designed to provide reusable, styled, and configurable UI elements across multiple Vue applications. It helps standardize UI structure, simplify development, and promote consistency across your projects.",
   "homepage": "https://github.com/Ojooh/fi-ui-toolkit#readme",
   "bugs": {
