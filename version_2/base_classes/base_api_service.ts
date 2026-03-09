@@ -75,15 +75,7 @@ class BaseAPIService {
 
     // Method to Create Axios Instance
     private createAxiosInstance(): AxiosInstance {
-        if (window.origin.includes("localhost") || window.origin.includes("127.0.0.1")) {
-            this.api_base_url = `${this.ENV.VITE_API_BASE_URL_TEST}`;
-        } 
-        else if (this.is_production) {
-            this.api_base_url = `${this.ENV.VITE_API_BASE_URL_LIVE}`;
-        } 
-        else if (this.is_staging) {
-            this.api_base_url = `${this.ENV.VITE_API_BASE_URL_TEST}`;
-        }
+        this.api_base_url = `${this.ENV.VITE_API_BASE_URL}`;
 
         return axios.create({ baseURL: this.api_base_url, withCredentials: true, timeout: 100_000 });
     }

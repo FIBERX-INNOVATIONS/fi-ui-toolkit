@@ -1,5 +1,8 @@
 import { Component, PropType }      from "vue";
-import { PropRenderFnType }         from "../types/component_type";
+import { 
+    PropRenderFnType,
+    PropRenderContentFnType
+} from "../types/component_type";
 
 export type InputValueType = string | number | boolean | null | string[];
 
@@ -557,5 +560,70 @@ export interface ActivityListUIPropsInterface {
     activity_body_content_class_style: string;
     select_checkbox_wrapper_class_style: string;
     select_checkbox_class_style: string;
+}
+
+export interface StatRecordinterface {
+    label_text: string; 
+    metric_value: string, 
+    metric_suffix: string, 
+    metric_value_2?: string, 
+    metric_suffix_2?: string, 
+    link_text?: string, 
+    link?: string;
+}
+
+export interface StatMetricCardDataInterface {
+    id: string;
+    label_text: string;
+    metric_value: string | number;
+    metric_suffix?: string;
+    metric_value_2?: string | number;
+    metric_suffix_2?: string;
+    link_text?: string;
+    link?: string;
+}
+
+export interface StatMetricCardUIClassstyles {
+    wrapper_class_style?: string;
+    top_section_class_style?: string;
+    middle_section_class_style?: string;
+    metric_value_class_style?: string;
+    metric_suffix_class_style?: string;
+    bottom_section_class_style?: string;
+    metic_one_wrapper_class_style?: string;
+    metic_two_wrapper_class_style?: string;
+}
+
+export interface StatMetricCardUIPropsInterface {
+    /** Data */
+    metric_value?: string | number;
+    metric_suffix?: string;
+
+    /** Secondary metric (optional) */
+    metric_value_2?: string | number | null;
+    metric_suffix_2?: string;
+
+    /** Divider between metrics */
+    metric_divider?: string;
+
+    /** Class styles */
+    metric_divider_class_style?: string;
+
+    wrapper_class_style?: string;
+    top_section_class_style?: string;
+    middle_section_class_style?: string;
+    metric_value_class_style?: string;
+    metric_suffix_class_style?: string;
+    bottom_section_class_style?: string;
+    metic_one_wrapper_class_style?: string;
+    metic_two_wrapper_class_style?: string;
+
+    /** Render functions */
+    renderTopContent?: PropRenderContentFnType;
+    renderBottomContent?: PropRenderContentFnType;
+
+    /** Optional top link */
+    top_link_text?: string;
+    onTopLinkClick?: (event: MouseEvent) => void;
 }
 

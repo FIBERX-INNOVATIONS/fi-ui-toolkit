@@ -1,6 +1,6 @@
 
 
-import BaseController               from "../../../base_classes/base_controller";
+import BaseController  from "../../../base_classes/base_controller";
 
 class ScreenLoaderUIController extends BaseController {
     constructor(props: Record<string, any> = {}) {

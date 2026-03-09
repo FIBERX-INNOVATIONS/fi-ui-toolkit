@@ -115,7 +115,7 @@ class DevEnvManager {
                 return;
             }
 
-            this.env_data[key] = encrypted_value
+            this.env_data[formatted_key] = encrypted_value
         }
     }
 
