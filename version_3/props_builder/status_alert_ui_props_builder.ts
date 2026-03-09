@@ -4,12 +4,12 @@ import { SVGIconKey } from "../resources/svg_icon_resource";
 
 import LoggerUtil from "../utils/logger_util";
 import ContentManagerUtil from "../utils/content_manager_util";
-import StatusAlertUIClassstyles from "../class_styles/status_alert_ui_class_style";
+import StatusAlertUIClassstyles from "../class_styles/status_alert_ui_class_styles";
 
 import {
     StatusAlertUIClassStylesInterface,
     StatusAlertUIPropsInterface
-} from "../types/status_alert_ui_type";
+} from "../ui_types/status_alert_ui_type";
 
 
 class StatusAlertPropsBuilder {

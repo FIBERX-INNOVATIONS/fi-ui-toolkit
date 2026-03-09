@@ -1,14 +1,14 @@
 
 import { PropType } from "vue";
 
-import StatusAlertUIClassstyles from "../class_styles/status_alert_ui_class_style";
+import StatusAlertUIClassstyles from "../class_styles/status_alert_ui_class_styles";
 
 import { SVGIconKey } from "../resources/svg_icon_resource";
 
 import {
     StatusAlertUIPropsInterface,
     StatusAlertUIClassStylesInterface
-} from "../types/status_alert_ui_type";
+} from "../ui_types/status_alert_ui_type";
 
 const StatusAlertUIProps = {
 

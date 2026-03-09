@@ -10,7 +10,7 @@ import {
     ScreenLoaderClassStylesInterface, 
     ScreenLoaderUIPropsInterface,
     ScreenLoaderUIContentPayloadInterface
-} from "../types/screen_loader_ui_type";
+} from "../ui_types/screen_loader_ui_type";
 
 
 

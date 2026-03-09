@@ -1,7 +1,7 @@
 
 import {
     ScreenLoaderClassStylesInterface
-} from "../types/screen_loader_ui_type"
+} from "../ui_types/screen_loader_ui_type"
 
 const ScreenLoaderUIClassStyles: ScreenLoaderClassStylesInterface = {
     wrapper_class_style: "fixed inset-0 flex items-center justify-center overflow-hidden",

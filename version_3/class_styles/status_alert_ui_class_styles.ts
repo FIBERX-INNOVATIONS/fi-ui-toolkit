@@ -1,7 +1,7 @@
 
 import {
     StatusAlertUIClassStylesInterface
-} from "../types/status_alert_ui_type"
+} from "../ui_types/status_alert_ui_type"
 
 const StatusAlertUIClassstyles: StatusAlertUIClassStylesInterface = {
     wrapper_class_style: "fixed inset-0 flex items-start justify-end overflow-hidden",

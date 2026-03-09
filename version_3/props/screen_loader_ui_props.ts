@@ -7,7 +7,7 @@ import {
     LoaderSymbolInterface,
     ScreenLoaderClassStylesInterface,
     ScreenLoaderUIPropsInterface
-} from "../types/screen_loader_ui_type";
+} from "../ui_types/screen_loader_ui_type";
 
 
 
