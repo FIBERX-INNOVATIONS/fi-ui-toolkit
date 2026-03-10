@@ -1,6 +1,5 @@
 import { reactive } from "vue";
 
-import LoggerUtil from "../utils/logger_util";
 import ContentManagerUtil from "../utils/content_manager_util";
 import HeaderTextUiClassStyles from "../class_styles/header_text_class_styles";
 
@@ -12,11 +11,6 @@ import {
 
 
 class HeaderTextUIPropsBuilder {
-
-    private static readonly name = "header_text_ui_props_builder";
-
-    private static readonly logger: LoggerUtil =
-        new LoggerUtil({ prefix: HeaderTextUIPropsBuilder.name, show_timestamp: false });
 
     private static readonly content_manager: ContentManagerUtil =
         ContentManagerUtil.getInstance();

@@ -1,8 +1,5 @@
 import { reactive } from "vue";
 
-import { SVGIconKey } from "../resources/svg_icon_resource";
-
-import LoggerUtil from "../utils/logger_util";
 import ContentManagerUtil from "../utils/content_manager_util";
 import CopyRightUIClassStyles from "../class_styles/copy_right_ui_class_styles";
 
@@ -14,11 +11,6 @@ import {
 
 
 class CopyRightUIPropsBuilder {
-
-    private static readonly name = "copy_right_ui_props_builder";
-
-    private static readonly logger: LoggerUtil =
-        new LoggerUtil({ prefix: CopyRightUIPropsBuilder.name, show_timestamp: false });
 
     private static readonly content_manager: ContentManagerUtil =
         ContentManagerUtil.getInstance();

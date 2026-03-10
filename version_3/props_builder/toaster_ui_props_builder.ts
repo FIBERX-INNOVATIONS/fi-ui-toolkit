@@ -14,8 +14,6 @@ import { SVGIconKey } from "@ui_v3/resources/svg_icon_resource";
 
 class ToasterUIPropsBuilder {
 
-    private static readonly name = "toaster_ui_props_builder";
-
     public static toaster_id: string = "StatusAlertBox";
     
     public static class_styles?: ToasterUIClassStylesInterface;

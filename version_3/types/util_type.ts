@@ -1,8 +1,8 @@
-import SVGIcons from "../resources/svg_icon_resource";
+import { SVGIconKey } from "../resources/svg_icon_resource";
 
 import axios, { AxiosResponse } from "axios";
 
-export type SVGIconName = keyof typeof SVGIcons;
+export type SVGIconName = SVGIconKey
 
 export type LoggerType = 'log' | 'info' | 'warn' | 'error' | 'debug';
 
@@ -34,7 +34,7 @@ export interface OtherMemberDataInterface {
 export interface RenderHtmlOptionsInterface {
   element?: "span" | "strong" | "p" | "a";
   text?: string;
-  icon?: string;
+  icon?: SVGIconKey;
   order?: "icon-first" | "text-first";
   icon_class_style?: string,
   class_style?: string;
@@ -43,7 +43,7 @@ export interface RenderHtmlOptionsInterface {
 
 export interface LoadingHtmlOptions {
 	class_style?: string;
-	icon_name?: SVGIconName;
+	icon_name?: SVGIconKey;
 }
 
 

@@ -1,6 +1,5 @@
 import { reactive } from "vue";
 
-import LoggerUtil from "../utils/logger_util";
 import ContentManagerUtil from "../utils/content_manager_util";
 
 import InputGroupUIClassStyles from "../class_styles/input_group_ui_class_styles";
@@ -14,14 +13,6 @@ import { InputUIContentPayloadInterface, InputUIPropsInterface } from "../ui_typ
 
 
 class InputGroupUIPropsBuilder {
-
-    private static readonly name = "input_group_ui_props_builder";
-
-    private static readonly logger =
-        new LoggerUtil({
-            prefix: InputGroupUIPropsBuilder.name,
-            show_timestamp: false
-        });
 
     private static readonly content_manager =
         ContentManagerUtil.getInstance();

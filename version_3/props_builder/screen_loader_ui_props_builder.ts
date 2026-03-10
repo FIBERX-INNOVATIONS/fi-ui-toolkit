@@ -1,8 +1,6 @@
 
 import { reactive, Ref } from "vue";
 
-import LoggerUtil from "../utils/logger_util";
-
 import ContentManagerUtil from "../utils/content_manager_util";
 
 import { 
@@ -15,8 +13,6 @@ import {
 
 
 class ScreenLoaderUIPropsBuilder {
-    private static readonly name = "screen_loader_ui_props_builder";
-    private static readonly logger: LoggerUtil = new LoggerUtil({ prefix: ScreenLoaderUIPropsBuilder.name,  show_timestamp: false});
     private static readonly content_manager: ContentManagerUtil =  ContentManagerUtil.getInstance();
 
     // Method to build props object

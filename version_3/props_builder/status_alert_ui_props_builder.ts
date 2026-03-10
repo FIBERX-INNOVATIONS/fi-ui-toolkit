@@ -2,7 +2,6 @@ import { reactive } from "vue";
 
 import { SVGIconKey } from "../resources/svg_icon_resource";
 
-import LoggerUtil from "../utils/logger_util";
 import ContentManagerUtil from "../utils/content_manager_util";
 import StatusAlertUIClassstyles from "../class_styles/status_alert_ui_class_styles";
 
@@ -13,11 +12,6 @@ import {
 
 
 class StatusAlertPropsBuilder {
-
-    private static readonly name = "status_alert_ui_props_builder";
-
-    private static readonly logger: LoggerUtil =
-        new LoggerUtil({ prefix: StatusAlertPropsBuilder.name, show_timestamp: false });
 
     private static readonly content_manager: ContentManagerUtil =
         ContentManagerUtil.getInstance();

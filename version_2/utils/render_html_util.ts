@@ -1,5 +1,5 @@
 
-import SVGIcons from "../../version_3/resources/svg_icon_resource";
+// import SVGIcons from "../../version_3/resources/svg_icon_resource";
 
 import { 
     RenderHtmlOptionsInterface,
