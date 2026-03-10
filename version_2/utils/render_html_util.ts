@@ -1,11 +1,11 @@
 
-import SVGIcons from "../resources/svg_icon_resource";
+import SVGIcons from "../../version_3/resources/svg_icon_resource";
 
 import { 
     RenderHtmlOptionsInterface,
     LoadingHtmlOptions,
     TitleAndSubTitleHTMLInterface
-} from "../types/util_type";
+} from "../../version_3/types/util_type";
 
 class RenderHtmlUtil {
 

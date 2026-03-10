@@ -1,7 +1,7 @@
 // qr_code_util.ts
 import QRCode from "qrcode";
 
-import { QRCodeOptions } from "../types/util_type"
+import { QRCodeOptions } from "../../version_3/types/util_type"
 
 class QRCodeUtil {
     public static readonly name = "qr_code_util";

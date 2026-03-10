@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
-import { CountLookupItemInterface } from "../types/util_type";
-import SVGIcons from "../resources/svg_icon_resource";
+import { CountLookupItemInterface } from "../../version_3/types/util_type";
+import { SVGIcons } from "../../version_3/resources/svg_icon_resource";
 import RenderHtmlUtil from "./render_html_util";
 
 class InputTransformerUtil {

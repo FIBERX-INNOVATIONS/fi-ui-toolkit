@@ -63,7 +63,7 @@ export interface InputUIActionPropsInterface {
 
     on_click?: (
         event?: MouseEvent,
-        nput_value?: string | number | boolean | Array<any> | File | null,
+        input_value?: string | number | boolean | Array<any> | File | null,
         input_config?: { props: InputUIPropsInterface }
     ) => Promise<ActionMethodRetruninterface>;
 

@@ -23,25 +23,6 @@ class InputValidatorUtil {
     private static uuid_regex_reg_exp = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
     private static custom_uuid_regex_reg_exp = /^[A-Z0-9]{12}-[A-Z0-9]{12}-[A-Z0-9]{12}-[A-Z0-9]{12}$/;
 
-    public static init(env: ENVInterface): void {
-        this.ENV = env;
-    }
-
-    // Environment
-    public static isProduction(): boolean { return this.ENV?.VITE_MODE === "production"; }
-    public static isStaging(): boolean { return this.ENV?.VITE_MODE === "staging"; }
-
-    public static isAdmin(name: string) { return ["SuperAdmin", "AdminI", "AdminT"].includes(name); }
-
-    public static isSuperAdmin(name: string) { return name === "SuperAdmin"; }
-
-    // Currency type
-    public static isFiat(currency_obj: { type?: string } | null | undefined): boolean {
-        return currency_obj?.type === "FIAT";
-    }
-    public static isCrypto(currency_obj: { type?: string } | null | undefined): boolean {
-        return currency_obj?.type === "CRYPTO";
-    }
 
     // General validations
     public static isEmpty(input: any): boolean { return input == null || input.toString().trim() === ""; }
