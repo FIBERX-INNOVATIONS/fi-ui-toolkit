@@ -9,7 +9,7 @@ import { StatusAlertUIPropsInterface } from "../ui_types/status_alert_ui_type";
 class StatusAlertUIController extends BaseController<
     StatusAlertUIPropsInterface
 > {
-    public action_handler: StatusAlertUIActionHandler = StatusAlertUIActionHandler.getInstance(this);
+    public action_handler: StatusAlertUIActionHandler = new StatusAlertUIActionHandler(this);
 
     constructor(props: StatusAlertUIPropsInterface) {
         super("status_alert_ui", props);
