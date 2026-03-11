@@ -1,5 +1,5 @@
 <template>
-    <div v-if="props.visible" :class="props.class_styles.wrapper_class_style">
+    <div v-show="props.visible" :class="props.class_styles.wrapper_class_style">
         <div :id="props.alert_box_id" :class="props.class_styles.alert_box_class_style">
 
             <button

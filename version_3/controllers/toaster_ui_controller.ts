@@ -8,6 +8,7 @@ import {
 } from "../ui_types/toaster_ui_type";
 
 import ToasterUIActionHandler from "../action_handlers/toaster_ui_action_handler";
+import { WatchersType } from "@ui_v3/types/base_type";
 
 class ToasterUIController extends BaseController<
     ToasterUIPropsInterface,
@@ -36,20 +37,27 @@ class ToasterUIController extends BaseController<
 
         return {
 
-            visible: !!this.props.message
+            visible: !!(this.props.status && this.props.message)
 
         };
 
     }
 
-    protected getUIComputedData() {
-
+    protected getUIWatchers(): WatchersType<ToasterUIPropsInterface, ToasterUIStateDataInterface> {
         return {
-
-            is_visible: () => this.state_refs.visible.value
-
+            status: () => { 
+                this.state_refs.visible.value = !!(this.props.status && this.props.message)
+            },
+            message: () => { 
+                this.state_refs.visible.value = !!(this.props.status && this.props.message)
+            },
+            duration: () => {
+                this.action_handler.restartAutoClose();
+            },
+            visible: (new_val) => {
+                this.action_handler.handleOnHide()
+            }
         };
-
     }
 
 }

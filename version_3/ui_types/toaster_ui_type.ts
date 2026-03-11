@@ -1,5 +1,5 @@
 import { SVGIconKey } from "@ui_v3/resources/svg_icon_resource";
-import { ActionMethodRetruninterface } from "./input_ui_type";
+import { ActionMethodRetrunInterface } from "./input_ui_type";
 
 export type ToastStatusType = "success" | "error" | "warning" | "info";
 
@@ -54,7 +54,14 @@ export interface ToasterUIActionPropsInterface {
 
     on_click?: (
         event?: MouseEvent,
+        visible?: boolean,
         input_config?: { props: ToasterUIPropsInterface }
-    ) => Promise<ActionMethodRetruninterface>;
+    ) => Promise<ActionMethodRetrunInterface>;
+
+    on_hide?: (
+        event?: MouseEvent,
+        visible?: boolean,
+        input_config?: { props: ToasterUIPropsInterface }
+    ) => Promise<ActionMethodRetrunInterface>;
 
 }

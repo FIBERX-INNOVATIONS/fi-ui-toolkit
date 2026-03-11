@@ -22,7 +22,7 @@ class StatusAlertPropsBuilder {
 
     public static alert_box_id: string = "StatusAlertBox";
 
-    public static class_styles?: StatusAlertUIClassStylesInterface;
+    public static class_styles: StatusAlertUIClassStylesInterface;
 
     public static on_close: (event?: MouseEvent) => void | null;
 
@@ -66,13 +66,15 @@ class StatusAlertPropsBuilder {
     ): StatusAlertUIPropsInterface {
 
         const visible                   = !!(alert_status && alert_message);
-        const default_class_style       = { alert_box_class_style: "", close_btn_class_style: "", status_icon_class_style: "", status_content_class_style: ""};
-        const class_styles              = StatusAlertPropsBuilder.class_styles ?? default_class_style;
+        const class_styles              = StatusAlertPropsBuilder.class_styles;
+        const bg_class_style            = alert_status && StatusAlertPropsBuilder?.getStatusBgClassStyle ? StatusAlertPropsBuilder?.getStatusBgClassStyle?.(alert_status) : "";
+        const animation_class_style     = (visible !== undefined || visible != null) && StatusAlertPropsBuilder?.getAnimationClassStyle ? StatusAlertPropsBuilder?.getAnimationClassStyle?.(visible) : "";
+        const text_class_style          = alert_status && StatusAlertPropsBuilder?.getStatusTextClassStyle ? StatusAlertPropsBuilder?.getStatusTextClassStyle?.(alert_status) : "";
 
-        class_styles.alert_box_class_style     = `${class_styles?.alert_box_class_style} ${StatusAlertPropsBuilder?.getStatusBgClassStyle?.(alert_status) ?? ""} ${StatusAlertPropsBuilder?.getAnimationClassStyle?.(visible) ?? ""}`;
-        class_styles.close_btn_class_style     = `${class_styles?.close_btn_class_style} ${StatusAlertPropsBuilder?.getStatusBgClassStyle?.(alert_status) ?? ""} ${StatusAlertPropsBuilder?.getStatusTextClassStyle?.(alert_status) ?? ""}`;
-        class_styles.status_icon_class_style   = `${class_styles?.status_icon_class_style} ${StatusAlertPropsBuilder?.getStatusTextClassStyle?.(alert_status) ?? ""}`;
-        class_styles.status_content_class_style= `${class_styles?.status_content_class_style} ${StatusAlertPropsBuilder?.getStatusTextClassStyle?.(alert_status) ?? ""}`;
+        const alert_box_class_style     = `${class_styles?.alert_box_class_style} ${ bg_class_style} ${animation_class_style}`;
+        const close_btn_class_style     = `${class_styles?.close_btn_class_style} ${bg_class_style ?? ""} ${text_class_style}`;
+        const status_icon_class_style   = `${class_styles?.status_icon_class_style} ${text_class_style}`;
+        const status_content_class_style= `${class_styles?.status_content_class_style} ${text_class_style}`;
 
         return {
             alert_box_id: StatusAlertPropsBuilder.alert_box_id,
@@ -81,7 +83,13 @@ class StatusAlertPropsBuilder {
             status_icon,
             status_content_messgae: alert_message,
             on_close: StatusAlertPropsBuilder.on_close,
-            class_styles: StatusAlertPropsBuilder.class_styles
+            class_styles: {
+                ...(class_styles),
+                alert_box_class_style,
+                close_btn_class_style,
+                status_icon_class_style,
+                status_content_class_style
+            }
         };
     }
 

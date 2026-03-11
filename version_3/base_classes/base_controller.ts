@@ -9,6 +9,8 @@ import {
     watchEffect,
 } from "vue";
 
+import { EventBusType } from "@ui_v3/utils/event_bus_util";
+
 import { Router, useRoute, useRouter } from "vue-router";
 
 import LoggerUtil from "../utils/logger_util";
@@ -25,6 +27,7 @@ import {
 
 
 
+
 /* -------------------------------------------------- */
 /* Base Controller                                    */
 /* -------------------------------------------------- */
@@ -33,10 +36,12 @@ class BaseController<
     Props extends Record<string, any> = {},
     State extends Record<string, any> = {},
     Computed extends Record<string, any> = {},
-    Components extends Record<string, any> = {}
+    Components extends Record<string, any> = {},
+    Events extends Record<string, any> = {}
 > {
 
     public readonly name: string;
+
     public component_name: string;
 
     protected logger: LoggerUtil;
@@ -44,6 +49,8 @@ class BaseController<
     public readonly router: Router = useRouter();
 
     public readonly route = useRoute();
+
+    public readonly event_bus: EventBusType<Events> | null;
 
     public props: Props;
 
@@ -54,12 +61,18 @@ class BaseController<
     public computed_refs: ComputedRefsType<Computed> = {} as ComputedRefsType<Computed>;
 
 
-    constructor(component_name: string, props: Props) {
+    constructor(
+        component_name: string, 
+        props: Props,
+        event_bus?: EventBusType<Events>
+    ) {
 
         this.component_name = component_name;
         this.name = `${component_name}_controller`;
 
         this.props = props;
+
+        this.event_bus = event_bus ?? null;
 
         this.logger = new LoggerUtil({
             prefix: this.name,
@@ -177,30 +190,38 @@ class BaseController<
         /* WatchersType                      */
         /* ----------------------------- */
 
-        const wacthers = this.getUIWatchers();
+       const watchers = this.getUIWatchers();
 
-        Object.entries(wacthers).forEach(([key, fn]) => {
+        Object.entries(watchers).forEach(([key, fn]) => {
 
-            let source: any =
-                (this.state_refs as any)[key] ??
-                (this.props as any)[key];
+            let source: any;
+
+            if ((this.state_refs as any)[key]) {
+
+                source = (this.state_refs as any)[key];
+
+            } 
+            else if (key in this.props) {
+
+                source = () => (this.props as any)[key];
+
+            }
 
             if (!source) {
 
-                if (key === "route") source = useRoute();
-                if (key === "router") source = useRouter();
+                if (key === "route") source = this.route;
+                if (key === "router") source = this.router;
 
             }
 
-            if (source) {
+            if (!source) {
 
-                watch(
-                    () => isRef(source) ? source.value : source,
-                    fn as any,
-                    { deep: true }
-                );
+                this.logger.warn(`Watcher source "${key}" not found`);
+                return;
 
             }
+
+            watch(source as any, fn as any, { deep: true });
 
         });
 

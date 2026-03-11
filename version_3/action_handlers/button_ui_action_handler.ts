@@ -30,13 +30,19 @@ class ButtonUIActionHandler {
     }
 
     public handleOnClick = async (event: MouseEvent): Promise<void> => {
+
+        if(this.controller.state_refs.is_loading.value) {
+            return 
+        }
+
         this.controller.state_refs.is_loading.value = true;
+
         try {
             const { props, state_refs } = this.controller;
 
             const { on_click } = props.action_props || {};
 
-            if(!on_click || state_refs.is_loading.value) { 
+            if(!on_click) { 
                 return 
             }
 

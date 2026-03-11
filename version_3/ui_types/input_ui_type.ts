@@ -36,7 +36,7 @@ export interface InputUINumberPropsInterface {
     step?: number
 }
 
-export interface ActionMethodRetruninterface {
+export interface ActionMethodRetrunInterface {
     status: boolean;
     msg: string;
     data?: Record<string, any>;
@@ -47,25 +47,25 @@ export interface InputUIActionPropsInterface {
         event?: KeyboardEvent, 
         input_value?: string | number | boolean | Array<any> | File | null,
         input_config?: { props: InputUIPropsInterface }
-    ) => Promise<ActionMethodRetruninterface>;
+    ) => Promise<ActionMethodRetrunInterface>;
 
     on_key_down?: (
         event?: KeyboardEvent,
         input_value?: string | number | boolean | Array<any> | File | null,
         input_config?: { props: InputUIPropsInterface }
-    ) => Promise<ActionMethodRetruninterface>;
+    ) => Promise<ActionMethodRetrunInterface>;
 
     on_change?: (
         event?: Event,
         input_value?: string | number | boolean | Array<any> | File | null,
         input_config?: { props: InputUIPropsInterface }
-    ) => Promise<ActionMethodRetruninterface>;
+    ) => Promise<ActionMethodRetrunInterface>;
 
     on_click?: (
         event?: MouseEvent,
         input_value?: string | number | boolean | Array<any> | File | null,
         input_config?: { props: InputUIPropsInterface }
-    ) => Promise<ActionMethodRetruninterface>;
+    ) => Promise<ActionMethodRetrunInterface>;
 
     set_error_text?: (error_text: string) => void;
 
