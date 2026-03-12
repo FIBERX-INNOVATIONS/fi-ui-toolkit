@@ -17,14 +17,11 @@
         "lib": ["ES6", "DOM"],
         "typeRoots": ["./node_modules/@types", "./version_3/types"],
         "paths": {
-            "@v2/*": ["version_2/*"],
             "@ui_v3/*": ["version_3/*"],
         },
         "experimentalDecorators": true
     },
     "include": [
-      "version_2/**/*.vue",
-      "version_2/**/*.ts",
       "version_3/**/*.vue",
       "version_3/**/*.ts",
       "vite-env.d.ts"  

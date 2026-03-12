@@ -82,3 +82,22 @@ export interface QRCodeOptions {
     rendererOpts?: Record<string, any>; // Additional renderer options
 }
 
+export type EncryptorConfigType = {
+    corpus: string[];
+    shift_key: number;
+};
+
+
+export type LocalStorageFieldType<T> = {
+  encrypted_key: string;
+  default_value?: T;
+};
+
+export type LocalStorageSchema = Record<string, LocalStorageFieldType<any>>;
+
+export type StorageFieldType<T> = {
+  encrypted_key: string;
+  default_value?: T;
+};
+
+export type StorageSchemaType = Record<string, StorageFieldType<any>>;
