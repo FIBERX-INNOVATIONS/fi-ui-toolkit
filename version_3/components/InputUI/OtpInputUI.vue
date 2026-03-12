@@ -1,22 +1,24 @@
 <template>
     <div :class="class_styles.wrapper_class_style">
-        <input
-        v-for="(_, index) in number_props.length"
-            :key="index"
-            :id="`${id}_${index}`"
-            :name="`${id}_${index}`"
-            type="text"
-            inputmode="numeric"
-            :class="input_class_style"
-            :placeholder="placeholder_text"
-            :required="boolean_props.required"
-            :readonly="boolean_props.read_only"
-            :maxlength="number_props.length"
-            :disabled="boolean_props.disabled"
-            @input="action_handler?.handleOnOTPInput?.($event, index)"
-            @keydown="action_handler?.handleOnOTPKeydown?.($event, index)"
-            @paste="action_handler?.handleOnOTPPaste?.($event, index)"
-        />
+        <div :class="class_styles.otp_wrapper_class_style">
+            <input
+            v-for="(_, index) in number_props.length"
+                :key="index"
+                :id="`${id}_${index}`"
+                :name="`${id}_${index}`"
+                type="text"
+                inputmode="numeric"
+                :class="input_class_style"
+                :placeholder="placeholder_text?.[index]"
+                :required="boolean_props.required"
+                :readonly="boolean_props.read_only"
+                :maxlength="number_props.length"
+                :disabled="boolean_props.disabled"
+                @input="action_handler?.handleOnOTPInput?.($event, index)"
+                @keydown="action_handler?.handleOnOTPKeydown?.($event, index)"
+                @paste="action_handler?.handleOnOTPPaste?.($event, index)"
+            />
+        </div>
 
         <span 
             v-if="helper_text"

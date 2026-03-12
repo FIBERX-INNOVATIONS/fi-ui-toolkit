@@ -18,6 +18,7 @@ const InputUIClassStyles: InputUIClassStylesInterface = {
     input_readonly_class_style: "bg-gray-100 cursor-not-allowed",
     helper_text_class_style: "",
     error_text_class_style: "",
+    otp_wrapper_class_style: "flex",
 }
 
 

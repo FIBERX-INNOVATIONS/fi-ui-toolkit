@@ -37,7 +37,7 @@ class BaseAPIService {
                 "invalid_request";
 
             return {
-                status: "error",
+                status: status_code === 401 ? "logout" : "error",
                 msg,
                 full_response: error?.response
             };

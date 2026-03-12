@@ -276,7 +276,7 @@ class InputUIActionHandler {
     public handleOnOTPPaste = async (event: ClipboardEvent, index: number) => {
         const props         = this.controller.props;
         const otp_length    = props.number_props?.length;
-        const pasted        = event.clipboardData?.getData("text").replace(/\D/g, "").slice(0, otp_length) || "";
+        const pasted        = event.clipboardData?.getData("text").slice(0, otp_length) || "";
         const next_input_id = `${props.id}_${pasted.length - 1}`;
         const new_value     = Array(otp_length).fill("");
         const { on_change } = props?.action_props || {};
@@ -298,7 +298,7 @@ class InputUIActionHandler {
     // Method to handle on otp input change
     public handleOnOTPInput = async (event: InputEvent, index: number) => {
         const target            = event.target as HTMLInputElement;
-        const input_value       = target.value.replace(/\D/g, "").slice(-1);
+        const input_value       = target.value.slice(-1);
         const props             = this.controller.props;
         const state_refs        = this.controller.state_refs;
         const next_input_id     = `${props.id}_${index + 1}`;
@@ -323,24 +323,43 @@ class InputUIActionHandler {
     // Method to handle on otp input key down
     public handleOnOTPKeydown = async (event: KeyboardEvent, index: number) => {
         const target            = event.target as HTMLInputElement;
-        const input_value       = target.value.replace(/\D/g, "").slice(-1);
         const props             = this.controller.props;
         const state_refs        = this.controller.state_refs;
-        const prev_input_id     = `${props.id}_${index - 1}`;
         const { on_key_down }   = props?.action_props || {};
         const existing_value    = [...(state_refs.input_value.value as string[])];
-        existing_value[index]   = input_value;
+
+        if (event.key === "Backspace") {
+            event.preventDefault();
+
+            if (target.value) {
+                existing_value[index] = "";
+                target.value = "";
+            } 
+            else {
+                // Move focus to previous input
+                const prev_input_id = `${props.id}_${index - 1}`;
+                const prev_input    = document.getElementById(prev_input_id) as HTMLInputElement;
+
+                if (prev_input) {
+                    prev_input.focus();
+                    existing_value[index - 1] = "";
+                    prev_input.value = "";
+                }
+            }
+
+        }
+        else {
+            const input_value       = target.value.slice(-1);
+            existing_value[index]   =  input_value;
+
+        }
 
         this.controller.state_refs.input_value.value = existing_value;
 
-        if (event.key === "Backspace") { 
-            const prev_input = document.getElementById(prev_input_id) as HTMLInputElement;
-            prev_input?.focus();
-        }
-
         if(!on_key_down) { return }
 
-        const { status, msg } = await on_key_down(event, input_value, { props });
+        const input_value       = target.value.slice(-1);
+        const { status, msg }   = await on_key_down(event, input_value, { props });
 
         this.setErrorMsg(status, msg);
     }

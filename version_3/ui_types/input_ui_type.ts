@@ -140,6 +140,8 @@ export interface InputUIClassStylesInterface {
 
     wrapper_class_style: string;
 
+    otp_wrapper_class_style: string;
+
     loader_class_style: string;
 
     switch_btn_class_style: string;

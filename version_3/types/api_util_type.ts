@@ -11,7 +11,7 @@ export interface APIClientConfigInterface {
 
     request_timeout?: number;
 
-    custom_headers?: Record<string, any> | AxiosHeaders
+    custom_headers?: () => Record<string, any> | AxiosHeaders
 }
 
 export interface APIResponseInterface<T = any> {

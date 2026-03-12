@@ -45,9 +45,9 @@ class InputUIPropsBuilder {
     public static configure(
         class_styles?: InputUIClassStylesInterface,
         action_props?: InputUIActionPropsInterface,
-        content_props?: InputUIContentPayloadInterface,
         boolean_props?: InputUIBooleanPropsInterface,
         number_props?: InputUINumberPropsInterface,
+        content_props?: InputUIContentPayloadInterface,
         file_props?: InputUIFilePropsInterface,
     ): void {
 

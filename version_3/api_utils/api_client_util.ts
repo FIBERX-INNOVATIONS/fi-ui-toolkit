@@ -81,7 +81,7 @@ class APIClient {
     ): Promise<InternalAxiosRequestConfig> => {
 
         try {
-            const custom_headers = this.config.custom_headers || {};
+            const custom_headers = this.config.custom_headers?.() || {};
 
             const headers =
                 config.headers instanceof AxiosHeaders

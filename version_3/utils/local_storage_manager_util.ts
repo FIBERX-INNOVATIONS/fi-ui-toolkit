@@ -38,6 +38,8 @@ class LocalStorageManagerUtil<TSchema extends StorageSchemaType> {
     ): void {
         const field = this.schema[key as string];
 
+        if(!field || !value) { return }
+
         const encrypted_value = this.encryptor.encrypt(value);
 
         localStorage.setItem(field.encrypted_key, encrypted_value);

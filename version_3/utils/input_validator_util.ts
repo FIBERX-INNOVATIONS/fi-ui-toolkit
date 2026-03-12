@@ -206,6 +206,12 @@ class InputValidatorUtil {
         return false;
     }
 
+    static containsOnlyNumbers(input: string | string[]): boolean {
+        const values = Array.isArray(input) ? input : [input];
+
+        return values.every(value => /^\d+$/.test(value));
+    }
+
 }
 
 export default InputValidatorUtil;
