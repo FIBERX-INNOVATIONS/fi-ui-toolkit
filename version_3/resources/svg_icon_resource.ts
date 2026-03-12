@@ -66,5 +66,6 @@ const getSVGIconValue = (icon_key?: SVGIconKey | null): SVGIconValue | string =>
 export { 
     SVGIcons,
     SVGIconKey,
+    SVGIconValue,
     getSVGIconValue
 }
