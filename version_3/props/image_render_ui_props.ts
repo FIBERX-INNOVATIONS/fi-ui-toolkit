@@ -5,7 +5,8 @@ import ImageRenderUIClassStyles from "../class_styles/image_render_ui_class_styl
 import {
     ImageRenderUIClassStylesInterface,
     ImageRenderUIBooleanPropsInterface,
-    ImageRenderUIActionPropsInterface
+    ImageRenderUIActionPropsInterface,
+    ImageRenderUIPropsInterface
 } from "../ui_types/image_render_ui_type";
 
 
@@ -46,6 +47,6 @@ const ImageRenderUIProps = {
         default: () => ImageRenderUIClassStyles
     }
 
-};
+} satisfies Record<keyof ImageRenderUIPropsInterface, any>;
 
 export default ImageRenderUIProps;

@@ -4,7 +4,8 @@ import NavLinkUIClassStyles from "../class_styles/nav_link_ui_class_styles";
 
 import {
     NavLinkUIClassStylesInterface,
-    NavLinkUIActionPropsInterface
+    NavLinkUIActionPropsInterface,
+    NavLinkUIPropsInterface
 } from "../ui_types/nav_link_ui_type";
 
 import { SVGIconKey } from "../resources/svg_icon_resource";
@@ -52,6 +53,6 @@ const NavLinkUIProps = {
         default: () => NavLinkUIClassStyles
     }
 
-};
+} satisfies Record<keyof NavLinkUIPropsInterface, any>;
 
 export default NavLinkUIProps;
