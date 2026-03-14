@@ -3,7 +3,7 @@ import BaseController  from "../base_classes/base_controller";
 
 import OverlayUIActionHandler from "../action_handlers/overlay_ui_action_handler";
 
-import { ComputedDefinitionType } from "../types/base_type";
+import { ComputedDefinitionType, WatchersType } from "../types/base_type";
 
 import { 
     OverlayUIPropsInterface,
@@ -59,6 +59,14 @@ class OverlayUIController extends BaseController<
         };
 
     }
+
+    protected getUIWatchers(): WatchersType<OverlayUIPropsInterface, OverlayUIStateDataInterface> {
+            return {
+                model_value: (new_val) => {
+                    this.state_refs.is_open.value = new_val
+                }
+            };
+        }
 
 }
 

@@ -109,3 +109,8 @@ export interface ImageRenderUIComputedDataInterface {
 export interface ImageRenderUIComponentsInterface {
     ImgComponent: Component;
 }
+
+export interface ImagePayloadInterface {
+    img_link: string;
+    img_alt_text?: string;
+}

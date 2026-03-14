@@ -8,7 +8,11 @@ import {
     ContentMenuPayloadInterface
 } from "../ui_types/dropdown_menu_ui_type";
 
-import { NavLinkUIClassStylesInterface, NavLinkUIPropsInterface } from "@ui_v3/ui_types/nav_link_ui_type";
+import { 
+    NavLinkUIClassStylesInterface, 
+    NavLinkUIPropsInterface 
+} from "@ui_v3/ui_types/nav_link_ui_type";
+
 import ContentManagerUtil from "../utils/content_manager_util";
 import NavLinkUIPropsBuilder from "./nav_link_ui_props_builder";
 import { SVGIconKey } from "@ui_v3/resources/svg_icon_resource";

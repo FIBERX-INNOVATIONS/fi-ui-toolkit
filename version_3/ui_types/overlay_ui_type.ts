@@ -23,16 +23,16 @@ export interface OverlayUIActionPropsInterface {
 
     on_open?: (
         config?: { props: OverlayUIPropsInterface }
-    ) => Promise<OverlayUIActionReturnInterface>;
+    ) => Promise<OverlayUIActionReturnInterface | void>;
 
     on_close?: (
         config?: { props: OverlayUIPropsInterface }
-    ) => Promise<OverlayUIActionReturnInterface>;
+    ) => Promise<OverlayUIActionReturnInterface | void>;
 
     on_overlay_click?: (
         event?: MouseEvent,
         config?: { props: OverlayUIPropsInterface }
-    ) => Promise<OverlayUIActionReturnInterface>;
+    ) => Promise<OverlayUIActionReturnInterface | void>;
 
 }
 

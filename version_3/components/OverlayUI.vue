@@ -2,7 +2,8 @@
     <div
         v-if="computed_refs.show_overlay.value"
         :id="id"
-        :class="class_styles.wrapper_class_style"
+        :class="[computed_refs.show_overlay.value ? sanitized_wrapper_class_style : class_styles.wrapper_class_style]"
+        
     >
 
         <!-- overlay background -->
@@ -39,5 +40,18 @@ const {
     computed_refs,
     action_handler
 } = controller;
+
+const { show_overlay } = computed_refs
+
+const blocked_classes = [
+    "opacity-0",
+    "hidden",
+    "invisible",
+    "pointer-events-none"
+];
+const sanitized_wrapper_class_style = class_styles.wrapper_class_style
+        .split(" ")
+        .filter(c => !blocked_classes.includes(c))
+        .join(" ");
 
 </script>

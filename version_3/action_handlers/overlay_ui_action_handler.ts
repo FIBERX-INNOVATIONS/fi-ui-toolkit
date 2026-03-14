@@ -30,9 +30,9 @@ class OverlayUIActionHandler {
 
     public async handleOpen() {
 
-        const { state_refs, props } = this.controller;
+        const { props } = this.controller;
 
-        state_refs.is_open.value = true;
+        this.controller.state_refs.is_open.value = true;
 
         if (props.boolean_props?.lock_scroll) {
             document.body.style.overflow = "hidden";
@@ -47,9 +47,9 @@ class OverlayUIActionHandler {
 
     public async handleClose() {
 
-        const { state_refs, props } = this.controller;
+        const { props } = this.controller;
 
-        state_refs.is_open.value = false;
+        this.controller.state_refs.is_open.value = false;
 
         document.body.style.overflow = "";
 

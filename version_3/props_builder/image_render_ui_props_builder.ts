@@ -6,8 +6,11 @@ import {
     ImageRenderUIPropsInterface,
     ImageRenderUIClassStylesInterface,
     ImageRenderUIBooleanPropsInterface,
-    ImageRenderUIActionPropsInterface
+    ImageRenderUIActionPropsInterface,
+    ImagePayloadInterface
 } from "../ui_types/image_render_ui_type";
+
+import ContentManagerUtil from "../utils/content_manager_util";
 
 
 class ImageRenderUIPropsBuilder {
@@ -96,6 +99,35 @@ class ImageRenderUIPropsBuilder {
                 id,
                 src,
                 overrides
+            );
+
+        return reactive<ImageRenderUIPropsInterface>(props);
+
+    }
+
+    public static getReactivePropsObjectFromContent (
+        id: string,
+
+        content_key: string,
+
+        overrides: Partial<ImageRenderUIPropsInterface> = {}
+
+    ): ImageRenderUIPropsInterface {
+        const content_manager = ContentManagerUtil.getInstance();
+        const content_payload = content_manager.get<ImagePayloadInterface>(content_key);
+
+        const { img_link, img_alt_text = "" } = content_payload || {};
+
+        if(!img_link) { return {} }
+
+        const props =
+            ImageRenderUIPropsBuilder.buildPropsObject(
+                id,
+                img_link,
+                {
+                    ...overrides,
+                    alt_text: img_alt_text
+                }
             );
 
         return reactive<ImageRenderUIPropsInterface>(props);

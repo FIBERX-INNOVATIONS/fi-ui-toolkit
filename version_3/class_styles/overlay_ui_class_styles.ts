@@ -1,41 +1,14 @@
-import { PropType } from "vue";
+import { OverlayUIClassStylesInterface } from "../ui_types/overlay_ui_type";
 
-import OverlayUIClassStyles from "../class_styles/overlay_ui_class_styles";
+const OverlayUIClassStyles: OverlayUIClassStylesInterface = {
 
-import {
-    OverlayUIBooleanPropsInterface,
-    OverlayUIActionPropsInterface,
-    OverlayUIClassStylesInterface
-} from "../ui_types/overlay_ui_type";
+    wrapper_class_style: "fixed inset-0 z-50",
 
+    overlay_class_style: "absolute inset-0 bg-black/50",
 
-const OverlayUIProps = {
-
-    id: {
-        type: String,
-        required: true
-    },
-
-    model_value: {
-        type: Boolean,
-        default: false
-    },
-
-    boolean_props: {
-        type: Object as PropType<OverlayUIBooleanPropsInterface>,
-        default: () => ({})
-    },
-
-    action_props: {
-        type: Object as PropType<OverlayUIActionPropsInterface>,
-        default: () => ({})
-    },
-
-    class_styles: {
-        type: Object as PropType<OverlayUIClassStylesInterface>,
-        default: () => OverlayUIClassStyles
-    }
+    content_wrapper_class_style:
+        "absolute inset-0 flex items-center justify-center"
 
 };
 
-export default OverlayUIProps;
+export default OverlayUIClassStyles;
