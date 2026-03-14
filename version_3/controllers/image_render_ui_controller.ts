@@ -1,7 +1,7 @@
 
 import BaseController  from "../base_classes/base_controller";
 
-import ImageRenderUIActionHandler from "@ui_v3/action_handlers/image_render_ui_action_handler";
+import ImageRenderUIActionHandler from "../action_handlers/image_render_ui_action_handler";
 
 import { ComputedDefinitionType } from "../types/base_type";
 
@@ -57,7 +57,7 @@ class ImageRenderUIController extends BaseController<
 
             show_image: () => {
 
-                return !this.state_refs.has_error;
+                return !this.state_refs.has_error.value;
 
             }
 

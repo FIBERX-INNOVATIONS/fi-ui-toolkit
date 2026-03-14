@@ -35,7 +35,7 @@ class NavLinkUIPropsBuilder {
 
     private static buildPropsObject(
 
-        id: string,
+        id?: string,
 
         link?: string,
 
@@ -74,7 +74,7 @@ class NavLinkUIPropsBuilder {
 
     public static getReactivePropsObject(
 
-        id: string,
+        id?: string,
 
         link?: string,
 

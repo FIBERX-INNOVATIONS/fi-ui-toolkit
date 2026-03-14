@@ -85,7 +85,8 @@ class RenderHtmlUtil {
         icon_name: "loading_svg_icon",
         class_style: "w-4 h-4 ml-2 flex items-center"
     }): string {
-        const { icon_name, class_style } = params || {}
+        const icon_name = params?.icon_name || "loading_svg_icon";
+        const class_style = params?.class_style || "w-4 h-4 ml-2 flex items-center"
 
         const icon = SVGIcons?.[(icon_name as SVGIconKey)] ?? "";
 

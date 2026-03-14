@@ -1,8 +1,7 @@
 <template>
     <div
-        v-if="state_refs.is_open"
         :id="id"
-        :class="[class_styles.wrapper_class_style]"
+        :class="[class_styles.wrapper_class_style,]"
         :style="computed_refs.wrapper_style.value"
     >
 
@@ -40,7 +39,12 @@ const {
 
 const {
     state_refs,
-    computed_refs
+    computed_refs,
+    components
 } = controller;
+
+const {
+    NavLinkUI
+} = components
 
 </script>

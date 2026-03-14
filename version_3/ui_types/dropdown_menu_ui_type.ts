@@ -1,5 +1,6 @@
 import { Component } from "vue";
 import { NavLinkUIPropsInterface } from "./nav_link_ui_type";
+import { SVGIconKey } from "@ui_v3/resources/svg_icon_resource";
 
 /* ---------------------------------- */
 /* Position Types                     */
@@ -80,4 +81,12 @@ export interface DropdownMenuUIComponentsInterface {
 
     NavLinkUI: Component;
 
+}
+
+export interface ContentMenuPayloadInterface {
+    menu_text?: string ;
+    menu_icon?: SVGIconKey | string;
+    menu_link?: string;
+    menu_id_text?: string;
+    menu_img_link?: string;
 }

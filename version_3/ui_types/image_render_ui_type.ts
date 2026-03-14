@@ -20,7 +20,7 @@ export interface ImageRenderUIActionPropsInterface {
     on_click?: (
         event?: MouseEvent,
         config?: { props: ImageRenderUIPropsInterface }
-    ) => Promise<ImageRenderActionReturnInterface>;
+    ) => Promise<ImageRenderActionReturnInterface | void>;
 
 }
 

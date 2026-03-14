@@ -37,7 +37,7 @@ class CopyRightUIPropsBuilder {
     /* ---------------------------------- */
 
     private static buildPropsObject(
-        content_data_key: string = "content_resource.auth_layout_view_ui.footer",
+        content_data_key: string = "content_resource.auth_layout_ui.footer",
     ): CopyRightUIPropsInterface {
         const content_data = CopyRightUIPropsBuilder.content_manager?.get<CopyRightUIContentPayloadInterface>(content_data_key) ?? {};
 
@@ -61,7 +61,7 @@ class CopyRightUIPropsBuilder {
     /* ---------------------------------- */
 
     public static getReactivePropsObject(
-       content_data_key: string = "content_resource.auth_layout_view_ui.footer",
+       content_data_key: string = "content_resource.auth_layout_ui.footer",
     ): CopyRightUIPropsInterface {
 
         const props_obj = CopyRightUIPropsBuilder.buildPropsObject(content_data_key);

@@ -1,7 +1,7 @@
 
 import BaseController  from "../base_classes/base_controller";
 
-import NavLinkUI from "@ui_v3/components/NavLinkUI.vue";
+import NavLinkUI from "../components/NavLinkUI.vue";
 
 import { ComputedDefinitionType } from "../types/base_type";
 

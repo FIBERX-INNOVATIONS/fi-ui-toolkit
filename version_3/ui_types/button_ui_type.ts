@@ -50,12 +50,12 @@ export interface ButtonUIActionPropsInterface {
     on_click?: (
         event?: MouseEvent,
         config?: { props: ButtonUIPropsInterface }
-    ) => Promise<ButtonActionMethodReturnInterface>;
+    ) => Promise<ButtonActionMethodReturnInterface | void>;
 
     on_hover?: (
         event?: MouseEvent,
         config?: { props: ButtonUIPropsInterface }
-    ) => Promise<ButtonActionMethodReturnInterface>;
+    ) => Promise<ButtonActionMethodReturnInterface | void>;
 
 }
 

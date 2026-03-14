@@ -1,5 +1,6 @@
 <template>
     <div
+        :id="props.id"
         :class="class_styles.wrapper_class_style"
         @click="action_handler?.handleOnClick?.($event)"
     >
@@ -48,5 +49,9 @@ const {
     computed_refs,
     action_handler
 } = controller;
+
+const {
+    show_image
+} = computed_refs
 
 </script>
