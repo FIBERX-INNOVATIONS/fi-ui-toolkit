@@ -43,7 +43,8 @@ class HeaderTextUIPropsBuilder {
 
     private static buildPropsObject(
         header_tag: HeaderTagType = "h2",
-        content_data_key: string
+        content_data_key: string,
+        class_styles?: HeaderTextUIClassStylesInterface
     ): HeaderTextUIPropsInterface {
 
         const text_value =
@@ -52,7 +53,7 @@ class HeaderTextUIPropsBuilder {
         return {
             header_tag,
             text_value,
-            class_styles: HeaderTextUIPropsBuilder.class_styles
+            class_styles: class_styles ?? HeaderTextUIPropsBuilder.class_styles
         };
 
     }
@@ -64,13 +65,15 @@ class HeaderTextUIPropsBuilder {
 
     public static getReactivePropsObject(
         header_tag: HeaderTagType = "h2",
-        content_data_key: string
+        content_data_key: string,
+        overides: Partial<HeaderTextUIPropsInterface> = {}
     ): HeaderTextUIPropsInterface {
 
         const props_obj =
             HeaderTextUIPropsBuilder.buildPropsObject(
                 header_tag,
-                content_data_key
+                content_data_key,
+                overides.class_styles
             );
 
         return reactive<HeaderTextUIPropsInterface>(props_obj);
