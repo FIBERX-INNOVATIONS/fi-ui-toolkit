@@ -2,7 +2,8 @@ import { PropType } from "vue";
 
 import {
     HeaderTagType,
-    HeaderTextUIClassStylesInterface
+    HeaderTextUIClassStylesInterface,
+    HeaderTextUIPropsInterface
 } from "../ui_types/header_text_ui_type";
 
 
@@ -25,6 +26,6 @@ const HeaderTextUIProps = {
         })
     }
 
-};
+} satisfies Record<keyof HeaderTextUIPropsInterface, any>;
 
 export default HeaderTextUIProps;

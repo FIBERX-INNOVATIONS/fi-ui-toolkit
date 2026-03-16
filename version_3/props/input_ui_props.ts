@@ -9,7 +9,8 @@ import {
     SelectOptionInterface,
     InputUINumberPropsInterface,
     InputUIActionPropsInterface,
-    InputUIFilePropsInterface
+    InputUIFilePropsInterface,
+    InputUIPropsInterface
 } from "../ui_types/input_ui_type";
 
 
@@ -78,19 +79,11 @@ const InputUIProps = {
         default: ""
     },
 
-    error_text: { 
-        type: String, 
-        require: false,
-        default: ""
-    },
-
-
-
     class_styles: {
         type: Object as PropType<InputUIClassStylesInterface>,
         default: () => (InputUIClassStyles)
     }
 
-};
+} satisfies Record<keyof InputUIPropsInterface, any>;
 
 export default InputUIProps;

@@ -5,7 +5,8 @@ import OverlayUIClassStyles from "../class_styles/overlay_ui_class_styles";
 import {
     OverlayUIBooleanPropsInterface,
     OverlayUIActionPropsInterface,
-    OverlayUIClassStylesInterface
+    OverlayUIClassStylesInterface,
+    OverlayUIPropsInterface
 } from "../ui_types/overlay_ui_type";
 
 
@@ -36,6 +37,6 @@ const OverlayUIProps = {
         default: () => OverlayUIClassStyles
     }
 
-};
+} satisfies Record<keyof OverlayUIPropsInterface, any>;
 
 export default OverlayUIProps;

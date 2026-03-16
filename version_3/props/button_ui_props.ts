@@ -7,7 +7,8 @@ import {
     ButtonUIClassStylesInterface,
     ButtonUIContentOptionsInterface,
     ButtonUIBooleanPropsInterface,
-    ButtonUIActionPropsInterface
+    ButtonUIActionPropsInterface,
+    ButtonUIPropsInterface
 } from "../ui_types/button_ui_type";
 
 
@@ -43,6 +44,6 @@ const ButtonUIProps = {
         default: () => ButtonUIClassStyles
     }
 
-};
+} satisfies Record<keyof ButtonUIPropsInterface, any>;
 
 export default ButtonUIProps;

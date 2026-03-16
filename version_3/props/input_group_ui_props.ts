@@ -32,6 +32,12 @@ const InputGroupUIProps = {
         default: "*"
     },
 
+    helper_text: { 
+        type: String, 
+        require: false,
+        default: ""
+    },
+
     input_props: {
         type: Object as PropType<InputUIPropsInterface>,
         required: true
@@ -42,6 +48,6 @@ const InputGroupUIProps = {
         default: () => InputGroupUIClassStyles
     }
 
-};
+} satisfies Record<keyof InputGroupUIPropsInterface, any>;
 
 export default InputGroupUIProps;
