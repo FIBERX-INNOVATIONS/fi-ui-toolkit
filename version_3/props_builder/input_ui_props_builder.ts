@@ -165,11 +165,12 @@ class InputUIPropsBuilder {
                 ...overrides.action_props
             },
 
-            class_styles:
-                overrides.class_styles ??
-                InputUIPropsBuilder.class_styles ??
-                InputUIClassStyles
+            class_styles: {
+                ...InputUIClassStyles,
+                ...(InputUIPropsBuilder.class_styles ?? {}),
+                ...(overrides.class_styles ?? {})
 
+            }
         };
 
     }

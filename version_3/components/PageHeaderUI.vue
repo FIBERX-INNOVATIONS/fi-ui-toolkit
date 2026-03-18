@@ -13,10 +13,10 @@
 
             <div :class="class_styles.header_wrapper_class_style">
 
-            <HeaderTextUI
-                v-if="header_props"
-                v-bind="header_props"
-            />
+                <HeaderTextUI
+                    v-if="header_props"
+                    v-bind="header_props"
+                />
 
             </div>
 
@@ -27,23 +27,25 @@
                 :class="class_styles.action_buttons_wrapper_class_style"
             >
 
-            <ButtonUI
-                v-for="(btn,index) in action_buttons"
-                :key="btn?.id ?? index"
-                v-bind="btn"
-            />
+                <ButtonUI
+                    v-for="(btn,index) in action_buttons"
+                    :key="btn?.id ?? index"
+                    v-bind="btn"
+                />
 
             </div>
 
-            </div>
+        </div>
 
             <!-- Description -->
 
-            <div
-                v-if="computed_refs.has_description.value"
-                :class="class_styles.description_class_style"
-                v-html="description_text"
-            />
+        <div
+            v-if="computed_refs.has_description.value"
+            :class="class_styles.description_class_style"
+            v-html="description_text"
+        ></div>
+
+        <slot />
 
     </div>
 

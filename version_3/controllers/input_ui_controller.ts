@@ -22,6 +22,7 @@ import SwitchInputUI from "../components/InputUI/SwitchInputUI.vue";
 import PhoneNumberInputUI from "../components/InputUI/PhoneNumberInputUI.vue";
 import OtpInputUI from "../components/InputUI/OtpInputUI.vue";
 import FileInputUI from "../components/InputUI/FileInputUI.vue";
+import SearchInputUI from "../components/InputUI/SearchInputUI.vue";
 
 
 
@@ -50,7 +51,8 @@ class InputUIController extends BaseController<
             SwitchInputUI,
             PhoneNumberInputUI,
             OtpInputUI,
-            FileInputUI
+            FileInputUI,
+            SearchInputUI
         } as InputUIComponentsInterface;
     }
 

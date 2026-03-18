@@ -3,7 +3,8 @@ import { PropType } from "vue";
 import PageHeaderUIClassStyles from "../class_styles/page_header_ui_class_styles";
 
 import {
-    PageHeaderUIClassStylesInterface
+    PageHeaderUIClassStylesInterface,
+    PageHeaderUIPropsInterface
 } from "../ui_types/page_header_ui_type";
 
 import { HeaderTextUIPropsInterface } from "../ui_types/header_text_ui_type";
@@ -37,6 +38,6 @@ const PageHeaderUIProps = {
         default: () => PageHeaderUIClassStyles
     }
 
-};
+} satisfies Record<keyof PageHeaderUIPropsInterface, any>;
 
 export default PageHeaderUIProps;

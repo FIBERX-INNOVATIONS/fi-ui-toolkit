@@ -1,3 +1,4 @@
+
 import BaseController from "../base_classes/base_controller";
 
 import {
@@ -7,6 +8,7 @@ import {
     SelectOptionInterface,
     PhoneNumberResultInterface
 } from "../ui_types/input_ui_type";
+
 
 class InputUIActionHandler {
 
@@ -27,6 +29,38 @@ class InputUIActionHandler {
     ){
         this.controller = controller;
     }
+
+
+    // Method to Safely resolve input value from event OR DOM fallback
+    private resolveInputValue = (event: Event): string => {
+        const props     = this.controller?.props;
+        const input_id  = props?.id;
+        let target      = event.target as HTMLElement | null;
+
+        // Case 1: Direct input/select/textarea
+        if (target && 'value' in target) {
+            return (target as HTMLInputElement).value;
+        }
+
+        // Case 3: Fallback using ID
+        if (input_id) {
+            const el = document.getElementById(input_id) as HTMLInputElement | null;
+            if (el) {
+                return el.value;
+            }
+        }
+
+        // Case 3: Clicked on child (icon, span, button, etc.)
+        if (target) {
+            const parent_input = target.closest('input, textarea, select') as HTMLInputElement;
+
+            if (parent_input) {
+                return parent_input.value;
+            }
+        }
+
+        return '';
+    };
 
     // Method to Detect clicks outside the  input dropdown container.
     private handleOutsideClick = (event: MouseEvent) => {
@@ -89,8 +123,7 @@ class InputUIActionHandler {
     // Method to handle on input chnage Action
     public handleOnInpuChange = async (event: Event) => {
 
-        const target        = event.target as HTMLInputElement;
-        const input_value   = target.value;
+        const input_value   = this.resolveInputValue(event);
         const props         = this.controller?.props;
         const { on_change } = props?.action_props || {};
 
@@ -107,8 +140,7 @@ class InputUIActionHandler {
     // Method to handle on key up action
     public handleOnKeyup = async (event: KeyboardEvent) => {
 
-        const target        = event.target as HTMLInputElement;
-        const input_value   = target.value;
+        const input_value   = this.resolveInputValue(event);
         const props         = this.controller?.props;
         const { on_key_up } = props?.action_props || {};
 
@@ -122,8 +154,7 @@ class InputUIActionHandler {
     // Method to handle on key down action
     public handleOnKeydown = async (event: KeyboardEvent) => {
 
-        const target        = event.target as HTMLInputElement;
-        const input_value   = target.value;
+        const input_value   = this.resolveInputValue(event);
         const props         = this.controller?.props;
         const { on_key_down } = props?.action_props || {};
 
@@ -138,11 +169,10 @@ class InputUIActionHandler {
 
     // Method to handle on click action
     public handleOnClick = async (event: MouseEvent) => {
-        const target        = event.target as HTMLInputElement;
-        const input_value   = target.value;
         const props         = this.controller?.props;
         const { on_click }  = props?.action_props || {};
-
+        const input_value   = this.resolveInputValue(event);
+       
         this.controller.state_refs.input_value.value = input_value;
 
         if(!on_click) { return }
@@ -155,7 +185,6 @@ class InputUIActionHandler {
     // Method to handle on sitch btn toggle
     public handleOnSwitchToggle = async (event: MouseEvent) => {
         try {
-            const target        = event.target as HTMLInputElement;
             const props         = this.controller?.props;
             const state_refs    = this.controller?.state_refs;
             const { on_click }  = props?.action_props || {};
@@ -190,6 +219,9 @@ class InputUIActionHandler {
 
             if(props.boolean_props?.read_only) { return }
 
+            const trigger   = `${props.id?.toLowerCase()}_select_search`;
+            const menu      = `${props.id?.toLowerCase()}_select_search_dropdown`;
+
             this.controller.state_refs.is_loading.value          = true;
             this.controller.state_refs.is_dropdown_open.value    = is_open_value;
 
@@ -199,7 +231,7 @@ class InputUIActionHandler {
                 if (!record_options.length) { this.fetchRecordOptions(); }
             } 
             else { document.removeEventListener("click", this.handleOutsideClick); }
-            }
+        }
         catch (error) {
             console.error(`[${this.controller.name}] toggleDropdown error:`, error);
         } 
@@ -214,8 +246,7 @@ class InputUIActionHandler {
 
         if(props.boolean_props?.read_only) { return }
 
-        const target_el         = (event.target as HTMLInputElement);
-        const search_value      = target_el?.value || "";
+        const search_value      = this.resolveInputValue(event);
         const is_dropdown_open  = !!search_value?.length;
 
         this.controller.state_refs.search_value.value          = search_value;
@@ -297,8 +328,7 @@ class InputUIActionHandler {
 
     // Method to handle on otp input change
     public handleOnOTPInput = async (event: InputEvent, index: number) => {
-        const target            = event.target as HTMLInputElement;
-        const input_value       = target.value.slice(-1);
+        const input_value       = this.resolveInputValue(event)?.slice(-1);
         const props             = this.controller.props;
         const state_refs        = this.controller.state_refs;
         const next_input_id     = `${props.id}_${index + 1}`;
@@ -349,7 +379,7 @@ class InputUIActionHandler {
 
         }
         else {
-            const input_value       = target.value.slice(-1);
+            const input_value       = this.resolveInputValue(event)?.slice(-1);
             existing_value[index]   =  input_value;
 
         }
@@ -358,7 +388,7 @@ class InputUIActionHandler {
 
         if(!on_key_down) { return }
 
-        const input_value       = target.value.slice(-1);
+        const input_value       = this.resolveInputValue(event)?.slice(-1);
         const { status, msg }   = await on_key_down(event, input_value, { props });
 
         this.setErrorMsg(status, msg);

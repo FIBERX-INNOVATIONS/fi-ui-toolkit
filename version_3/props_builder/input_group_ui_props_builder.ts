@@ -65,6 +65,8 @@ class InputGroupUIPropsBuilder {
 
         content_key?: string,
 
+        class_styles?: InputGroupUIClassStylesInterface
+
     ): InputGroupUIPropsInterface {
         const content_data =
             InputGroupUIPropsBuilder.getContentProps(content_key);
@@ -84,10 +86,11 @@ class InputGroupUIPropsBuilder {
 
             input_props,
 
-            class_styles:
-                InputGroupUIPropsBuilder.class_styles ??
-                InputGroupUIClassStyles
-
+            class_styles: { 
+                ...InputGroupUIClassStyles, 
+                ...(InputGroupUIPropsBuilder.class_styles ?? {}),
+                ...(class_styles ?? {})
+            }
         };
 
     }
@@ -102,10 +105,12 @@ class InputGroupUIPropsBuilder {
         input_props: InputUIPropsInterface,
 
         content_key?: string,
+
+        class_styles?: InputGroupUIClassStylesInterface
     ): InputGroupUIPropsInterface {
 
         const props =
-            InputGroupUIPropsBuilder.buildPropsObject(input_props, content_key);
+            InputGroupUIPropsBuilder.buildPropsObject(input_props, content_key, class_styles);
 
         return reactive<InputGroupUIPropsInterface>(props);
 

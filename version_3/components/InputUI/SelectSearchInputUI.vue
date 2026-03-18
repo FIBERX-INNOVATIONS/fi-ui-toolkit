@@ -22,7 +22,7 @@
         </div>
 
         <div
-            v-if="is_dropdown_open"
+            v-show="is_dropdown_open"
             :class="class_styles.dropdown_wrapper_class_style"
             @scroll="action_handler?.handleDropdownScroll?.($event)"
             :id="`${id?.toLowerCase()}_select_search_dropdown`"
@@ -126,9 +126,10 @@ const {
     is_loading
 } = state_refs
 
-const input_class_style = `
-${class_styles.input_class_style}  
-${boolean_props.read_only ? class_styles.input_readonly_class_style : ''}
-`
+const readonly_class_style  = boolean_props.read_only ? class_styles.input_readonly_class_style : "";
+const input_class_style     = [
+    class_styles.input_class_style,
+    readonly_class_style
+].join(" ");
 
 </script>

@@ -3,7 +3,6 @@
         <select
             :id="id"
             :name="id"
-            :type="type"
             :class="input_class_style"
             v-model="input_value"
             :placeholder="placeholder_text"
@@ -66,9 +65,10 @@ const {
     error_text
 } = state_refs
 
-const input_class_style = `
-${class_styles.input_class_style}  
-${boolean_props.read_only ? class_styles.input_readonly_class_style : ''}
-`
+const readonly_class_style  = boolean_props.read_only ? class_styles.input_readonly_class_style : "";
+const input_class_style     = [
+    class_styles.input_class_style,
+    readonly_class_style
+].join(" ");
 
 </script>

@@ -8,6 +8,8 @@ export interface InputUIContentOptionsInterface {
     caret_html_contewnt?: string;
 
     no_options_html_content?: string;
+
+    search_icon_html_content?: string;
 }
 
 export interface InputUIBooleanPropsInterface {
@@ -118,7 +120,8 @@ export type InputType =
     | "phone_number"
     | "otp"
     | "file"
-    | "password";
+    | "password"
+    | "search";
 
 
 /* ---------------------------------- */
@@ -169,6 +172,13 @@ export interface InputUIClassStylesInterface {
     helper_text_class_style: string;
 
     error_text_class_style: string;
+
+    search_wrapper_class_style?: string;
+
+    search_icon_class_style?: string;
+
+    search_input_class_style?: string;
+    
 }
 
 
@@ -249,6 +259,8 @@ export interface InputUIComponentsInterface {
     FileInputUI: Component;
 
     PhoneNumberInputUI: Component;
+
+    SearchInputUI: Component;
 
 }
 
