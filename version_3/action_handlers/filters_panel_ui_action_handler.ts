@@ -56,10 +56,11 @@ class FiltersPanelUIActionHandler {
 
             Object.keys(filter_values).forEach((key) => {
 
-                const value = filter_values[key];
+                const filter_raw_value = filter_values[key];
 
-                if (value !== null && value !== "" && value !== undefined) {
-                    new_query[key] = value;
+                if (filter_raw_value !== null && filter_raw_value !== "" && filter_raw_value !== undefined) {
+                    const filter_str_value = typeof filter_raw_value === "string" ? filter_raw_value : JSON.stringify(filter_raw_value);
+                    new_query[key] = filter_str_value;
                 } else {
                     delete new_query[key];
                 }

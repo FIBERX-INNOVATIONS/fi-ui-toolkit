@@ -12,6 +12,7 @@ import { ButtonUIPropsInterface } from "../ui_types/button_ui_type";
 import ContentManagerUtil from "../utils/content_manager_util";
 import RenderHtmlUtil from "../utils/render_html_util";
 import { SVGIconKey } from "../resources/svg_icon_resource";
+import { RouteQueryAndHash } from "vue-router";
 
 
 class FiltersPanelUIPropsBuilder {
@@ -105,6 +106,35 @@ class FiltersPanelUIPropsBuilder {
         return reactive(props);
 
     }
+
+    // Method to hydrate filters from route query
+    public static hydrateFiltersFromRoute = (route_query: RouteQueryAndHash) => {
+
+        const query = route_query as Record<string, unknown>;
+
+        const hydrated_filters: Record<string, any> = {};
+
+        Object.keys(query).forEach((key) => {
+
+            let value = query[key];
+
+            if (Array.isArray(value)) {
+                value = value[0];
+            }
+
+            if (typeof value === "string") {
+                try {
+                    value = JSON.parse(value);
+                } catch {
+                    // keep as string
+                }
+            }
+
+            hydrated_filters[key] = value;
+        });
+
+        return hydrated_filters;
+    };
 
 }
 

@@ -24,7 +24,9 @@ const {
     OtpInputUI,
     FileInputUI,
     PhoneNumberInputUI,
-    SearchInputUI
+    SearchInputUI,
+    DateInputUI,
+    DateRangeInputUI
 } = components
 
 // Dynamically map input type to component
@@ -55,6 +57,10 @@ const getInputComponent = (type?: string) => {
             return PhoneNumberInputUI;
         case "search":
             return SearchInputUI;
+        case "date":
+            return DateInputUI;
+        case "date_range":
+            return DateRangeInputUI;
         default:
             return TextInputUI;
     }

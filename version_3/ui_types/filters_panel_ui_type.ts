@@ -1,7 +1,7 @@
 import { Component } from "vue";
 
 import { InputGroupUIPropsInterface } from "./input_group_ui_type";
-import { ButtonUIPropsInterface } from "./button_ui_type";
+import { ButtonUIClassStylesInterface, ButtonUIPropsInterface } from "./button_ui_type";
 
 
 /* ---------------------------------- */
@@ -38,6 +38,10 @@ export interface FiltersPanelUIClassStylesInterface {
     filters_grid_class_style: string;
 
     actions_wrapper_class_style: string;
+
+    clear_filters_btn_class_style?: ButtonUIClassStylesInterface;
+
+    apply_filters_btn_class_style?: ButtonUIClassStylesInterface;
 
 }
 
@@ -78,6 +82,8 @@ export interface FiltersPanelUIPropsInterface {
     sync_route_query?: boolean;
 
     class_styles?: FiltersPanelUIClassStylesInterface;
+
+    props_filter_values?: Record<string, any>
 
 }
 

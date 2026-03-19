@@ -41,16 +41,18 @@
             <div :class="class_styles.actions_wrapper_class_style">
 
                 <ButtonUI
+                    v-if="clear_button"
+                    v-bind="clear_button"
+                    @click="action_handler?.clearFilters?.()"
+                />
+                
+                <ButtonUI
                     v-if="apply_button"
                     v-bind="apply_button"
                     @click="action_handler?.applyFilters?.()"
                 />
 
-                <ButtonUI
-                    v-if="clear_button"
-                    v-bind="clear_button"
-                    @click="action_handler?.clearFilters?.()"
-                />
+                
 
             </div>
 

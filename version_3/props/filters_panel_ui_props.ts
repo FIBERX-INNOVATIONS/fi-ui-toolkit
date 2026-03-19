@@ -52,6 +52,11 @@ const FiltersPanelUIProps = {
     class_styles: {
         type: Object as PropType<FiltersPanelUIClassStylesInterface>,
         default: () => FiltersPanelUIClassStyles
+    },
+
+    props_filter_values: {
+        type: Object as PropType<Record<string, any>>,
+        default: () => ({})
     }
 
 } satisfies Record<keyof FiltersPanelUIPropsInterface, any>;

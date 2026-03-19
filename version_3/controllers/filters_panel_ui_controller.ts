@@ -12,7 +12,7 @@ import {
 
 import InputGroupUI from "../components/InputGroupUI.vue";
 import ButtonUI from "../components/ButtonUI.vue";
-import { ComputedDefinitionType } from "@ui_v3/types/base_type";
+import { ComputedDefinitionType, WatchersType } from "@ui_v3/types/base_type";
 
 
 class FiltersPanelUIController extends BaseController<
@@ -72,6 +72,18 @@ class FiltersPanelUIController extends BaseController<
         };
 
     }
+
+    protected getUIWatchers(): WatchersType<FiltersPanelUIPropsInterface, FiltersPanelUIStateDataInterface> {
+        return {
+            props_filter_values: (new_val) => {
+                this.state_refs.filter_values.value = {...new_val };
+            }
+        };
+    }
+
+    // protected async handleOnMountedLogic(): Promise<void> {
+    //     this.action_handler.hydrateFiltersFromRoute();
+    // }
 
 }
 

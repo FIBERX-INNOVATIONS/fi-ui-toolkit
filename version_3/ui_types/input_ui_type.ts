@@ -1,5 +1,6 @@
 
 
+import { SVGIconKey } from "@ui_v3/resources/svg_icon_resource";
 import { Component, Ref } from "vue";
 
 export interface InputUIContentOptionsInterface {
@@ -10,6 +11,8 @@ export interface InputUIContentOptionsInterface {
     no_options_html_content?: string;
 
     search_icon_html_content?: string;
+
+    seperator_icon_html?: SVGIconKey
 }
 
 export interface InputUIBooleanPropsInterface {
@@ -47,25 +50,25 @@ export interface ActionMethodRetrunInterface {
 export interface InputUIActionPropsInterface {
     on_key_up?: (
         event?: KeyboardEvent, 
-        input_value?: string | number | boolean | Array<any> | File | null,
+        input_value?: InputValue,
         input_config?: { props: InputUIPropsInterface }
     ) => Promise<ActionMethodRetrunInterface>;
 
     on_key_down?: (
         event?: KeyboardEvent,
-        input_value?: string | number | boolean | Array<any> | File | null,
+        input_value?: InputValue,
         input_config?: { props: InputUIPropsInterface }
     ) => Promise<ActionMethodRetrunInterface>;
 
     on_change?: (
         event?: Event,
-        input_value?: string | number | boolean | Array<any> | File | null,
+        input_value?: InputValue,
         input_config?: { props: InputUIPropsInterface }
     ) => Promise<ActionMethodRetrunInterface>;
 
     on_click?: (
         event?: MouseEvent,
-        input_value?: string | number | boolean | Array<any> | File | null,
+        input_value?: InputValue,
         input_config?: { props: InputUIPropsInterface }
     ) => Promise<ActionMethodRetrunInterface>;
 
@@ -105,9 +108,20 @@ export interface PhoneNumberResultInterface {
   formatted: string;
 }
 
+export interface InputDateRangeValueType { start_date: string, end_date: string };
+
 /* ---------------------------------- */
 /* Input Type                         */
 /* ---------------------------------- */
+export type InputValue = 
+    | string 
+    | number 
+    | boolean 
+    | Array<any> 
+    | File 
+    | null 
+    | InputDateRangeValueType
+
 
 export type InputType =
     | "text"
@@ -121,7 +135,9 @@ export type InputType =
     | "otp"
     | "file"
     | "password"
-    | "search";
+    | "search"
+    | "date"
+    | "date_range";
 
 
 /* ---------------------------------- */
@@ -178,6 +194,10 @@ export interface InputUIClassStylesInterface {
     search_icon_class_style?: string;
 
     search_input_class_style?: string;
+
+    range_container_class_style?: string;
+
+    range_separator_class_style?: string;
     
 }
 
@@ -194,7 +214,7 @@ export interface InputUIPropsInterface {
 
     type: InputType;
 
-    model_value?: string | number | boolean | Array<any> | File | null;
+    model_value?: InputValue;
 
     placeholder_text?: string;
 
@@ -218,7 +238,11 @@ export interface InputUIPropsInterface {
 
 
 export interface InputUIStateDataInterface {
-    input_value: string | number | boolean | Array<any> | File | null;
+    input_value: InputValue;
+
+    start_date: string | null;
+
+    end_date: string | null;
 
     error_text: string | null;
 
@@ -261,6 +285,10 @@ export interface InputUIComponentsInterface {
     PhoneNumberInputUI: Component;
 
     SearchInputUI: Component;
+
+    DateInputUI: Component;
+
+    DateRangeInputUI: Component;
 
 }
 

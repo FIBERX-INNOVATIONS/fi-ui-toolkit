@@ -3,13 +3,14 @@ import InputUIActionHandler from "../action_handlers/input_ui_action_handler";
 
 import BaseController from "../base_classes/base_controller";
 
-import { ComputedDefinitionType } from "../types/base_type";
+import { ComputedDefinitionType, WatchersType } from "../types/base_type";
 
 import {
     InputUIPropsInterface,
     InputUIStateDataInterface,
     InputUIComputedDataInterface,
-    InputUIComponentsInterface
+    InputUIComponentsInterface,
+    InputDateRangeValueType
 } from "../ui_types/input_ui_type";
 
 import TextInputUI from "../components/InputUI/TextInputUI.vue";
@@ -23,6 +24,10 @@ import PhoneNumberInputUI from "../components/InputUI/PhoneNumberInputUI.vue";
 import OtpInputUI from "../components/InputUI/OtpInputUI.vue";
 import FileInputUI from "../components/InputUI/FileInputUI.vue";
 import SearchInputUI from "../components/InputUI/SearchInputUI.vue";
+import DateInputUI from "../components/InputUI/DateInputUI.vue";
+import DateRangeInputUI from "../components/InputUI/DateRangeInputUI.vue";
+
+import "../resources/datepicker.min.css";
 
 
 
@@ -52,7 +57,9 @@ class InputUIController extends BaseController<
             PhoneNumberInputUI,
             OtpInputUI,
             FileInputUI,
-            SearchInputUI
+            SearchInputUI,
+            DateInputUI,
+            DateRangeInputUI
         } as InputUIComponentsInterface;
     }
 
@@ -60,6 +67,10 @@ class InputUIController extends BaseController<
 
         return {
             input_value: this.props.model_value ?? "",
+
+            start_date: (this.props.model_value as InputDateRangeValueType)?.start_date ?? "",
+
+            end_date: (this.props.model_value as InputDateRangeValueType)?.end_date ?? "",
 
             error_text: null,
 
@@ -73,7 +84,7 @@ class InputUIController extends BaseController<
 
             current_page: 1,
 
-            total_pages: 0,
+            total_pages: 0
         };
 
     }
@@ -86,6 +97,35 @@ class InputUIController extends BaseController<
 
         };
 
+    }
+
+    protected getUIWatchers(): WatchersType<InputUIPropsInterface, InputUIStateDataInterface> {
+        return {
+            model_value: (new_val) => {
+                console.log({ new_val })
+            },
+            route: (new_val) => {
+                const is_empty_query = Object.keys(new_val.query).length === 0;
+
+                if(is_empty_query) {
+                    switch (this.props.type) {
+                        case "date_range":
+                            this.state_refs.start_date.value = "";
+                            this.state_refs.end_date.value  = "";
+                            return;
+                        default:
+                            this.state_refs.input_value.value = null;
+                            return;
+                    }
+                }
+            }
+        };
+    }
+
+    protected async handleOnMountedLogic(): Promise<void> {
+        this.action_handler.setUpDatePickerOnDateInput();
+
+        this.action_handler.setUpDateRangePickerOnDateInput();
     }
 
 }
