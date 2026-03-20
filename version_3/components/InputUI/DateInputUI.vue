@@ -1,10 +1,9 @@
 <template>
     <div :class="class_styles.wrapper_class_style">
-        <input
+        <VueDatePicker
             :id="id"
             :name="id"
-            type="text"
-            :class="input_class_style"
+            :ui="{ input: input_class_style }"
             v-model="input_value"
             :placeholder="placeholder_text"
             :required="boolean_props.required"
@@ -48,8 +47,11 @@ const {
 
 const {
     state_refs,
-    action_handler
+    action_handler,
+    components
 } = controller;
+
+const { VueDatePicker } = components
 
 const {
     input_value,

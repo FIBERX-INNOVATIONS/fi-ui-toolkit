@@ -27,7 +27,8 @@ import SearchInputUI from "../components/InputUI/SearchInputUI.vue";
 import DateInputUI from "../components/InputUI/DateInputUI.vue";
 import DateRangeInputUI from "../components/InputUI/DateRangeInputUI.vue";
 
-import "../resources/datepicker.min.css";
+import { VueDatePicker } from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 
 
@@ -59,7 +60,8 @@ class InputUIController extends BaseController<
             FileInputUI,
             SearchInputUI,
             DateInputUI,
-            DateRangeInputUI
+            DateRangeInputUI,
+            VueDatePicker
         } as InputUIComponentsInterface;
     }
 
@@ -102,30 +104,23 @@ class InputUIController extends BaseController<
     protected getUIWatchers(): WatchersType<InputUIPropsInterface, InputUIStateDataInterface> {
         return {
             model_value: (new_val) => {
-                console.log({ new_val })
+                this.state_refs.input_value.value = new_val
+            },
+            input_value: (new_val) => {
+                this.props.action_props?.on_change?.(undefined, new_val, { props: this.props });
             },
             route: (new_val) => {
                 const is_empty_query = Object.keys(new_val.query).length === 0;
 
                 if(is_empty_query) {
-                    switch (this.props.type) {
-                        case "date_range":
-                            this.state_refs.start_date.value = "";
-                            this.state_refs.end_date.value  = "";
-                            return;
-                        default:
-                            this.state_refs.input_value.value = null;
-                            return;
-                    }
+                    this.state_refs.input_value.value = null;
                 }
             }
         };
     }
 
     protected async handleOnMountedLogic(): Promise<void> {
-        this.action_handler.setUpDatePickerOnDateInput();
-
-        this.action_handler.setUpDateRangePickerOnDateInput();
+        
     }
 
 }

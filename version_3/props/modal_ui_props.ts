@@ -6,7 +6,10 @@ import {
     ModalUIClassStylesInterface,
     ModalAnimationType,
     ModalUIActionPropsInterface,
-    ModalUIPropsInterface
+    ModalUIPropsInterface,
+    ModalUIContentPropsInterface,
+    ModalUIComponentsPropsInterface,
+    ModalUIGetComponentsPropsInterface
 } from "../ui_types/modal_ui_type";
 
 import { SVGIconKey } from "../resources/svg_icon_resource";
@@ -49,6 +52,11 @@ const ModalUIProps = {
         default: 1
     },
 
+    content_props: {
+        type: Object as PropType<ModalUIContentPropsInterface>,
+        default: () => ({})
+    },
+
     action_props: {
         type: Object as PropType<ModalUIActionPropsInterface>,
         default: () => ({})
@@ -57,7 +65,17 @@ const ModalUIProps = {
     class_styles: {
         type: Object as PropType<ModalUIClassStylesInterface>,
         default: () => ModalUIClassStyles
-    }
+    },
+
+    components: {
+        type: Object as PropType<ModalUIComponentsPropsInterface>,
+        default: () => ({})
+    },
+
+    get_component_props: {
+        type: Object as PropType<ModalUIGetComponentsPropsInterface>,
+        default: () => ({})
+    },
 
 } satisfies Record<keyof ModalUIPropsInterface, any>;
 

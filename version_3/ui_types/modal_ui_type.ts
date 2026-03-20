@@ -55,6 +55,16 @@ export interface ModalUIActionReturnInterface {
 
 }
 
+/* ---------------------------------- */
+/* Content Props                      */
+/* ---------------------------------- */
+export interface ModalUIContentPropsInterface {
+    close_btn_content?: string;
+
+    close_btn_icon_key?: SVGIconKey;
+
+}
+
 
 /* ---------------------------------- */
 /* Action Props                       */
@@ -67,6 +77,22 @@ export interface ModalUIActionPropsInterface {
         config?: { props: ModalUIPropsInterface }
     ) => Promise<ModalUIActionReturnInterface>;
 
+}
+
+/* ---------------------------------- */
+/* Footer Props                       */
+/* ---------------------------------- */
+
+export interface ModalUIComponentsPropsInterface {
+    body_component?: Component;
+
+    footer_component?: Component;
+}
+
+export interface ModalUIGetComponentsPropsInterface {
+    get_body_props?: <T extends Record<string, any>>() => Promise<T>;
+
+    get_footer_props?: <T extends Record<string, any>>() => Promise<T>
 }
 
 
@@ -90,9 +116,15 @@ export interface ModalUIPropsInterface {
 
     layer?: number;
 
+    content_props?: ModalUIContentPropsInterface;
+
     action_props?: ModalUIActionPropsInterface;
 
     class_styles?: ModalUIClassStylesInterface;
+
+    components?: ModalUIComponentsPropsInterface;
+
+    get_component_props?: ModalUIGetComponentsPropsInterface;
 
 }
 

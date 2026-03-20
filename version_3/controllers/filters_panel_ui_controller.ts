@@ -46,10 +46,11 @@ class FiltersPanelUIController extends BaseController<
 
 
     protected getUIStateData(): FiltersPanelUIStateDataInterface {
+        const is_empty_query = Object.keys(this.route.query).length === 0;
 
         return {
 
-            is_open: false,
+            is_open: !is_empty_query ? true : false,
 
             filter_values: {}
 
@@ -77,6 +78,13 @@ class FiltersPanelUIController extends BaseController<
         return {
             props_filter_values: (new_val) => {
                 this.state_refs.filter_values.value = {...new_val };
+            },
+            route: (new_val) => {
+                const is_empty_query = Object.keys(new_val.query).length === 0;
+
+                if(!is_empty_query) {
+                    this.state_refs.is_open.value = true
+                }
             }
         };
     }

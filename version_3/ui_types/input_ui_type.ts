@@ -290,6 +290,8 @@ export interface InputUIComponentsInterface {
 
     DateRangeInputUI: Component;
 
+    VueDatePicker: Component;
+
 }
 
 export interface InputUIContentPayloadInterface {

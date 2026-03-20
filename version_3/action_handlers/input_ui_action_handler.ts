@@ -1,7 +1,6 @@
 
 import dayjs from "dayjs";
 
-import { Datepicker, DateRangePicker } from "flowbite-datepicker";
 
 import BaseController from "../base_classes/base_controller";
 
@@ -128,6 +127,7 @@ class InputUIActionHandler {
 
     // Method to handle on input chnage Action
     public handleOnInpuChange = async (event: Event) => {
+        console.log({ event })
 
         const input_value   = this.resolveInputValue(event);
         const props         = this.controller?.props;
@@ -398,117 +398,6 @@ class InputUIActionHandler {
         const { status, msg }   = await on_key_down(event, input_value, { props });
 
         this.setErrorMsg(status, msg);
-    }
-
-    // Method to set up date picker on date inpit
-    public setUpDatePickerOnDateInput = () => {
-        const { props, state_refs } = this.controller;
-
-        const input_type        = props.type;
-        const input_id          = props.id ?? "";
-        const input             = document.getElementById(input_id);
-        
-        if (input && input_type === "date" && input_id) {
-            const picker = new Datepicker(input, {
-                autohide: true,
-                format: "yyyy-mm-dd"
-            });
-
-            input?.addEventListener("changeDate", (e: any) => {
-                const formatted_value   = e.detail.date ? dayjs(e.detail.date).format("YYYY-MM-DD").toString() : "";
-                this.controller.state_refs.input_value.value = formatted_value;
-                props.action_props?.on_change?.(undefined, formatted_value, { props });
-            });
-
-            if(props.model_value) {
-                picker.setDate((props.model_value) as string)
-            }
-            
-        }
-    }
-
-    // Method to set up date range picker on date inpit
-    public setUpDateRangePickerOnDateInput = () => {
-        const { props, state_refs } = this.controller;
-
-        const input_type        = props.type;
-        const input_id          = props.id ?? "";
-        
-        if (input_id && input_type === "date_range") {
-            const picker_el_id  = `${input_id}_date_range_picker`;
-            const from_el_id    = `${input_id}_from_date_range`;
-            const to_el_id      = `${input_id}_from_date_range`;
-            const picker_el     = document.getElementById(picker_el_id);
-            const from_date_el  = document.getElementById(from_el_id);
-            const to_date_el    = document.getElementById(to_el_id);
-
-            if(!picker_el || !from_date_el || !to_date_el) { return }
-
-            const from_picker = new Datepicker(from_date_el, {
-                autohide: true,
-                format: "yyyy-mm-dd"
-            });
-
-            const to_picker = new Datepicker(to_date_el, {
-                autohide: true,
-                format: "yyyy-mm-dd"
-            });
-
-            new DateRangePicker(picker_el, {
-                format: "yyyy-mm-dd",
-                // buttons: true,
-                // inputs: [from_picker, to_picker]
-            });
-
-            from_date_el?.addEventListener("changeDate", (e: any) => {
-                const { state_refs, props } = this.controller;
-
-                const end_date          = state_refs.end_date.value;
-                const formatted_value   = e.detail.date ? dayjs(e.detail.date).format("YYYY-MM-DD").toString() : "";
-                
-                if(!formatted_value) { return }
-
-                const input_value       = ({ start_date: formatted_value, end_date }) as InputValue;
-
-                 console.log({ input_value, from: "from" })
-                
-                this.controller.state_refs.start_date.value = formatted_value;
-
-                from_picker.setDate(e.detail.date);
-                props.action_props?.on_change?.(undefined, input_value, { props });
-            });
-
-            to_date_el?.addEventListener("changeDate", (e: any) => {
-                const { state_refs, props } = this.controller;
-
-                const start_date        = state_refs.start_date.value;
-                const formatted_value   = e.detail.date ? dayjs(e.detail.date).format("YYYY-MM-DD").toString() : "";
-                
-                if(!formatted_value) { return }
-
-                const input_value       = ({ end_date: formatted_value, start_date }) as InputValue;
-
-                console.log({ input_value, to: "to" })
-                
-                this.controller.state_refs.end_date.value = formatted_value;
-                to_picker.setDate(e.detail.date);
-                props.action_props?.on_change?.(undefined, input_value, { props });
-            });
-
-            if(props.model_value) {
-                const model_value       = (props.model_value) as InputDateRangeValueType;
-                const start_date_value  = model_value?.start_date ?? "";
-                const end_date_value    = model_value?.end_date ?? ""
-
-                from_picker.setDate(start_date_value);
-                to_picker.setDate(end_date_value);
-
-                this.controller.state_refs.start_date.value = start_date_value;
-                this.controller.state_refs.end_date.value = end_date_value;
-            }
-
-            
-        }
     }
 }
 

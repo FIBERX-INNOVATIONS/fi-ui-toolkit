@@ -21,44 +21,49 @@
 
                         <slot name="header">
 
-                        <div :class="class_styles.header_title_wrapper_class_style">
+                            <div :class="class_styles.header_title_wrapper_class_style">
 
-                        <img
-                            v-if="title_img"
-                            :src="title_img"
-                        />
+                            <img
+                                v-if="title_img"
+                                :src="title_img"
+                            />
 
-                        <span
-                            v-else-if="title_icon"
-                            v-html="getSVGIconValue(title_icon)"
-                        ></span>
+                            <span
+                                v-else-if="title_icon"
+                                v-html="getSVGIconValue(title_icon)"
+                            ></span>
 
-                        <h3
-                            :class="class_styles.header_title_class_style"
-                            v-html="title_text"
-                        />
+                            <h3
+                                :class="class_styles.header_title_class_style"
+                                v-html="title_text"
+                            ></h3>
 
-                        </div>
+                            </div>
 
-                        <div :class="class_styles.header_close_btn_wrapper_class_style">
+                            <div :class="class_styles.header_close_btn_wrapper_class_style">
 
-                        <button
-                            type="button"
-                            :class="class_styles.close_btn_class_style"
-                            @click="action_handler?.handleClose?.($event)"
-                        >
-                        ✕
-                        </button>
+                                <button
+                                    type="button"
+                                    :class="class_styles.close_btn_class_style"
+                                    @click="action_handler?.handleClose?.($event)"
+                                    v-html="content_props?.close_btn_content ?? getSVGIconValue(content_props?.close_btn_icon_key)"
+                                >
+                                </button>
 
-                    </div>
+                            </div>
 
-                    </slot>
+                        </slot>
 
                     </div>
 
 
                     <!-- Body -->
                     <div :class="class_styles.body_class_style">
+                        <!-- <component 
+                            v-if="body_component && body_props && Object.keys(body_props).length"  
+                            :is="body_component" 
+                            v-bind="body_props" 
+                        /> -->
                         <slot name="body" />
                     </div>
 
@@ -93,7 +98,9 @@ const {
     title_text,
     title_icon,
     title_img,
-    class_styles
+    class_styles,
+    content_props,
+    get_component_props
 } = props;
 
 const {
@@ -107,5 +114,6 @@ const {
     LayoutSectionsUI,
     OverlayUI
 } = components
+
 
 </script>
