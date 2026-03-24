@@ -15,7 +15,7 @@
             <!-- modal content -->
             <div :class="class_styles.content_wrapper_class_style">
 
-            <slot />
+                <slot />
 
             </div>
 

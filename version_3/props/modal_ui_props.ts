@@ -8,23 +8,17 @@ import {
     ModalUIActionPropsInterface,
     ModalUIPropsInterface,
     ModalUIContentPropsInterface,
-    ModalUIComponentsPropsInterface,
-    ModalUIGetComponentsPropsInterface
 } from "../ui_types/modal_ui_type";
 
 import { SVGIconKey } from "../resources/svg_icon_resource";
+import { OverlayUIPropsInterface } from "@ui_v3/ui_types/overlay_ui_type";
 
 
 const ModalUIProps = {
 
-    id: {
-        type: String,
-        required: true
-    },
-
-    overlay_id: {
-        type: String,
-        required: true
+    overlay_props: {
+        type: Object as PropType<OverlayUIPropsInterface>,
+        default: () => ({})
     },
 
     title_text: {
@@ -65,17 +59,7 @@ const ModalUIProps = {
     class_styles: {
         type: Object as PropType<ModalUIClassStylesInterface>,
         default: () => ModalUIClassStyles
-    },
-
-    components: {
-        type: Object as PropType<ModalUIComponentsPropsInterface>,
-        default: () => ({})
-    },
-
-    get_component_props: {
-        type: Object as PropType<ModalUIGetComponentsPropsInterface>,
-        default: () => ({})
-    },
+    }
 
 } satisfies Record<keyof ModalUIPropsInterface, any>;
 

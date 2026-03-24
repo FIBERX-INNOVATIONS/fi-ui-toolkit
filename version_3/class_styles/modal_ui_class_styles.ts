@@ -17,6 +17,8 @@ const ModalUIClassStyles: ModalUIClassStylesInterface = {
     header_title_class_style:
         "text-lg font-semibold",
 
+    header_title_img_icon_class_style: "w-[16px] h-[16px] flex items-center justify-center",
+
     header_close_btn_wrapper_class_style: "",
 
     close_btn_class_style:

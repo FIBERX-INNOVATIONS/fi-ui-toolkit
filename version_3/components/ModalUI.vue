@@ -1,5 +1,5 @@
 <template>
-    <OverlayUI :id="overlay_id">
+    <OverlayUI v-bind="overlay_props">
 
         <div
             :class="class_styles.wrapper_class_style"
@@ -23,15 +23,17 @@
 
                             <div :class="class_styles.header_title_wrapper_class_style">
 
-                            <img
-                                v-if="title_img"
-                                :src="title_img"
-                            />
+                                <img
+                                    v-if="title_img"
+                                    :src="title_img"
+                                    :class="class_styles.header_title_img_icon_class_style"
+                                />
 
-                            <span
-                                v-else-if="title_icon"
-                                v-html="getSVGIconValue(title_icon)"
-                            ></span>
+                                <span
+                                    v-else-if="title_icon"
+                                    v-html="getSVGIconValue(title_icon)"
+                                    :class="class_styles.header_title_img_icon_class_style"
+                                ></span>
 
                             <h3
                                 :class="class_styles.header_title_class_style"
@@ -59,11 +61,6 @@
 
                     <!-- Body -->
                     <div :class="class_styles.body_class_style">
-                        <!-- <component 
-                            v-if="body_component && body_props && Object.keys(body_props).length"  
-                            :is="body_component" 
-                            v-bind="body_props" 
-                        /> -->
                         <slot name="body" />
                     </div>
 
@@ -94,13 +91,11 @@ const props = defineProps(ModalUIProps);
 const controller = new ModalUIController(props);
 
 const {
-    overlay_id,
+    overlay_props,
     title_text,
     title_icon,
     title_img,
     class_styles,
-    content_props,
-    get_component_props
 } = props;
 
 const {

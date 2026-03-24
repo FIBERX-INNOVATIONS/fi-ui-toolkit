@@ -1,6 +1,6 @@
 import BaseController  from "../base_classes/base_controller";
 
-import ModalUIActionHandler from "@ui_v3/action_handlers/modal_ui_action_handler";
+import ModalUIActionHandler from "../action_handlers/modal_ui_action_handler";
 
 import { ComputedDefinitionType } from "../types/base_type";
 
@@ -11,8 +11,8 @@ import {
     ModalUIComponentsInterface,
 } from "../ui_types/modal_ui_type";
 
-import OverlayUI from "@ui_v3/components/OverlayUI.vue";
-import LayoutSectionsUI from "@ui_v3/components/LayoutSectionsUI.vue";
+import OverlayUI from "../components/OverlayUI.vue";
+import LayoutSectionsUI from "../components/LayoutSectionsUI.vue";
 
 
 class ModalUIController extends BaseController<

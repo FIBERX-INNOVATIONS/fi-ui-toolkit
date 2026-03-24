@@ -127,8 +127,6 @@ class InputUIActionHandler {
 
     // Method to handle on input chnage Action
     public handleOnInpuChange = async (event: Event) => {
-        console.log({ event })
-
         const input_value   = this.resolveInputValue(event);
         const props         = this.controller?.props;
         const { on_change } = props?.action_props || {};

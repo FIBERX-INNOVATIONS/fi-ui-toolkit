@@ -1,5 +1,6 @@
 import { Component } from "vue";
 import { SVGIconKey } from "../resources/svg_icon_resource";
+import { OverlayUIPropsInterface } from "./overlay_ui_type";
 
 /* ---------------------------------- */
 /* Modal Animation                    */
@@ -29,6 +30,8 @@ export interface ModalUIClassStylesInterface {
     header_title_wrapper_class_style: string;
 
     header_title_class_style: string;
+
+    header_title_img_icon_class_style: string;
 
     header_close_btn_wrapper_class_style: string;
 
@@ -75,25 +78,10 @@ export interface ModalUIActionPropsInterface {
     on_close?: (
         event?: MouseEvent,
         config?: { props: ModalUIPropsInterface }
-    ) => Promise<ModalUIActionReturnInterface>;
+    ) => Promise<ModalUIActionReturnInterface | void>;
 
 }
 
-/* ---------------------------------- */
-/* Footer Props                       */
-/* ---------------------------------- */
-
-export interface ModalUIComponentsPropsInterface {
-    body_component?: Component;
-
-    footer_component?: Component;
-}
-
-export interface ModalUIGetComponentsPropsInterface {
-    get_body_props?: <T extends Record<string, any>>() => Promise<T>;
-
-    get_footer_props?: <T extends Record<string, any>>() => Promise<T>
-}
 
 
 /* ---------------------------------- */
@@ -102,9 +90,7 @@ export interface ModalUIGetComponentsPropsInterface {
 
 export interface ModalUIPropsInterface {
 
-    id?: string;
-
-    overlay_id?: string;
+    overlay_props?: OverlayUIPropsInterface;
 
     title_text?: string;
 
@@ -121,10 +107,6 @@ export interface ModalUIPropsInterface {
     action_props?: ModalUIActionPropsInterface;
 
     class_styles?: ModalUIClassStylesInterface;
-
-    components?: ModalUIComponentsPropsInterface;
-
-    get_component_props?: ModalUIGetComponentsPropsInterface;
 
 }
 
@@ -163,4 +145,35 @@ export interface ModalUIComponentsInterface {
 
     OverlayUI: Component;
 
+}
+
+export interface ModalUIPropsExtendedInterface<
+    BodyProps extends Record<string, any> = Record<string, any>,
+    FooterProps extends Record<string, any> = Record<string, any>
+> extends ModalUIPropsInterface {
+    body_component?: Component;
+
+    footer_component?: Component;
+
+    body_props?: BodyProps;
+
+    footer_props?: FooterProps;
+}
+
+export interface ConfigureDefaultModalPropsBuilderInterface {
+    class_styles?: ModalUIClassStylesInterface;
+
+    default_overlay_props?: OverlayUIPropsInterface;
+
+    default_action_props?: ModalUIActionPropsInterface;
+
+    default_animation_type?: ModalAnimationType;
+
+    default_content_props?: ModalUIContentPropsInterface;
+}
+
+export interface ModalUIContentPayloadInterface {
+    title_text: string;
+    title_icon: SVGIconKey;
+    title_img: string;
 }
