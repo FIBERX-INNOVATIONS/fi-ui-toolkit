@@ -21,8 +21,10 @@
         <div
             v-if="content"
             :class="class_styles.content_wrapper_class_style"
-            v-html="content"
-        ></div>
+        >
+            <div :class="class_styles?.content_class_style" v-html="content"></div>
+            <slot></slot>
+        </div>
 
     </div>
 </template>

@@ -1,6 +1,7 @@
 
 
-import { SVGIconKey } from "@ui_v3/resources/svg_icon_resource";
+import { SVGIconKey } from "../resources/svg_icon_resource";
+
 import { Component, Ref } from "vue";
 
 export interface InputUIContentOptionsInterface {
@@ -159,35 +160,35 @@ export interface InputUIClassStylesInterface {
 
     wrapper_class_style: string;
 
-    otp_wrapper_class_style: string;
+    otp_wrapper_class_style?: string;
 
-    loader_class_style: string;
+    loader_class_style?: string;
 
-    switch_btn_class_style: string;
+    switch_btn_class_style?: string;
 
-    knob_class_style: string;
+    knob_class_style?: string;
 
-    label_text_class_style: string;
+    label_text_class_style?: string;
 
-    active_class_style: string;
+    active_class_style?: string;
 
-    inactive_class_style: string;
+    inactive_class_style?: string;
 
-    caret_icon_class: string;
+    caret_icon_class?: string;
 
-    dropdown_wrapper_class_style: string;
+    dropdown_wrapper_class_style?: string;
 
-    options_wrapper_class_style: string;
+    options_wrapper_class_style?: string;
 
-    option_class_style: string;
+    option_class_style?: string;
 
-    option_content_class_style: string;
+    option_content_class_style?: string;
 
-    input_readonly_class_style: string;
+    input_readonly_class_style?: string;
 
-    helper_text_class_style: string;
+    helper_text_class_style?: string;
 
-    error_text_class_style: string;
+    error_text_class_style?: string;
 
     search_wrapper_class_style?: string;
 

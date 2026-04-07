@@ -314,6 +314,56 @@ class InputTransformerUtil {
             .add(minutes, "minute")
             .toDate();
     }
+
+    // Method to format date value Thu, Aug 14 2025
+    public static formatReadableDate (date_value: string): string {
+        if (!date_value) { return ""; }
+
+        return dayjs(date_value).format("ddd, MMM DD YYYY");
+    };
+
+     // Method to format date time value Thu, Aug 14 2025, 10:45 AM
+    public static formatReadableDateTime (date_value: string): string {
+        if (!date_value) { return ""; }
+        
+        return dayjs(date_value).format("ddd, MMM DD YYYY, hh:mm A");
+    };
+
+    public static resolveTypedValue(raw: any): any {
+        // Already a non-string value – return as is
+        if (typeof raw !== "string") { return raw; }
+
+        const value = raw.trim();
+
+        // 1. --- Handle boolean ---
+        if (value === "true") { return true; }
+
+        if (value === "false") { return false; }
+
+        // 2. --- Handle null / undefined ---
+        if (value === "null") { return null; }
+
+        if (value === "undefined") { return undefined; }
+
+        // 3. --- Handle numbers (int or float) ---
+        // Only convert if the entire string matches a number
+        if (/^-?\d+(\.\d+)?$/.test(value)) { return Number(value); }
+
+        // 4. --- Handle array strings like "[1,2,3]" or "['a','b']" ---
+        if (
+            (value.startsWith("[") && value.endsWith("]")) ||
+            (value.startsWith("{") && value.endsWith("}"))
+        ) {
+            try {
+                return JSON.parse(value.replace(/'/g, '"'));
+            } catch {
+                return value; // fallback
+            }
+        }
+
+        // 5. --- Return as string if no rule matched ---
+        return value;
+    }
     
 }
 

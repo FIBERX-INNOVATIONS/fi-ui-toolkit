@@ -22,7 +22,7 @@ class BaseAPIService {
             const { status, msg, data } = response.data as any;
 
             return {
-                status,
+                status: status_code === 401 ? "logout" : status,
                 msg,
                 data,
                 full_response: response

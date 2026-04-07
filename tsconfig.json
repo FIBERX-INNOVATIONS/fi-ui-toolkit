@@ -2,10 +2,8 @@
     "compilerOptions": {
         "target": "ES2022",
         "module": "ESNext",
-        "moduleResolution": "Node",
         "outDir": "./dist",
         "rootDir": "./",
-        "baseUrl": ".",
         "strict": true,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
@@ -17,7 +15,6 @@
         "lib": ["ES6", "DOM"],
         "typeRoots": ["./node_modules/@types", "./version_3/types"],
         "paths": {
-            "@ui_v3/*": ["version_3/*"],
         },
         "experimentalDecorators": true
     },

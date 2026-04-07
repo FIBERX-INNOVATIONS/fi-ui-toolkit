@@ -1,4 +1,5 @@
 import { Component } from "vue";
+import { st } from "vue-router/dist/router-CWoNjPRp.mjs";
 
 /* ---------------------------------- */
 /* Action Return                      */
@@ -47,6 +48,8 @@ export interface ImageRenderUIClassStylesInterface {
     image_class_style: string;
 
     content_wrapper_class_style: string;
+
+    content_class_style?: string;
 
     loading_class_style: string;
 

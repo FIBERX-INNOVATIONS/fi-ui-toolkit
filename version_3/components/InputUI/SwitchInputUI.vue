@@ -11,7 +11,7 @@
             :id="switch_btn_id"
             role="switch"
             type="button"
-            :class="[class_styles.switch_btn_class_style, (!!input_value) ? class_styles.active_class_style : class_styles.inactive_class_style]"
+            :class="[class_styles.switch_btn_class_style, (InputTransformerUtil.resolveTypedValue(input_value)) ? class_styles.active_class_style : class_styles.inactive_class_style]"
             @click="action_handler?.handleOnSwitchToggle?.($event)"
         >
             <input
@@ -24,7 +24,7 @@
                 :disabled="boolean_props.disabled"
                 @change="action_handler?.handleOnInpuChange?.($event)"
             />
-            <span :class="[class_styles.knob_class_style, input_value ? 'translate-x-6' : 'translate-x-1']"></span>
+            <span :class="[class_styles.knob_class_style, InputTransformerUtil.resolveTypedValue(input_value) ? 'translate-x-6' : 'translate-x-1']"></span>
             <span v-if="helper_text" :class="class_styles.helper_text_class_style" v-html="class_styles.helper_text_class_style"></span>
         </button>
 
@@ -40,6 +40,7 @@
 <script setup lang="ts">
 import InputUIProps      from "../../props/input_ui_props";
 import InputUIController from "../../controllers/input_ui_controller";
+import InputTransformerUtil from "../../utils/input_transformer_util";
 
 const props         = defineProps(InputUIProps);
 const controller    = new InputUIController(props);

@@ -1,7 +1,4 @@
 
-import dayjs from "dayjs";
-
-
 import BaseController from "../base_classes/base_controller";
 
 import {
@@ -13,6 +10,8 @@ import {
     InputValue,
     InputDateRangeValueType
 } from "../ui_types/input_ui_type";
+
+import InputTransformerUtil from "../utils/input_transformer_util";
 
 
 class InputUIActionHandler {
@@ -192,19 +191,24 @@ class InputUIActionHandler {
             const props         = this.controller?.props;
             const state_refs    = this.controller?.state_refs;
             const { on_click }  = props?.action_props || {};
-            const new_value     = !state_refs.input_value.value;
+            const new_value     = !InputTransformerUtil.resolveTypedValue(state_refs.input_value.value);
 
-            this.controller.state_refs.is_loading.value      = true;
-            this.controller.state_refs.input_value.value     = new_value;
-
-            if(!on_click) { return }
+            if(!on_click) { 
+                this.controller.state_refs.is_loading.value      = true;
+                this.controller.state_refs.input_value.value     = new_value;
+                return;
+            }
 
             const { status, msg } = await on_click(event, new_value, { props });
 
-            this.setErrorMsg(status, msg);
+
+            if(!status && msg) {
+                this.setErrorMsg(status, msg);
+                return;
+            }
 
             this.controller.state_refs.is_loading.value      = false;
-            this.controller.state_refs.input_value.value     = !new_value;
+            this.controller.state_refs.input_value.value     = new_value;
         }
         catch (error) {
             console.error(`[${this.controller.name}] handleOnClick error:`, error);
