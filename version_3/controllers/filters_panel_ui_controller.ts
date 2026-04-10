@@ -12,7 +12,7 @@ import {
 
 import InputGroupUI from "../components/InputGroupUI.vue";
 import ButtonUI from "../components/ButtonUI.vue";
-import { ComputedDefinitionType, WatchersType } from "@ui_v3/types/base_type";
+import { ComputedDefinitionType, WatchersType } from "../types/base_type";
 
 
 class FiltersPanelUIController extends BaseController<

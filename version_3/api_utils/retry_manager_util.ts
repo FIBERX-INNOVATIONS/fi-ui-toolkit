@@ -2,7 +2,7 @@
 import { 
     RefreshTokenHandlerType,
     RefreshCSRFHandlerType
-} from "@ui_v3/types/api_util_type";
+} from "../types/api_util_type";
 
 class RetryManagerUtil {
 

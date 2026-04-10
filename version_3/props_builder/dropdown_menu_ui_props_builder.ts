@@ -11,11 +11,11 @@ import {
 import { 
     NavLinkUIClassStylesInterface, 
     NavLinkUIPropsInterface 
-} from "@ui_v3/ui_types/nav_link_ui_type";
+} from "../ui_types/nav_link_ui_type";
 
 import ContentManagerUtil from "../utils/content_manager_util";
 import NavLinkUIPropsBuilder from "./nav_link_ui_props_builder";
-import { SVGIconKey } from "@ui_v3/resources/svg_icon_resource";
+import { SVGIconKey } from "../resources/svg_icon_resource";
 
 
 class DropdownMenuUIPropsBuilder {
@@ -125,7 +125,8 @@ class DropdownMenuUIPropsBuilder {
     public static toggleDropdownMenu(
         trigger_id: string,
         menu_id: string,
-        close_on_outside_click: boolean = true
+        close_on_outside_click: boolean = true,
+        close_on_scroll: boolean = true
     ): void {
 
         const trigger = document.getElementById(trigger_id);
@@ -162,25 +163,40 @@ class DropdownMenuUIPropsBuilder {
         menu.style.top = `${top}px`;
         menu.style.left = `${left}px`;
 
-        if (!close_on_outside_click) return;
 
-        const handleOutsideClick = (event: MouseEvent) => {
-            const target = event.target as Node;
+        if (close_on_outside_click) {
 
-            if (
-                !menu.contains(target) &&
-                !trigger.contains(target)
-            ) {
+            const handleOutsideClick = (event: MouseEvent) => {
+                const target = event.target as Node;
+
+                if (
+                    !menu.contains(target) &&
+                    !trigger.contains(target)
+                ) {
+                    menu.style.display = "none";
+                    menu.style.visibility = "hidden";
+
+                    document.removeEventListener("click", handleOutsideClick);
+                }
+            };
+
+            setTimeout(() => {
+                document.addEventListener("click", handleOutsideClick);
+            }, 10);
+        }
+
+        if (close_on_scroll) {
+            const handleCloseOnScroll = (event: Event) => {
                 menu.style.display = "none";
                 menu.style.visibility = "hidden";
 
-                document.removeEventListener("click", handleOutsideClick);
+                document.removeEventListener("scroll", handleCloseOnScroll);
             }
-        };
 
-        setTimeout(() => {
-            document.addEventListener("click", handleOutsideClick);
-        }, 10);
+            setTimeout(() => {
+                document.addEventListener("scroll", handleCloseOnScroll, true); // 👈 important: true
+            }, 10);
+        }
     }
 
 }

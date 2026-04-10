@@ -11,7 +11,7 @@ import {
 } from "../ui_types/modal_ui_type";
 
 import { SVGIconKey } from "../resources/svg_icon_resource";
-import { OverlayUIPropsInterface } from "@ui_v3/ui_types/overlay_ui_type";
+import { OverlayUIPropsInterface } from "../ui_types/overlay_ui_type";
 
 
 const ModalUIProps = {

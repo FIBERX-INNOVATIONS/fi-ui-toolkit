@@ -1,6 +1,6 @@
 import { Component } from "vue";
 import { NavLinkUIPropsInterface } from "./nav_link_ui_type";
-import { SVGIconKey } from "@ui_v3/resources/svg_icon_resource";
+import { SVGIconKey } from "../resources/svg_icon_resource";
 
 /* ---------------------------------- */
 /* Position Types                     */

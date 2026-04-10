@@ -9,7 +9,7 @@ import {
     watchEffect,
 } from "vue";
 
-import { EventBusType } from "@ui_v3/utils/event_bus_util";
+import { EventBusType } from "../utils/event_bus_util";
 
 import { Router, useRoute, useRouter } from "vue-router";
 

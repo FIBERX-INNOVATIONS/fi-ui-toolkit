@@ -9,7 +9,7 @@ import axios, {
 import { 
     APIRequestConfig,
     APIClientConfigInterface
-} from "@ui_v3/types/api_util_type";
+} from "../types/api_util_type";
 
 import LoggerUtil from "../utils/logger_util";
 

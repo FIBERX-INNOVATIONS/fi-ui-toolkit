@@ -1,5 +1,6 @@
 <template>
     <component
+        :id="props.id"
         :is="computed_refs.component_type.value"
         :to="computed_refs.route_link.value"
         :href="computed_refs.anchor_link.value"

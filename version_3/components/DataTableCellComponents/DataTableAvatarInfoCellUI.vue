@@ -1,7 +1,7 @@
 <template>
     <div :class="class_styles?.wrapper_class_style">
         <ImageRenderUI
-            :id="record_index?.toString()"
+            :id="`AvatarInfo${record_index?.toString()}`"
             :class_styles="class_styles?.img_render_ui_class_style"
             :src="computed_refs?.img_src?.value"
             :alt_text="computed_refs?.img_alt_text?.value"

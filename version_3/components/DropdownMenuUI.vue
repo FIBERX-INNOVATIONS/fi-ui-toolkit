@@ -8,7 +8,7 @@
         <div :class="class_styles.menu_class_style">
 
             <div
-                v-for="item in menu_items"
+                v-for="item in props.menu_items"
                 :key="item.id"
                 :class="class_styles.menu_item_wrapper_class_style"
             >
@@ -33,7 +33,6 @@ const controller = new DropdownMenuUIController(props);
 
 const {
     id,
-    menu_items,
     class_styles
 } = props;
 

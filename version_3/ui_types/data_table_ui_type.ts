@@ -14,6 +14,12 @@ import {
     HeaderTagType,
 } from "./header_text_ui_type";
 
+import { 
+    ButtonUIActionPropsInterface, 
+    ButtonUIBooleanPropsInterface, 
+    ButtonUIContentOptionsInterface 
+} from "./button_ui_type";
+
 export interface DataTableUIActionPropsInterface<T = any> {
     on_sort?: (
         key: keyof T,
@@ -93,27 +99,33 @@ export interface DataTableColumnRenderType<T = any> {
 
         header_tag?: HeaderTagType;
 
-        input_model_value?: (record: T) => InputValue;
+        input_model_value?: (record: T, record_index?: number) => InputValue;
 
-        input_content_props?: (record: T) => InputUIContentOptionsInterface;
+        input_content_props?: (record: T, record_index?: number) => InputUIContentOptionsInterface;
 
-        input_ui_boolean_props?: (record: T) => InputUIBooleanPropsInterface;
+        input_ui_boolean_props?: (record: T, record_index?: number) => InputUIBooleanPropsInterface;
 
-        input_action_props?: (record: T) => InputUIActionPropsInterface;
+        input_action_props?: (record: T, record_index?: number) => InputUIActionPropsInterface;
 
-        getLinkURL?: (record: T) => string;
+        button_content_props?: (record: T, record_index?: number) => ButtonUIContentOptionsInterface;
 
-        getLinkText?: (record: T) => string;
+        button_ui_boolean_props?: (record: T, record_index?: number) => ButtonUIBooleanPropsInterface;
 
-        getImgSrc?: (record: T) => string;
+        button_action_props?: (record: T, record_index?: number) => ButtonUIActionPropsInterface;
 
-        getImgAltText?: (record: T) => string;
+        getLinkURL?: (record: T, record_index?: number) => string;
 
-        getImgContent?: (record: T) => string;
+        getLinkText?: (record: T, record_index?: number) => string;
 
-        getImgSubText?: (record: T) => string;
+        getImgSrc?: (record: T, record_index?: number) => string;
 
-        getDateTextContent?: (record: T) => string; 
+        getImgAltText?: (record: T, record_index?: number) => string;
+
+        getImgContent?: (record: T, record_index?: number) => string;
+
+        getImgSubText?: (record: T, record_index?: number) => string;
+
+        getDateTextContent?: (record: T, record_index?: number) => string; 
 
         [key: string]: any;
     };

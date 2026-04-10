@@ -16,6 +16,7 @@ import {
 import ImageRenderUI from "../components/ImageRenderUI.vue";
 import SwitchInputUI from "../components/InputUI/SwitchInputUI.vue";
 import HeaderTextUI from "../components/HeaderTextUI.vue";
+import ButtonUI from "../components/ButtonUI.vue";
 
 
 class DataTableCellComponentUIController<T = any> extends BaseController<
@@ -38,6 +39,8 @@ class DataTableCellComponentUIController<T = any> extends BaseController<
             SwitchInputUI,
 
             HeaderTextUI,
+
+            ButtonUI
         };
     }
 

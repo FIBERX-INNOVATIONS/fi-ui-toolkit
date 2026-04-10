@@ -11,10 +11,12 @@
         >
 
             <span v-if="is_loading"
+                :class="class_styles.loading_class_style"
                 v-html="content_props.loading_html_content">
             </span>
 
             <span v-else
+                :class="class_styles.content_class_style"
                 v-html="content_props.button_html_content">
             </span>
 

@@ -2,9 +2,9 @@ import InputUIPropsBuilder from "../props_builder/input_ui_props_builder";
 import InputGroupUIPropsBuilder from "../props_builder/input_group_ui_props_builder";
 
 import { ListFilterConfig } from "../types/filter_config_type";
-import { FilterFieldConfigInterface } from "@ui_v3/ui_types/filters_panel_ui_type";
-import { InputGroupUIClassStylesInterface } from "@ui_v3/ui_types/input_group_ui_type";
-import { InputType, InputUIClassStylesInterface, InputUIPropsInterface, SelectOptionInterface } from "@ui_v3/ui_types/input_ui_type";
+import { FilterFieldConfigInterface } from "../ui_types/filters_panel_ui_type";
+import { InputGroupUIClassStylesInterface } from "../ui_types/input_group_ui_type";
+import { InputType, InputUIClassStylesInterface, InputUIPropsInterface, SelectOptionInterface } from "../ui_types/input_ui_type";
 import ContentManagerUtil from "./content_manager_util";
 
 class FilterConfigBuilderUtil {

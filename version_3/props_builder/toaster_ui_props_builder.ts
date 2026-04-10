@@ -9,7 +9,7 @@ import {
 } from "../ui_types/toaster_ui_type";
 
 import ToasterUIClassStyles from "../class_styles/toaster_ui_class_styles";
-import { SVGIconKey } from "@ui_v3/resources/svg_icon_resource";
+import { SVGIconKey } from "../resources/svg_icon_resource";
 
 
 class ToasterUIPropsBuilder {

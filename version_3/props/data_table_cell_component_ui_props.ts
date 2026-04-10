@@ -6,7 +6,7 @@ import {
 
 import { 
     DataTableColumnRenderType,
-} from "@ui_v3/ui_types/data_table_ui_type";
+} from "../ui_types/data_table_ui_type";
 
 const DataTableCellComponentUIProps = {
 

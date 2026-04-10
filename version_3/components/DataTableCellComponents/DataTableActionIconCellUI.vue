@@ -1,13 +1,12 @@
 <template>
     <div :class="class_styles?.wrapper_class_style">
-        <SwitchInputUI
-            :id="`SwitchInput${record_index?.toString()}`"
-            :switch_btn_id="`${record_index?.toString()}_swicth_id`"
-            :class_styles="class_styles?.input_ui_class_style"
-            :model_value="computed_refs?.raw_record_value?.value"
-            :content_props="column?.props?.input_content_props?.(record, record_index)"
-            :boolean_props="column?.props?.input_ui_boolean_props?.(record, record_index)"
-            :action_props="column?.props?.input_action_props?.(record, record_index)"
+        <ButtonUI
+            :id="`ActionBtn${record_index?.toString()}`"
+            type="button"
+            :class_styles="class_styles?.button_ui_class_style"
+            :content_props="column?.props?.button_content_props?.(record, record_index)"
+            :boolean_props="column?.props?.button_ui_boolean_props?.(record, record_index)"
+            :action_props="column?.props?.button_action_props?.(record, record_index)"
         />
     </div>
 </template>
@@ -31,8 +30,7 @@ const {
 } = controller;
 
 const {
-    SwitchInputUI
-
+    ButtonUI
 } = components
 
 

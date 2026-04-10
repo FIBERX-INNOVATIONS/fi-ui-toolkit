@@ -8,6 +8,7 @@ import { ImageRenderUIClassStylesInterface } from "./image_render_ui_type";
 import { SVGIconValue } from "../resources/svg_icon_resource";
 import { InputUIClassStylesInterface } from "./input_ui_type";
 import { HeaderTextUIClassStylesInterface } from "./header_text_ui_type";
+import { ButtonUIClassStylesInterface } from "./button_ui_type";
 
 export interface DataTableCellComponentUIClassStylesInterface {
     wrapper_class_style: string;
@@ -29,6 +30,8 @@ export interface DataTableCellComponentUIClassStylesInterface {
     input_ui_class_style?: InputUIClassStylesInterface;
 
     text_content_class_style?: HeaderTextUIClassStylesInterface;
+
+    button_ui_class_style?: ButtonUIClassStylesInterface;
 }
 
 /* ---------------------------------- */
@@ -85,6 +88,8 @@ export interface DataTableCellComponentUIComponentsInterface {
 
     SwitchInputUI: Component;
 
-    HeaderTextUI: Component
+    HeaderTextUI: Component;
+
+    ButtonUI: Component;
 
 }

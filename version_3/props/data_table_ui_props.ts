@@ -8,7 +8,7 @@ import {
     DataTableUIActionPropsInterface,
     DataTableUIClassStylesInterface,
     DataTableUIContentPropsInterface
-} from "@ui_v3/ui_types/data_table_ui_type";
+} from "../ui_types/data_table_ui_type";
 
 export const DataTableUIProps = {
     section_id: {

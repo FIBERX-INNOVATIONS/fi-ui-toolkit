@@ -8,7 +8,7 @@ import {
 } from "../ui_types/toaster_ui_type";
 
 import ToasterUIActionHandler from "../action_handlers/toaster_ui_action_handler";
-import { WatchersType } from "@ui_v3/types/base_type";
+import { WatchersType } from "../types/base_type";
 
 class ToasterUIController extends BaseController<
     ToasterUIPropsInterface,

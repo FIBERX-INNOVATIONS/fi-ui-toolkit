@@ -1,4 +1,4 @@
-import { SVGIconKey } from "@ui_v3/resources/svg_icon_resource";
+import { SVGIconKey } from "../resources/svg_icon_resource";
 import { ActionMethodRetrunInterface } from "./input_ui_type";
 
 export type ToastStatusType = "success" | "error" | "warning" | "info";

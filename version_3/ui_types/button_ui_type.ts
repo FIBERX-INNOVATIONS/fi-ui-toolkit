@@ -78,6 +78,8 @@ export interface ButtonUIClassStylesInterface {
 
     text_class_style: string;
 
+    content_class_style: string
+
 }
 
 

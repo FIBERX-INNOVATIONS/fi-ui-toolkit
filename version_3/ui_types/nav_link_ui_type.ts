@@ -77,6 +77,8 @@ export interface NavLinkUIPropsInterface {
 
     class_styles?: NavLinkUIClassStylesInterface;
 
+    has_permission?: boolean;
+
 }
 
 
@@ -118,4 +120,10 @@ export interface NavLinkUIComputedDataInterface {
 
 export interface NavLinkUIComponentsInterface {
     RouterLink: Component;
+}
+
+export interface NavLinkContentPayloadResultInterface {
+    menu_text?: string,
+    menu_icon?: SVGIconKey,
+    menu_link?: string
 }

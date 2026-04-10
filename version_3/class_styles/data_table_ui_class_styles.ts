@@ -1,4 +1,4 @@
-import { DataTableUIClassStylesInterface } from "@ui_v3/ui_types/data_table_ui_type";
+import { DataTableUIClassStylesInterface } from "../ui_types/data_table_ui_type";
 
 const DataTableUIClassStyles: DataTableUIClassStylesInterface = {
     wrapper_class_style: "w-full",
