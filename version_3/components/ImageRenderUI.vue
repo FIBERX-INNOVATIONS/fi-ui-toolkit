@@ -19,10 +19,10 @@
         />
 
         <div
-            v-if="content"
+            v-if="content || $slots.default"
             :class="class_styles.content_wrapper_class_style"
         >
-            <div :class="class_styles?.content_class_style" v-html="content"></div>
+            <div  :class="class_styles?.content_class_style" v-html="content"></div>
             <slot></slot>
         </div>
 

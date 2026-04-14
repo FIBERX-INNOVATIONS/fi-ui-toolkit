@@ -31,7 +31,7 @@ export interface NavLinkUIActionPropsInterface {
     on_click?: (
         event?: MouseEvent,
         config?: { props: NavLinkUIPropsInterface }
-    ) => Promise<NavLinkActionReturnInterface>;
+    ) => Promise<NavLinkActionReturnInterface | void>;
 
 }
 
