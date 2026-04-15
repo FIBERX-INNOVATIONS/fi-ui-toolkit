@@ -14,7 +14,23 @@
                     >
                         <div :class="class_styles.th_cell_wrapper_class_style">
 
-                            <span v-html="action_handler.getHeaderContent(col)" />
+                            <template v-for="header_content in [action_handler.getHeaderContent(col)]" :key="col.key">
+
+                                <template v-if="typeof header_content === 'object'">
+
+                                    <component
+                                        v-if="header_content"
+                                        :is="header_content"
+                                        v-bind="{ column: col, record_index: -1 }"
+                                    />
+
+                                    <span v-else v-html="header_content" />
+
+                                </template>
+
+                                <span v-else v-html="header_content"></span>
+
+                            </template>
 
                             <div v-if="col.sortable" :class="class_styles.sortable_header_wrapper_class_style">
                             <span

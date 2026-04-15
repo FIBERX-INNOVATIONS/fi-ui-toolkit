@@ -99,6 +99,8 @@ export interface DataTableColumnRenderType<T = any> {
 
         header_tag?: HeaderTagType;
 
+        is_selected?: boolean;
+
         input_model_value?: (record: T, record_index?: number) => InputValue;
 
         input_content_props?: (record: T, record_index?: number) => InputUIContentOptionsInterface;

@@ -34,31 +34,47 @@ class InputUIActionHandler {
         this.controller = controller;
     }
 
-
     // Method to Safely resolve input value from event OR DOM fallback
-    private resolveInputValue = (event: Event): string => {
-        const props     = this.controller?.props;
-        const input_id  = props?.id;
-        let target      = event.target as HTMLElement | null;
+    private resolveInputValue = (event: Event): InputValue => {
+        const props = this.controller?.props;
+        const input_id = props?.id;
+        let target = event.target as HTMLElement | null;
 
         // Case 1: Direct input/select/textarea
         if (target && 'value' in target) {
-            return (target as HTMLInputElement).value;
+            const input = target as HTMLInputElement;
+
+            if (input.type === 'checkbox') {
+                return input.checked;
+            }
+
+            return input.value;
         }
 
-        // Case 3: Fallback using ID
+        // Case 2: Fallback using ID
         if (input_id) {
             const el = document.getElementById(input_id) as HTMLInputElement | null;
+
             if (el) {
+                if (el.type === 'checkbox') {
+                    return el.checked;
+                }
+
                 return el.value;
             }
         }
 
         // Case 3: Clicked on child (icon, span, button, etc.)
         if (target) {
-            const parent_input = target.closest('input, textarea, select') as HTMLInputElement;
+            const parent_input = target.closest(
+                'input, textarea, select'
+            ) as HTMLInputElement | null;
 
             if (parent_input) {
+                if (parent_input.type === 'checkbox') {
+                    return parent_input.checked;
+                }
+
                 return parent_input.value;
             }
         }
@@ -172,17 +188,40 @@ class InputUIActionHandler {
 
     // Method to handle on click action
     public handleOnClick = async (event: MouseEvent) => {
-        const props         = this.controller?.props;
-        const { on_click }  = props?.action_props || {};
-        const input_value   = this.resolveInputValue(event);
-       
-        this.controller.state_refs.input_value.value = input_value;
 
-        if(!on_click) { return }
+        try {
+            const props         = this.controller?.props;
+            const state_refs    = this.controller?.state_refs;
+            const { on_click }  = props?.action_props || {};
+            const new_value     = this.resolveInputValue(event);
+            const current_value = InputTransformerUtil.resolveTypedValue(state_refs.input_value.value);
 
-        const { status, msg } = await on_click(event, input_value, { props });
 
-        this.setErrorMsg(status, msg);
+            if(!on_click) { 
+                this.controller.state_refs.is_loading.value      = true;
+                this.controller.state_refs.input_value.value     = new_value;
+                return;
+            }
+
+            const { status, msg } = await on_click(event, new_value, { props });
+
+
+            if(!status && msg) {
+                this.controller.state_refs.input_value.value = current_value;
+                this.setErrorMsg(status, msg);
+                return;
+            }
+
+            this.controller.state_refs.is_loading.value      = false;
+            this.controller.state_refs.input_value.value     = new_value;
+        }
+        catch (error) {
+            console.error(`[${this.controller.name}] handleOnClick error:`, error);
+        } 
+        finally {
+            this.controller.state_refs.is_loading.value = false;
+        }
+        
     }
 
     // Method to handle on sitch btn toggle
@@ -254,7 +293,7 @@ class InputUIActionHandler {
 
         if(props.boolean_props?.read_only) { return }
 
-        const search_value      = this.resolveInputValue(event);
+        const search_value      = this.resolveInputValue(event) as string;
         const is_dropdown_open  = !!search_value?.length;
 
         this.controller.state_refs.search_value.value          = search_value;
@@ -336,13 +375,14 @@ class InputUIActionHandler {
 
     // Method to handle on otp input change
     public handleOnOTPInput = async (event: InputEvent, index: number) => {
-        const input_value       = this.resolveInputValue(event)?.slice(-1);
+        const raw_value         = this.resolveInputValue(event) as string[];
+        const input_value       = raw_value?.slice(-1);
         const props             = this.controller.props;
         const state_refs        = this.controller.state_refs;
         const next_input_id     = `${props.id}_${index + 1}`;
         const existing_value    = [...(state_refs.input_value.value as string[])];
         const { on_change }     = props?.action_props || {};
-        existing_value[index]   = input_value;
+        existing_value[index]   = input_value[0];
 
         this.controller.state_refs.input_value.value = existing_value;
 
@@ -387,8 +427,9 @@ class InputUIActionHandler {
 
         }
         else {
-            const input_value       = this.resolveInputValue(event)?.slice(-1);
-            existing_value[index]   =  input_value;
+            const raw_value         = this.resolveInputValue(event) as string[]
+            const input_value       = raw_value?.slice(-1);
+            existing_value[index]   =  input_value[0];
 
         }
 
@@ -396,7 +437,8 @@ class InputUIActionHandler {
 
         if(!on_key_down) { return }
 
-        const input_value       = this.resolveInputValue(event)?.slice(-1);
+        const raw_value         = this.resolveInputValue(event) as string[]
+        const input_value       = raw_value?.slice(-1);
         const { status, msg }   = await on_key_down(event, input_value, { props });
 
         this.setErrorMsg(status, msg);

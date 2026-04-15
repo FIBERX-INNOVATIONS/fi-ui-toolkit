@@ -6,9 +6,17 @@ import { Component } from "vue";
 import { DataTableColumnRenderType } from "./data_table_ui_type";
 import { ImageRenderUIClassStylesInterface } from "./image_render_ui_type";
 import { SVGIconValue } from "../resources/svg_icon_resource";
-import { InputUIClassStylesInterface } from "./input_ui_type";
+
 import { HeaderTextUIClassStylesInterface } from "./header_text_ui_type";
 import { ButtonUIClassStylesInterface } from "./button_ui_type";
+
+import { 
+    InputUIActionPropsInterface, 
+    InputUIBooleanPropsInterface, 
+    InputUIClassStylesInterface, 
+    InputUIContentOptionsInterface, 
+    InputValue 
+} from "./input_ui_type";
 
 export interface DataTableCellComponentUIClassStylesInterface {
     wrapper_class_style: string;
@@ -76,6 +84,14 @@ export interface DataTableCellComponentUIComputedDataInterface {
     link_icon?: SVGIconValue | string;
 
     text_content?: string;
+
+    input_model_value?: InputValue;
+
+    input_content_props?: InputUIContentOptionsInterface;
+
+    input_boolean_props?: InputUIBooleanPropsInterface;
+
+    input_action_props?: InputUIActionPropsInterface;
 }
 
 /* ---------------------------------- */
@@ -87,6 +103,8 @@ export interface DataTableCellComponentUIComponentsInterface {
     ImageRenderUI: Component;
 
     SwitchInputUI: Component;
+
+    CheckboxInputUI: Component;
 
     HeaderTextUI: Component;
 

@@ -1,6 +1,7 @@
 
 
 import { getSVGIconValue, SVGIconValue } from "../resources/svg_icon_resource";
+
 import BaseController from "../base_classes/base_controller";
 
 import { 
@@ -9,7 +10,15 @@ import {
     DataTableCellComponentUIComputedDataInterface,
     DataTableCellComponentUIComponentsInterface,
 } from "../ui_types/data_table_cell_component_ui_type";
+
 import InputTransformerUtil from "../utils/input_transformer_util";
+
+import { 
+    InputUIActionPropsInterface,
+    InputUIBooleanPropsInterface, 
+    InputUIContentOptionsInterface, 
+    InputValue 
+} from "../ui_types/input_ui_type";
 
 class DataTableCellComponentUIActionHandler {
 
@@ -206,6 +215,62 @@ class DataTableCellComponentUIActionHandler {
         }
 
         return "-";
+    }
+
+    // Method to get input model value
+    public getInputModelValue = (): InputValue | undefined => {
+        const { record, column, record_index } = this.controller.props;
+
+        if(!record || !column || !column?.props?.input_model_value) {
+            return undefined;
+        }
+
+        const { input_model_value } = column?.props;
+
+        return input_model_value?.(record, record_index)
+
+    }
+
+    // Method to get input content props value
+    public getInputContentProps = (): InputUIContentOptionsInterface | undefined => {
+        const { record, column, record_index } = this.controller.props;
+
+        if(!record || !column || !column?.props?.input_content_props) {
+            return undefined;
+        }
+
+        const { input_content_props } = column?.props;
+
+        return input_content_props?.(record, record_index)
+
+    }
+
+    // Method to get input boolean props value
+    public getInputBooleanProps = (): InputUIBooleanPropsInterface | undefined => {
+        const { record, column, record_index } = this.controller.props;
+
+        if(!record || !column || !column?.props?.input_ui_boolean_props) {
+            return undefined;
+        }
+
+        const { input_ui_boolean_props } = column?.props;
+
+        return input_ui_boolean_props?.(record, record_index)
+
+    }
+
+    // Method to get input action props value
+    public getInputActionProps = (): InputUIActionPropsInterface | undefined => {
+        const { record, column, record_index } = this.controller.props;
+
+        if(!column || !column?.props?.input_action_props) {
+            return undefined;
+        }
+
+        const { input_action_props } = column?.props;
+
+        return input_action_props?.(record, record_index)
+
     }
 
 

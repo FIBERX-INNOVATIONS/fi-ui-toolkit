@@ -75,6 +75,43 @@ class ContentManagerUtil {
         return value as T;
     }
 
+    /** Get a value from loaded content data by key path and rplace placeholders with recod values */
+    public getWithRecord<T = any>(
+        key_path: string,
+        record: Record<string, any> = {},
+        default_value: T | null = null
+    ): T | null {
+
+        // First get the base content
+        let value = this.get<T>(key_path, default_value);
+
+        if (value === null || value === undefined) {
+            return default_value;
+        }
+
+        // Only process strings
+        if (typeof value !== "string") {
+            return value;
+        }
+
+        // Replace {{placeholders}} with record values
+        const parsed_value = value.replace(/\{\{(.*?)\}\}/g, (_, key) => {
+
+            const trimmed_key = key.trim();
+
+            // Support nested keys like {{user.name}}
+            const resolved = trimmed_key.split(".").reduce((obj: any, k: string) => {
+                return obj && obj[k] !== undefined ? obj[k] : undefined;
+            }, record);
+
+            return resolved !== undefined && resolved !== null
+                ? String(resolved)
+                : "";
+        });
+
+        return parsed_value as T;
+    }
+
     /** Reset/clear stored data */
     public reset(): void {
         ContentManagerUtil._content_data = {};

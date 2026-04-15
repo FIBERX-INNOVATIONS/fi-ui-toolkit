@@ -12,7 +12,7 @@ const DataTableCellComponentUIProps = {
 
     record: {
         type: Object as PropType<any>,
-        required: true
+        required: false
     },
 
     column: {
@@ -22,7 +22,7 @@ const DataTableCellComponentUIProps = {
 
     record_index: {
         type: Number,
-        required: true
+        required: false
     }
 
 } satisfies Record<keyof DataTableCellComponentUIPropsInterface, any>;

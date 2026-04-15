@@ -17,6 +17,7 @@ import ImageRenderUI from "../components/ImageRenderUI.vue";
 import SwitchInputUI from "../components/InputUI/SwitchInputUI.vue";
 import HeaderTextUI from "../components/HeaderTextUI.vue";
 import ButtonUI from "../components/ButtonUI.vue";
+import CheckboxInputUI from "../components/InputUI/CheckboxInputUI.vue";
 
 
 class DataTableCellComponentUIController<T = any> extends BaseController<
@@ -37,6 +38,8 @@ class DataTableCellComponentUIController<T = any> extends BaseController<
             ImageRenderUI,
 
             SwitchInputUI,
+
+            CheckboxInputUI,
 
             HeaderTextUI,
 
@@ -74,6 +77,14 @@ class DataTableCellComponentUIController<T = any> extends BaseController<
             link_icon: this.action_handler.getLinkIcon,
 
             text_content: this.action_handler.getTextContent,
+
+            input_model_value: this.action_handler.getInputModelValue,
+
+            input_content_props: this.action_handler.getInputContentProps,
+
+            input_boolean_props: this.action_handler.getInputBooleanProps,
+
+            input_action_props: this.action_handler.getInputActionProps,
         };
 
     }
