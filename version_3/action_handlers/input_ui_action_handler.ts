@@ -40,10 +40,22 @@ class InputUIActionHandler {
         const input_id = props?.id;
         let target = event.target as HTMLElement | null;
 
-        // Case 1: Direct input/select/textarea
+        // ✅ Case 1: Direct input element
         if (target && 'value' in target) {
             const input = target as HTMLInputElement;
 
+            // ✅ FILE INPUT HANDLING
+            if (input.type === "file") {
+                if (!input.files || input.files.length === 0) {
+                    return props?.file_props?.multiple ? [] : null;
+                }
+
+                return props?.file_props?.multiple
+                    ? Array.from(input.files)   // File[]
+                    : input.files[0];           // File
+            }
+
+            // ✅ CHECKBOX
             if (input.type === 'checkbox') {
                 return input.checked;
             }
@@ -51,11 +63,21 @@ class InputUIActionHandler {
             return input.value;
         }
 
-        // Case 2: Fallback using ID
+        // ✅ Case 2: Fallback using ID
         if (input_id) {
             const el = document.getElementById(input_id) as HTMLInputElement | null;
 
             if (el) {
+                if (el.type === "file") {
+                    if (!el.files || el.files.length === 0) {
+                        return props?.file_props?.multiple ? [] : null;
+                    }
+
+                    return props?.file_props?.multiple
+                        ? Array.from(el.files)
+                        : el.files[0];
+                }
+
                 if (el.type === 'checkbox') {
                     return el.checked;
                 }
@@ -64,13 +86,24 @@ class InputUIActionHandler {
             }
         }
 
-        // Case 3: Clicked on child (icon, span, button, etc.)
+        // ✅ Case 3: Clicked on child element
         if (target) {
             const parent_input = target.closest(
                 'input, textarea, select'
             ) as HTMLInputElement | null;
 
             if (parent_input) {
+
+                if (parent_input.type === "file") {
+                    if (!parent_input.files || parent_input.files.length === 0) {
+                        return props?.file_props?.multiple ? [] : null;
+                    }
+
+                    return props?.file_props?.multiple
+                        ? Array.from(parent_input.files)
+                        : parent_input.files[0];
+                }
+
                 if (parent_input.type === 'checkbox') {
                     return parent_input.checked;
                 }
@@ -79,7 +112,7 @@ class InputUIActionHandler {
             }
         }
 
-        return '';
+        return null;
     };
 
     // Method to Detect clicks outside the  input dropdown container.
@@ -155,6 +188,23 @@ class InputUIActionHandler {
         this.setErrorMsg(status, msg);
         
     }
+
+    // Method to handle on file input chnage Action
+    public handleOnFileInpuChange = async (event: Event) => {
+        const input_value   = this.resolveInputValue(event);
+        const props         = this.controller?.props;
+        const { on_change } = props?.action_props || {};
+
+        // ✅ update state
+        this.controller.state_refs.input_value.value = input_value;
+
+        // ✅ no handler → stop
+        if (!on_change) return;
+
+        const { status, msg } = await on_change(event, input_value, { props });
+
+        this.setErrorMsg(status, msg);
+    };
 
     // Method to handle on key up action
     public handleOnKeyup = async (event: KeyboardEvent) => {
@@ -442,6 +492,21 @@ class InputUIActionHandler {
         const { status, msg }   = await on_key_down(event, input_value, { props });
 
         this.setErrorMsg(status, msg);
+    }
+
+    // Method too generate preview url for file input
+    public generateFilePreviewURL = (file_value: File | string): string | null => {
+        if (!file_value) { return null; }
+
+        if (file_value instanceof File) {
+            return URL.createObjectURL(file_value);
+        }
+
+        if (typeof file_value === "string") {
+            return file_value;
+        }
+
+        return null;
     }
 }
 

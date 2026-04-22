@@ -95,7 +95,49 @@ class InputUIController extends BaseController<
 
         return {
 
-            has_error: () => !!this.state_refs.error_text
+            has_error: () => !!this.state_refs.error_text,
+
+            preview_url: (): string | null => {
+                const value = (this.state_refs.input_value.value) as File | string;
+
+                return this.action_handler.generateFilePreviewURL(value);
+            },
+
+            is_image_preview: (): boolean => {
+                const { computed_refs, state_refs } = this;
+
+                const preview_url = computed_refs?.preview_url?.value;
+                const input_value = state_refs.input_value.value;
+
+                if (!preview_url) return false;
+
+                if (input_value instanceof File) {
+                    return input_value.type.startsWith("image/");
+                }
+
+                if (typeof input_value === "string") {
+                    return /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(input_value);
+                }
+
+                return false;
+            },
+            
+            file_name: (): string | null => {
+                const { computed_refs, state_refs } = this;
+
+                const preview_url = computed_refs?.preview_url?.value;
+                const input_value = state_refs.input_value.value;
+
+                if (input_value instanceof File) {
+                    return input_value.name;
+                }
+
+                if (typeof input_value === "string") {
+                    return input_value?.split("/")?.pop() ?? null;
+                }
+
+                return "Selected file";
+            }
 
         };
 
@@ -106,16 +148,19 @@ class InputUIController extends BaseController<
             model_value: (new_val) => {
                 this.state_refs.input_value.value = new_val
             },
+
             input_value: (new_val) => {
                 this.props.action_props?.on_change?.(undefined, new_val, { props: this.props });
             },
+
             route: (new_val) => {
                 const is_empty_query = Object.keys(new_val.query).length === 0;
 
                 if(is_empty_query) {
                     this.state_refs.input_value.value = null;
                 }
-            }
+            },
+
         };
     }
 

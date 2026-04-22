@@ -12,7 +12,9 @@ const ButtonUIClassStyles: ButtonUIClassStylesInterface = {
 
     icon_class_style: "",
 
-    text_class_style: ""
+    text_class_style: "",
+
+    content_class_style: "flex items-center gap-2"
 
 };
 

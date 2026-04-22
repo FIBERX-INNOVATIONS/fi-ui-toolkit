@@ -1,6 +1,8 @@
 <template>
     <section :id="section_id" :class="class_styles.wrapper_class_style">
 
+        <slot name="section_1" />
+
         <table :id="table_id" :class="class_styles.table_class_style">
 
             <!-- HEADER -->
@@ -130,6 +132,8 @@
             </tbody>
 
         </table>
+
+        <slot name="section_2" />
 
     </section>
 </template>

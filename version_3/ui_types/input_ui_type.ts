@@ -85,10 +85,18 @@ export interface InputUIActionPropsInterface {
 
 }
 
-export interface InputUIFilePropsInterface {
+export interface InputUIFilePropsInterface {   
     accept?: string;
     
     multiple?: boolean;
+
+    enable_preview?: boolean;
+
+    preview_type?: "image" | "file";
+
+    generic_file_preview_icon?: SVGIconKey;
+
+    generic_file_preview_content?: string;
 }
 
 export interface PhoneNumberCountryInfoInterface {
@@ -119,7 +127,8 @@ export type InputValue =
     | number 
     | boolean 
     | Array<any> 
-    | File 
+    | File
+    | File[]
     | null 
     | InputDateRangeValueType
 
@@ -199,6 +208,18 @@ export interface InputUIClassStylesInterface {
     range_container_class_style?: string;
 
     range_separator_class_style?: string;
+
+    file_input_class_style?: string;
+
+    preview_wrapper_class_style?: string;
+
+    img_preview_class_style?: string;
+
+    generic_file_preview_wrapper_class_style?: string;
+
+    generic_file_preview_icon_class_style?: string;
+
+    generic_file_preview_content_class_style?: string;
     
 }
 
@@ -262,6 +283,12 @@ export interface InputUIStateDataInterface {
 
 export interface InputUIComputedDataInterface {
     has_error: boolean;
+
+    preview_url: string | null;
+
+    is_image_preview: boolean;
+
+    file_name: string | null;
 }
 
 export interface InputUIComponentsInterface {

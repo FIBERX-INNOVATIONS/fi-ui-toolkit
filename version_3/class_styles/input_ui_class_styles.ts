@@ -19,6 +19,11 @@ const InputUIClassStyles: InputUIClassStylesInterface = {
     helper_text_class_style: "",
     error_text_class_style: "",
     otp_wrapper_class_style: "flex",
+    preview_wrapper_class_style: "mt-3",
+    img_preview_class_style: "w-24 h-24 object-cover rounded-lg border",
+    generic_file_preview_wrapper_class_style: "flex items-center gap-2 text-sm text-gray-600",
+    generic_file_preview_icon_class_style: "",
+    generic_file_preview_content_class_style: "",
 }
 
 

@@ -31,12 +31,15 @@ class ButtonUIPropsBuilder {
     /* Content Fetch                      */
     /* ---------------------------------- */
 
-    private static getContentProps(content_key?: string): string {
+    private static getContentProps(
+        content_key?: string,
+        record: Record<string, any> = {}
+    ): string {
 
         if (!content_key) return "";
 
         return (
-            ButtonUIPropsBuilder.content_manager?.get<string>(content_key) ?? ""
+            ButtonUIPropsBuilder.content_manager?.getWithRecord<string>(content_key, record, "") ?? ""
         );
 
     }
@@ -69,12 +72,14 @@ class ButtonUIPropsBuilder {
 
         type: ButtonType = "button",
 
-        overrides: Partial<ButtonUIPropsInterface> = {}
+        overrides: Partial<ButtonUIPropsInterface> = {},
+
+        record: Record<string, any> = {}
 
     ): ButtonUIPropsInterface {
 
         const class_styles          = overrides.class_styles ?? ButtonUIPropsBuilder.class_styles ?? ButtonUIClassStyles
-        const button_text           = ButtonUIPropsBuilder.getContentProps(content_key);
+        const button_text           = ButtonUIPropsBuilder.getContentProps(content_key, record);
         const icon_class_style      = class_styles.icon_class_style;
         const text_class_style      = class_styles.text_class_style;
         const loading_html_content  = RenderHtmlUtil.renderLoaderHtml();
@@ -123,7 +128,9 @@ class ButtonUIPropsBuilder {
 
         type: ButtonType = "button",
 
-        overrides: Partial<ButtonUIPropsInterface> = {}
+        overrides: Partial<ButtonUIPropsInterface> = {},
+
+        record: Record<string, any> = {}
 
     ): ButtonUIPropsInterface {
 
@@ -133,7 +140,8 @@ class ButtonUIPropsBuilder {
                 id,
                 icon_key,
                 type,
-                overrides
+                overrides,
+                record
             );
 
         return reactive<ButtonUIPropsInterface>(props);
