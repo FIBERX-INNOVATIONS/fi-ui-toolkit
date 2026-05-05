@@ -10,7 +10,8 @@ import {
     InputUIStateDataInterface,
     InputUIComputedDataInterface,
     InputUIComponentsInterface,
-    InputDateRangeValueType
+    InputDateRangeValueType,
+    SelectOptionInterface
 } from "../ui_types/input_ui_type";
 
 import TextInputUI from "../components/InputUI/TextInputUI.vue";
@@ -26,6 +27,7 @@ import FileInputUI from "../components/InputUI/FileInputUI.vue";
 import SearchInputUI from "../components/InputUI/SearchInputUI.vue";
 import DateInputUI from "../components/InputUI/DateInputUI.vue";
 import DateRangeInputUI from "../components/InputUI/DateRangeInputUI.vue";
+import MultiSelectSearchInputUI from "../components/InputUI/MultiSelectSearchInputUI.vue";
 
 import { VueDatePicker } from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
@@ -61,7 +63,8 @@ class InputUIController extends BaseController<
             SearchInputUI,
             DateInputUI,
             DateRangeInputUI,
-            VueDatePicker
+            VueDatePicker,
+            MultiSelectSearchInputUI
         } as InputUIComponentsInterface;
     }
 
@@ -70,9 +73,13 @@ class InputUIController extends BaseController<
         return {
             input_value: this.props.model_value ?? "",
 
+            str_input_value: this.props.model_value?.toString() ?? "",
+
             start_date: (this.props.model_value as InputDateRangeValueType)?.start_date ?? "",
 
             end_date: (this.props.model_value as InputDateRangeValueType)?.end_date ?? "",
+
+            selected_text: this.props.selected_text_prefix ? `${this.props.selected_text_prefix ?? ""}: ${this.props.model_value ?? ""}` : null,
 
             error_text: null,
 
@@ -80,13 +87,19 @@ class InputUIController extends BaseController<
 
             is_dropdown_open: false,
 
+            is_multi_search_dropdown_open: false,
+
             record_options: [],
 
             search_value: null,
 
             current_page: 1,
 
-            total_pages: 0
+            total_pages: 0,
+
+            selected_options: this.props.option_props ?? [],
+
+            filtered_options: []
         };
 
     }
@@ -160,6 +173,25 @@ class InputUIController extends BaseController<
                     this.state_refs.input_value.value = null;
                 }
             },
+
+            record_options: (new_val: SelectOptionInterface[]) => {
+                const selected_values = this.state_refs.selected_options.value.map(o => o.value);
+                const filtered_values = (this.state_refs.record_options.value || []).filter(
+                    opt => !selected_values.includes(opt.value)
+                );
+
+                this.state_refs.filtered_options.value = filtered_values;
+            },
+
+            selected_options: (new_val: SelectOptionInterface[]) => {
+                const selected_values = new_val.map(o => o.value);
+                const filtered_values = (this.state_refs.record_options.value || []).filter(
+                    opt => !selected_values.includes(opt.value)
+                );
+
+                this.state_refs.filtered_options.value  = filtered_values;
+                this.state_refs.input_value.value       = selected_values
+            }
 
         };
     }

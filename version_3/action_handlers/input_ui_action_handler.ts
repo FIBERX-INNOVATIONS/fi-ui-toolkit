@@ -34,86 +34,82 @@ class InputUIActionHandler {
         this.controller = controller;
     }
 
+    private transformValue = (
+        value: any,
+        input_type?: string
+    ): InputValue => {
+
+        if (value === "" || value === null || value === undefined) {
+            return null;
+        }
+
+        // ✅ NUMBER HANDLING
+        if (input_type === "number") {
+            const parsed = Number(value);
+
+            return isNaN(parsed) ? null : parsed;
+        }
+
+        return value;
+    };
+
+    private resolveInputelement = (parmas:{
+        target?:HTMLElement | null,
+        input_id?: string
+    }): HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null => {
+        const {
+            target,
+            input_id
+        } = parmas;
+
+        if (target && 'value' in target) {
+            return target as HTMLInputElement
+        }
+        else if (input_id) {
+            return document.getElementById(input_id) as HTMLInputElement | null;
+        }
+        else if (target) {
+            return target.closest("input, textarea, select") as HTMLInputElement | null;
+        }
+        else {
+            return null;
+        } 
+    }
+
     // Method to Safely resolve input value from event OR DOM fallback
     private resolveInputValue = (event: Event): InputValue => {
-        const props = this.controller?.props;
-        const input_id = props?.id;
-        let target = event.target as HTMLElement | null;
+        const props         = this.controller?.props;
+        const input_id      = props?.id;
+        let target          = event.target as HTMLElement | null;
+        const input         = this.resolveInputelement({ target, input_id });
 
-        // ✅ Case 1: Direct input element
-        if (target && 'value' in target) {
-            const input = target as HTMLInputElement;
-
-            // ✅ FILE INPUT HANDLING
-            if (input.type === "file") {
-                if (!input.files || input.files.length === 0) {
-                    return props?.file_props?.multiple ? [] : null;
-                }
-
-                return props?.file_props?.multiple
-                    ? Array.from(input.files)   // File[]
-                    : input.files[0];           // File
-            }
-
-            // ✅ CHECKBOX
-            if (input.type === 'checkbox') {
-                return input.checked;
-            }
-
-            return input.value;
+        if(!input) {
+            return null;
         }
 
-        // ✅ Case 2: Fallback using ID
-        if (input_id) {
-            const el = document.getElementById(input_id) as HTMLInputElement | null;
-
-            if (el) {
-                if (el.type === "file") {
-                    if (!el.files || el.files.length === 0) {
-                        return props?.file_props?.multiple ? [] : null;
-                    }
-
-                    return props?.file_props?.multiple
-                        ? Array.from(el.files)
-                        : el.files[0];
-                }
-
-                if (el.type === 'checkbox') {
-                    return el.checked;
-                }
-
-                return el.value;
+        // ✅ FILE (narrow first)
+        if (input instanceof HTMLInputElement && input.type === "file") {
+            if (!input.files || input.files.length === 0) {
+                return props?.file_props?.multiple ? [] : null;
             }
+
+            return props?.file_props?.multiple
+                ? Array.from(input.files)
+                : input.files[0];
         }
 
-        // ✅ Case 3: Clicked on child element
-        if (target) {
-            const parent_input = target.closest(
-                'input, textarea, select'
-            ) as HTMLInputElement | null;
-
-            if (parent_input) {
-
-                if (parent_input.type === "file") {
-                    if (!parent_input.files || parent_input.files.length === 0) {
-                        return props?.file_props?.multiple ? [] : null;
-                    }
-
-                    return props?.file_props?.multiple
-                        ? Array.from(parent_input.files)
-                        : parent_input.files[0];
-                }
-
-                if (parent_input.type === 'checkbox') {
-                    return parent_input.checked;
-                }
-
-                return parent_input.value;
-            }
+        // ✅ CHECKBOX (also only input)
+        if (input instanceof HTMLInputElement && input.type === "checkbox") {
+            return input.checked;
         }
 
-        return null;
+        // ✅ NORMAL VALUE
+        return this.transformValue(
+            (input as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement).value,
+            props.type
+        );
     };
+
 
     // Method to Detect clicks outside the  input dropdown container.
     private handleOutsideClick = (event: MouseEvent) => {
@@ -122,11 +118,20 @@ class InputUIActionHandler {
         const dropdown_id       = `${input_id?.toLowerCase()}_select_search_dropdown`;
         const drodpdown_el      = document.getElementById(dropdown_id);
         const dropdown_wrapper  = drodpdown_el?.closest(".relative");
+        const contains_target   = dropdown_wrapper?.contains(event.target as Node) || drodpdown_el?.contains(event.target as Node);
+
+        // console.log({ 
+        //     drodpdown_el, 
+        //     dropdown_wrapper, 
+        //     target: event.target,
+        //     drodpdown_el_contains_target: drodpdown_el?.contains(event.target as Node),
+        //     dropdown_wrapper_contains_target: dropdown_wrapper?.contains(event.target as Node)
+        //  })
 
         // If clicked outside the component → close dropdown
         if (
             dropdown_wrapper && 
-            !dropdown_wrapper.contains(event.target as Node)
+            !contains_target
         ) {
             this.controller.state_refs.is_dropdown_open.value = false
             document.removeEventListener("click", this.handleOutsideClick);
@@ -134,7 +139,7 @@ class InputUIActionHandler {
     };
 
     // Method to Detect clicks outside the  input dropdown container.
-    private fetchRecordOptions = async () => {
+    private fetchRecordOptions = async (append: boolean = false) => {
         try {
             const props                     = this.controller?.props;
             const state_refs                = this.controller?.state_refs;
@@ -149,7 +154,7 @@ class InputUIActionHandler {
 
             const params                    = { page: current_page, search: search_value }
             const { records, total_pages }  = await fetch_data_method(params);
-            const updated_record_opts       = [...record_options, ...records];
+            const updated_record_opts       = append ? [...record_options, ...records] : records;
 
             this.controller.state_refs.total_pages.value     = total_pages;
             this.controller.state_refs.record_options.value  = updated_record_opts;
@@ -320,7 +325,14 @@ class InputUIActionHandler {
             const menu      = `${props.id?.toLowerCase()}_select_search_dropdown`;
 
             this.controller.state_refs.is_loading.value          = true;
-            this.controller.state_refs.is_dropdown_open.value    = is_open_value;
+            
+
+            if (props.type === "select_search") {
+                this.controller.state_refs.is_dropdown_open.value    = is_open_value;
+            }
+            else {
+                this.controller.state_refs.is_multi_search_dropdown_open.value = is_open_value;
+            }
 
             if (is_open_value) {
                 document.addEventListener("click", this.handleOutsideClick);
@@ -366,7 +378,7 @@ class InputUIActionHandler {
 
         if ( has_scrolled_to_bottom && has_unfetched_pages) {
             this.controller.state_refs.current_page.value = current_page + 1;
-            this.fetchRecordOptions();
+            this.fetchRecordOptions(true);
         }
     }
 
@@ -375,9 +387,12 @@ class InputUIActionHandler {
         event: Event,
         option: SelectOptionInterface
     ) => {
-        this.controller.state_refs.input_value.value         = option.value;
-        this.controller.state_refs.is_dropdown_open.value    = false;
-        this.controller.state_refs.search_value.value        = option.label_text
+        const { selected_text_prefix } = this.controller?.props;
+
+        this.controller.state_refs.input_value.value            = option.value;
+        this.controller.state_refs.is_dropdown_open.value       = false;
+        this.controller.state_refs.search_value.value           = option.label_text;
+        this.controller.state_refs.selected_text.value          =  selected_text_prefix ? `${selected_text_prefix ?? ""}: ${option?.label_text ?? ""}` : null;
     }
 
     // Method to handle on phone number input chnage
@@ -477,9 +492,10 @@ class InputUIActionHandler {
 
         }
         else {
-            const raw_value         = this.resolveInputValue(event) as string[]
-            const input_value       = raw_value?.slice(-1);
-            existing_value[index]   =  input_value[0];
+            // const raw_value         = this.resolveInputValue(event) as string[]
+            // const input_value       = raw_value?.slice(-1);
+            // console.log({ raw_value, input_value })
+            // existing_value[index]   =  input_value[0];
 
         }
 
@@ -508,6 +524,44 @@ class InputUIActionHandler {
 
         return null;
     }
+
+    // Method to handle selection to add to selected array
+    public handleMultiSelectAdd = (
+        event: Event,
+        option: SelectOptionInterface
+    ) => {
+
+        const state_refs    = this.controller.state_refs;
+        const selected      = state_refs.selected_options.value;
+
+        // prevent duplicates
+        if (selected.find(o => o.value === option.value)) {
+            return;
+        }
+
+        const updated = [...selected, option];
+
+        state_refs.selected_options.value = updated;
+        state_refs.input_value.value = updated.map(o => o.value);
+
+        state_refs.search_value.value = null;
+    };
+
+    // Method to handle selection to remove from selected array
+    public handleMultiSelectRemove = (
+        event: MouseEvent,
+        option: SelectOptionInterface
+    ) => {
+
+        const state_refs = this.controller.state_refs;
+
+        const updated = state_refs.selected_options.value.filter(
+            o => o.value !== option.value
+        );
+
+        state_refs.selected_options.value = updated;
+        state_refs.input_value.value = updated.map(o => o.value);
+    };
 }
 
 export default InputUIActionHandler;

@@ -86,7 +86,7 @@ class NavLinkUIController extends BaseController<
                     return this.props.link;
                 }
 
-                return null;
+                return this.props?.link ?? null;
 
             },
 

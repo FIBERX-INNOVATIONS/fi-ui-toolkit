@@ -2,7 +2,7 @@
     <div :class="class_styles?.wrapper_class_style">
         <a 
             :href="computed_refs?.link_url?.value"
-            target="_blank"
+            :target="column?.props?.link_target"
             :class="class_styles?.url_link_class_style?.wrapper_class_style"
         >
 
@@ -28,12 +28,12 @@
 </template>
 
 <script setup lang="ts">
-import DataTableSerialCellUIProps from "../../props/data_table_cell_component_ui_props";
-import DataTableSerialCellUIController from "../../controllers/data_table_cell_component_ui_controller";
+import DataTableCellComponentUIProps from "../../props/data_table_cell_component_ui_props";
+import DataTableCellComponentUIController from "../../controllers/data_table_cell_component_ui_controller";
 
-const props = defineProps(DataTableSerialCellUIProps);
+const props = defineProps(DataTableCellComponentUIProps);
 
-const controller = new DataTableSerialCellUIController(props);
+const controller = new DataTableCellComponentUIController(props);
 
 const { 
     column,

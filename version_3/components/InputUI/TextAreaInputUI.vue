@@ -5,7 +5,7 @@
             :name="id"
             :type="type"
             :class="input_class_style"
-            v-model="(input_value as string)"
+            v-model="str_input_value"
             :placeholder="placeholder_text"
             :required="boolean_props.required"
             :readonly="boolean_props.read_only"
@@ -56,6 +56,7 @@ const {
 
 const {
     input_value,
+    str_input_value,
     error_text
 } = state_refs
 

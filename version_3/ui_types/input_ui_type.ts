@@ -136,6 +136,8 @@ export type InputValue =
 export type InputType =
     | "text"
     | "textarea"
+    | "text_area"
+    | "email"
     | "number"
     | "checkbox"
     | "switch"
@@ -147,7 +149,8 @@ export type InputType =
     | "password"
     | "search"
     | "date"
-    | "date_range";
+    | "date_range"
+    | "multi_select_search";
 
 
 /* ---------------------------------- */
@@ -197,6 +200,8 @@ export interface InputUIClassStylesInterface {
 
     helper_text_class_style?: string;
 
+    selected_text_class_style?: string;
+
     error_text_class_style?: string;
 
     search_wrapper_class_style?: string;
@@ -220,6 +225,13 @@ export interface InputUIClassStylesInterface {
     generic_file_preview_icon_class_style?: string;
 
     generic_file_preview_content_class_style?: string;
+
+    multi_select_search_class_styles?: {
+        wrapper_class_style: string;
+        chips_wrapper_class_style: string;
+        chip_class_style: string;
+        chip_btn_class_style: string;
+    }
     
 }
 
@@ -254,6 +266,8 @@ export interface InputUIPropsInterface {
 
     helper_text?: string;
 
+    selected_text_prefix?: string | null;
+
     class_styles?: InputUIClassStylesInterface;
 
 }
@@ -262,15 +276,21 @@ export interface InputUIPropsInterface {
 export interface InputUIStateDataInterface {
     input_value: InputValue;
 
+    str_input_value: string | null;
+
     start_date: string | null;
 
     end_date: string | null;
 
     error_text: string | null;
 
+    selected_text: string | null;
+
     is_loading: boolean;
 
     is_dropdown_open: boolean;
+
+    is_multi_search_dropdown_open: boolean;
 
     record_options: SelectOptionInterface[],
 
@@ -279,6 +299,10 @@ export interface InputUIStateDataInterface {
     current_page: number;
 
     total_pages: number;
+
+    selected_options: SelectOptionInterface[];
+
+    filtered_options: SelectOptionInterface[];
 }
 
 export interface InputUIComputedDataInterface {
@@ -320,6 +344,8 @@ export interface InputUIComponentsInterface {
 
     VueDatePicker: Component;
 
+    MultiSelectSearchInputUI: Component;
+
 }
 
 export interface InputUIContentPayloadInterface {
@@ -332,4 +358,6 @@ export interface InputUIContentPayloadInterface {
     options_list?: SelectOptionInterface[];
 
     required_text?: string;
+
+    selected_text_prefix?: string;
 }

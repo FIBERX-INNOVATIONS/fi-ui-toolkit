@@ -73,6 +73,13 @@ const InputUIProps = {
         default: () => ({}) 
     },
 
+    selected_text_prefix: { 
+        type: String, 
+        require: false,
+        default: ""
+    },
+
+
     helper_text: { 
         type: String, 
         require: false,

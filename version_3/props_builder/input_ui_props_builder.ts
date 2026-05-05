@@ -116,6 +116,10 @@ class InputUIPropsBuilder {
             content_data?.helper_text ??
             "";
 
+        const selected_text_prefix = overrides.selected_text_prefix ??
+            content_data?.selected_text_prefix ??
+            "";
+
         const option_props =
             overrides.option_props ??
             content_data?.options_list ??
@@ -137,6 +141,8 @@ class InputUIPropsBuilder {
             placeholder_text,
 
             helper_text,
+
+            selected_text_prefix,
 
             option_props,
 

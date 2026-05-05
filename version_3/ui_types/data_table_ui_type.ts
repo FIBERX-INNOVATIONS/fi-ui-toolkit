@@ -101,6 +101,8 @@ export interface DataTableColumnRenderType<T = any> {
 
         is_selected?: boolean;
 
+        link_target?: string;
+
         input_model_value?: (record: T, record_index?: number) => InputValue;
 
         input_content_props?: (record: T, record_index?: number) => InputUIContentOptionsInterface;
@@ -128,6 +130,8 @@ export interface DataTableColumnRenderType<T = any> {
         getImgSubText?: (record: T, record_index?: number) => string;
 
         getDateTextContent?: (record: T, record_index?: number) => string; 
+
+        getTextContent?: (record: T, record_index?: number) => string; 
 
         [key: string]: any;
     };

@@ -208,6 +208,10 @@ class DataTableCellComponentUIActionHandler {
             return column.props.getDateTextContent?.(record);
         }   
 
+        if(column?.props?.getTextContent) {
+            return column.props.getTextContent?.(record);
+        }
+
         const date_value = this.getRecordValueByColKey();
 
         if(date_value) {

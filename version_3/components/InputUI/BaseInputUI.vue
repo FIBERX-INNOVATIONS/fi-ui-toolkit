@@ -6,8 +6,9 @@
 </template>
 
 <script setup lang="ts">
-import InputUIProps      from "../../props/input_ui_props";
-import InputUIController from "../../controllers/input_ui_controller";
+import { InputType }        from "../../ui_types/input_ui_type";
+import InputUIProps         from "../../props/input_ui_props";
+import InputUIController    from "../../controllers/input_ui_controller";
 
 const props             = defineProps(InputUIProps);
 const controller        = new InputUIController(props);
@@ -26,11 +27,12 @@ const {
     PhoneNumberInputUI,
     SearchInputUI,
     DateInputUI,
-    DateRangeInputUI
+    DateRangeInputUI,
+    MultiSelectSearchInputUI
 } = components
 
 // Dynamically map input type to component
-const getInputComponent = (type?: string) => {
+const getInputComponent = (type?: InputType) => {
     switch (type) {
         case "text":
         case "password":
@@ -61,6 +63,8 @@ const getInputComponent = (type?: string) => {
             return DateInputUI;
         case "date_range":
             return DateRangeInputUI;
+        case "multi_select_search":
+            return MultiSelectSearchInputUI;
         default:
             return TextInputUI;
     }
