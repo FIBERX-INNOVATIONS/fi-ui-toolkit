@@ -24,6 +24,10 @@ class DropdownMenuUIPropsBuilder {
 
     public static readonly content_manager: ContentManagerUtil = ContentManagerUtil.getInstance();
 
+    private static activeScrollHandler: ((e: Event) => void) | null = null;
+
+    private static activeClickHandler: ((e: MouseEvent) => void) | null = null;
+
 
     public static configure(
         class_styles?: DropdownMenuUIClassStylesInterface
@@ -129,74 +133,152 @@ class DropdownMenuUIPropsBuilder {
         close_on_scroll: boolean = true
     ): void {
 
-        const trigger = document.getElementById(trigger_id);
-        const menu = document.getElementById(menu_id);
+        const trigger   = document.getElementById(trigger_id);
+        const menu      = document.getElementById(menu_id);
 
         if (!trigger || !menu) return;
 
-        const rect = trigger.getBoundingClientRect();
-
-        const viewport_width = window.innerWidth;
-        const viewport_height = window.innerHeight;
-
         const is_open = menu.style.display === "block";
 
-        menu.style.display = is_open ? "none" : "block";
-        menu.style.visibility = is_open ? "hidden" : "visible";
-
-        if (is_open) return;
-
-        const menu_width = menu.offsetWidth || 200;
-        const menu_height = menu.offsetHeight || 200;
-
-        let top = rect.bottom;
-        let left = rect.left;
-
-        if (rect.bottom + menu_height > viewport_height) {
-            top = rect.top - menu_height;
+        // ✅ ALWAYS CLEAN OLD LISTENERS FIRST
+        if (this.activeClickHandler) {
+            document.removeEventListener("click", this.activeClickHandler);
+            this.activeClickHandler = null;
         }
 
-        if (rect.left + menu_width > viewport_width) {
-            left = rect.right - menu_width;
+        if (this.activeScrollHandler) {
+            document.removeEventListener("scroll", this.activeScrollHandler, true);
+            this.activeScrollHandler = null;
         }
 
-        menu.style.top = `${top}px`;
-        menu.style.left = `${left}px`;
+        // Toggle
+        if (is_open) {
+            menu.style.display = "none";
+            menu.style.visibility = "hidden";
+            return;
+        }
 
+            // OPEN MENU
+            menu.style.display = "block";
+            menu.style.visibility = "visible";
 
-        if (close_on_outside_click) {
+            const rect = trigger.getBoundingClientRect();
+            const viewport_width = window.innerWidth;
+            const viewport_height = window.innerHeight;
 
-            const handleOutsideClick = (event: MouseEvent) => {
-                const target = event.target as Node;
+            const menu_width = menu.offsetWidth || 200;
+            const menu_height = menu.offsetHeight || 200;
 
-                if (
-                    !menu.contains(target) &&
-                    !trigger.contains(target)
-                ) {
+            let top = rect.bottom;
+            let left = rect.left;
+
+            if (rect.bottom + menu_height > viewport_height) {
+                top = rect.top - menu_height;
+            }
+
+            if (rect.left + menu_width > viewport_width) {
+                left = rect.right - menu_width;
+            }
+
+            menu.style.top = `${top}px`;
+            menu.style.left = `${left}px`;
+
+            // ✅ OUTSIDE CLICK
+            if (close_on_outside_click) {
+                this.activeClickHandler = (event: MouseEvent) => {
+                    const target = event.target as Node;
+
+                    if (!menu.contains(target) && !trigger.contains(target)) {
+                        menu.style.display = "none";
+                        menu.style.visibility = "hidden";
+
+                        document.removeEventListener("click", this.activeClickHandler!);
+                        this.activeClickHandler = null;
+                    }
+                };
+
+                setTimeout(() => {
+                    document.addEventListener("click", this.activeClickHandler!);
+                }, 10);
+            }
+
+            // ✅ SCROLL CLOSE
+            if (close_on_scroll) {
+                this.activeScrollHandler = () => {
                     menu.style.display = "none";
                     menu.style.visibility = "hidden";
 
-                    document.removeEventListener("click", handleOutsideClick);
-                }
-            };
+                    document.removeEventListener("scroll", this.activeScrollHandler!, true);
+                    this.activeScrollHandler = null;
+                };
 
-            setTimeout(() => {
-                document.addEventListener("click", handleOutsideClick);
-            }, 10);
-        }
-
-        if (close_on_scroll) {
-            const handleCloseOnScroll = (event: Event) => {
-                menu.style.display = "none";
-                menu.style.visibility = "hidden";
-
-                document.removeEventListener("scroll", handleCloseOnScroll);
+                setTimeout(() => {
+                    document.addEventListener("scroll", this.activeScrollHandler!, true);
+                }, 10);
             }
 
-            setTimeout(() => {
-                document.addEventListener("scroll", handleCloseOnScroll, true); // 👈 important: true
-            }, 10);
-        }
+
+        // const rect = trigger.getBoundingClientRect();
+
+        // const viewport_width = window.innerWidth;
+        // const viewport_height = window.innerHeight;
+
+        // menu.style.display = is_open ? "none" : "block";
+        // menu.style.visibility = is_open ? "hidden" : "visible";
+
+        // if (is_open) return;
+
+        // const menu_width = menu.offsetWidth || 200;
+        // const menu_height = menu.offsetHeight || 200;
+
+        // let top = rect.bottom;
+        // let left = rect.left;
+
+        // if (rect.bottom + menu_height > viewport_height) {
+        //     top = rect.top - menu_height;
+        // }
+
+        // if (rect.left + menu_width > viewport_width) {
+        //     left = rect.right - menu_width;
+        // }
+
+        // menu.style.top = `${top}px`;
+        // menu.style.left = `${left}px`;
+
+
+        // if (close_on_outside_click) {
+
+        //     const handleOutsideClick = (event: MouseEvent) => {
+        //         const target = event.target as Node;
+
+        //         if (
+        //             !menu.contains(target) &&
+        //             !trigger.contains(target)
+        //         ) {
+        //             menu.style.display = "none";
+        //             menu.style.visibility = "hidden";
+
+        //             document.removeEventListener("click", handleOutsideClick);
+        //         }
+        //     };
+
+        //     setTimeout(() => {
+        //         document.addEventListener("click", handleOutsideClick);
+        //     }, 10);
+        // }
+
+        // if (close_on_scroll) {
+        //     const handleCloseOnScroll = (event: Event) => {
+        //         menu.style.display = "none";
+        //         menu.style.visibility = "hidden";
+
+        //         document.removeEventListener("scroll", handleCloseOnScroll);
+        //     }
+
+        //     setTimeout(() => {
+        //         document.addEventListener("scroll", handleCloseOnScroll, true); // 👈 important: true
+        //     }, 10);
+        // }
     }
 
 }

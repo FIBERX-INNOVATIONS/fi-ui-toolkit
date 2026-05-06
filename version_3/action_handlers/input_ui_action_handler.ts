@@ -491,13 +491,13 @@ class InputUIActionHandler {
             }
 
         }
-        else {
+        // else {
             // const raw_value         = this.resolveInputValue(event) as string[]
             // const input_value       = raw_value?.slice(-1);
             // console.log({ raw_value, input_value })
             // existing_value[index]   =  input_value[0];
 
-        }
+        // }
 
         this.controller.state_refs.input_value.value = existing_value;
 
