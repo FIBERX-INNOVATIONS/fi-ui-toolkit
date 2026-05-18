@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import {
     ToasterUIPropsInterface,
     ToasterUIClassStylesInterface,
@@ -10,7 +11,13 @@ import {
 import ToasterUIClassStyles from "../class_styles/toaster_ui_class_styles";
 import { SVGIconKey } from "../resources/svg_icon_resource";
 
-class ToasterUIPropsBuilder {
+class ToasterUIPropsBuilder extends BasePropSchema<ToasterUIPropsInterface> {
+    public static readonly static_prop_keys = [
+        "id",
+        "class_styles",
+        "action_props"
+    ] satisfies readonly (keyof ToasterUIPropsInterface)[];
+
     public static toaster_id: string = "StatusAlertBox";
 
     public static class_styles?: ToasterUIClassStylesInterface;
@@ -61,7 +68,20 @@ class ToasterUIPropsBuilder {
     ): ToasterUIPropsInterface {
         const props_obj = ToasterUIPropsBuilder.buildPropsObject(message, status, status_icon, duration, class_styles);
 
-        return reactive<ToasterUIPropsInterface>(props_obj);
+        return this.createReactiveProps<ToasterUIPropsInterface>(props_obj);
+    }
+
+    public static updateMessage(
+        props: ToasterUIPropsInterface,
+        message: string,
+        status?: ToastStatusType,
+        status_icon?: SVGIconKey
+    ): ToasterUIPropsInterface {
+        return this.updateProps(props, {
+            message,
+            status,
+            status_icon
+        });
     }
 }
 

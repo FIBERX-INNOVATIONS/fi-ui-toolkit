@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import PaginationUIClassStyles from "../class_styles/pagination_ui_class_styles";
 
 import {
@@ -14,7 +15,16 @@ import {
 
 import ContentManagerUtil from "../utils/content_manager_util";
 
-class PaginationUIPropsBuilder {
+class PaginationUIPropsBuilder extends BasePropSchema<PaginationUIPropsInterface> {
+    public static readonly static_prop_keys = [
+        "id",
+        "layout",
+        "content_props",
+        "config_props",
+        "action_props",
+        "class_styles"
+    ] satisfies readonly (keyof PaginationUIPropsInterface)[];
+
     private static readonly content_manager = ContentManagerUtil.getInstance();
     public static class_styles?: PaginationUIClassStylesInterface;
     public static default_layout: PaginationLayoutType = "center";
@@ -98,7 +108,7 @@ class PaginationUIPropsBuilder {
 
         const props = this.buildPropsObject(id, data_props, overrides);
 
-        return reactive<PaginationUIPropsInterface>(props);
+        return this.createReactiveProps<PaginationUIPropsInterface>(props);
     }
 }
 

@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import DropdownMenuUIClassStyles from "../class_styles/dropdown_menu_ui_class_styles";
 
 import {
@@ -14,7 +15,12 @@ import ContentManagerUtil from "../utils/content_manager_util";
 import NavLinkUIPropsBuilder from "./nav_link_ui_props_builder";
 import { SVGIconKey } from "../resources/svg_icon_resource";
 
-class DropdownMenuUIPropsBuilder {
+class DropdownMenuUIPropsBuilder extends BasePropSchema<DropdownMenuUIPropsInterface> {
+    public static readonly static_prop_keys = [
+        "id",
+        "class_styles"
+    ] satisfies readonly (keyof DropdownMenuUIPropsInterface)[];
+
     public static class_styles?: DropdownMenuUIClassStylesInterface;
 
     public static readonly content_manager: ContentManagerUtil = ContentManagerUtil.getInstance();
@@ -48,7 +54,7 @@ class DropdownMenuUIPropsBuilder {
     ): DropdownMenuUIPropsInterface {
         const props = DropdownMenuUIPropsBuilder.buildPropsObject(id, overrides);
 
-        return reactive<DropdownMenuUIPropsInterface>(props);
+        return this.createReactiveProps<DropdownMenuUIPropsInterface>(props);
     }
 
     public static buildMenuList(

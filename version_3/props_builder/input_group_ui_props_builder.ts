@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import ContentManagerUtil from "../utils/content_manager_util";
 
 import InputGroupUIClassStyles from "../class_styles/input_group_ui_class_styles";
@@ -8,7 +9,12 @@ import { InputGroupUIPropsInterface, InputGroupUIClassStylesInterface } from "..
 
 import { InputUIContentPayloadInterface, InputUIPropsInterface } from "../ui_types/input_ui_type";
 
-class InputGroupUIPropsBuilder {
+class InputGroupUIPropsBuilder extends BasePropSchema<InputGroupUIPropsInterface> {
+    public static readonly static_prop_keys = [
+        "id",
+        "class_styles"
+    ] satisfies readonly (keyof InputGroupUIPropsInterface)[];
+
     private static readonly content_manager = ContentManagerUtil.getInstance();
 
     /* ---------------------------------- */
@@ -82,7 +88,7 @@ class InputGroupUIPropsBuilder {
     ): InputGroupUIPropsInterface {
         const props = InputGroupUIPropsBuilder.buildPropsObject(input_props, content_key, class_styles);
 
-        return reactive<InputGroupUIPropsInterface>(props);
+        return this.createReactiveProps<InputGroupUIPropsInterface>(props);
     }
 }
 

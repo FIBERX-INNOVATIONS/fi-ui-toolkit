@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import FiltersPanelUIClassStyles from "../class_styles/filters_panel_ui_class_styles";
 
 import {
@@ -14,7 +15,17 @@ import RenderHtmlUtil from "../utils/render_html_util";
 import { SVGIconKey } from "../resources/svg_icon_resource";
 import { RouteQueryAndHash } from "vue-router";
 
-class FiltersPanelUIPropsBuilder {
+class FiltersPanelUIPropsBuilder extends BasePropSchema<FiltersPanelUIPropsInterface> {
+    public static readonly static_prop_keys = [
+        "id",
+        "toggle_btn_content",
+        "apply_button",
+        "clear_button",
+        "action_props",
+        "sync_route_query",
+        "class_styles"
+    ] satisfies readonly (keyof FiltersPanelUIPropsInterface)[];
+
     public static class_styles?: FiltersPanelUIClassStylesInterface;
 
     public static configure(class_styles?: FiltersPanelUIClassStylesInterface) {
@@ -87,7 +98,7 @@ class FiltersPanelUIPropsBuilder {
             overrides
         );
 
-        return reactive(props);
+        return this.createReactiveProps<FiltersPanelUIPropsInterface>(props);
     }
 
     // Method to hydrate filters from route query

@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import ImageRenderUIClassStyles from "../class_styles/image_render_ui_class_styles";
 
 import {
@@ -12,7 +13,13 @@ import {
 
 import ContentManagerUtil from "../utils/content_manager_util";
 
-class ImageRenderUIPropsBuilder {
+class ImageRenderUIPropsBuilder extends BasePropSchema<ImageRenderUIPropsInterface> {
+    public static readonly static_prop_keys = [
+        "id",
+        "action_props",
+        "class_styles"
+    ] satisfies readonly (keyof ImageRenderUIPropsInterface)[];
+
     public static class_styles?: ImageRenderUIClassStylesInterface;
 
     public static default_boolean_props?: ImageRenderUIBooleanPropsInterface;
@@ -72,7 +79,7 @@ class ImageRenderUIPropsBuilder {
     ): ImageRenderUIPropsInterface {
         const props = ImageRenderUIPropsBuilder.buildPropsObject(id, src, overrides);
 
-        return reactive<ImageRenderUIPropsInterface>(props);
+        return this.createReactiveProps<ImageRenderUIPropsInterface>(props);
     }
 
     public static getReactivePropsObjectFromContent(
@@ -96,7 +103,7 @@ class ImageRenderUIPropsBuilder {
             alt_text: img_alt_text
         });
 
-        return reactive<ImageRenderUIPropsInterface>(props);
+        return this.createReactiveProps<ImageRenderUIPropsInterface>(props);
     }
 }
 

@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import DecisionPromptUIClassStyles from "../class_styles/decision_prompt_ui_class_styles";
 
 import {
@@ -10,11 +11,16 @@ import {
 import ContentManagerUtil from "../utils/content_manager_util";
 import { ButtonUIPropsInterface } from "../ui_types/button_ui_type";
 
-class DecisionPromptUIPropsBuilder {
+class DecisionPromptUIPropsBuilder extends BasePropSchema<DecisionPromptUIPropsInterface> {
+    public static readonly static_prop_keys = [
+        "action_props",
+        "class_styles"
+    ] satisfies readonly (keyof DecisionPromptUIPropsInterface)[];
+
     public static getReactivePropsObject(
         overrides: Partial<DecisionPromptUIPropsInterface> = {}
     ): DecisionPromptUIPropsInterface {
-        return reactive({
+        return this.createReactiveProps<DecisionPromptUIPropsInterface>({
             content_props: {
                 title_text: "",
                 message_text: "",

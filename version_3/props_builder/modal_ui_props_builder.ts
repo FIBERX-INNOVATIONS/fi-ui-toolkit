@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import ModalUIClassStyles from "../class_styles/modal_ui_class_styles";
 
 import { OverlayUIPropsInterface } from "../ui_types/overlay_ui_type";
@@ -16,7 +17,14 @@ import {
 
 import ContentManagerUtil from "../utils/content_manager_util";
 
-class ModalUIPropsBuilder {
+class ModalUIPropsBuilder extends BasePropSchema<ModalUIPropsInterface> {
+    public static readonly static_prop_keys = [
+        "animation_type",
+        "layer",
+        "action_props",
+        "class_styles"
+    ] satisfies readonly (keyof ModalUIPropsInterface)[];
+
     public static class_styles?: ModalUIClassStylesInterface;
 
     public static default_overlay_props?: OverlayUIPropsInterface;
@@ -93,7 +101,7 @@ class ModalUIPropsBuilder {
     ): ModalUIPropsInterface {
         const props = ModalUIPropsBuilder.buildPropsObject(modal_index, overrides);
 
-        return reactive<ModalUIPropsInterface>(props);
+        return this.createReactiveProps<ModalUIPropsInterface>(props);
     }
 
     public static getReactivePropsObjectFromContentData(
@@ -119,7 +127,7 @@ class ModalUIPropsBuilder {
             title_icon
         });
 
-        return reactive<ModalUIPropsInterface>(props);
+        return this.createReactiveProps<ModalUIPropsInterface>(props);
     }
 }
 

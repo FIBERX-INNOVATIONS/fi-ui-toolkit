@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import ContentManagerUtil from "../utils/content_manager_util";
 
 import DataTableResultAndBulkActionBarUIClassStyles from "../class_styles/data_table_result_and_bulk_action_bar_ui_class_styles";
@@ -15,7 +16,14 @@ import {
 
 import { ButtonUIPropsInterface } from "../ui_types/button_ui_type";
 
-class DataTableResultAndBulkActionBarUIPropsBuilder {
+class DataTableResultAndBulkActionBarUIPropsBuilder extends BasePropSchema<DataTableResultAndBulkActionBarUIPropsInterface> {
+    public static readonly static_prop_keys = [
+        "id",
+        "layout",
+        "content_props",
+        "class_styles"
+    ] satisfies readonly (keyof DataTableResultAndBulkActionBarUIPropsInterface)[];
+
     private static readonly content_manager = ContentManagerUtil.getInstance();
 
     /* ---------------------------------- */
@@ -153,7 +161,7 @@ class DataTableResultAndBulkActionBarUIPropsBuilder {
 
         const props = DataTableResultAndBulkActionBarUIPropsBuilder.buildPropsObject(id, data_props, overrides);
 
-        return reactive<DataTableResultAndBulkActionBarUIPropsInterface>(props);
+        return this.createReactiveProps<DataTableResultAndBulkActionBarUIPropsInterface>(props);
     }
 }
 

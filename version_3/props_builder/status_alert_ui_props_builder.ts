@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import { SVGIconKey } from "../resources/svg_icon_resource";
 
 import ContentManagerUtil from "../utils/content_manager_util";
@@ -7,7 +8,13 @@ import StatusAlertUIClassstyles from "../class_styles/status_alert_ui_class_styl
 
 import { StatusAlertUIClassStylesInterface, StatusAlertUIPropsInterface } from "../ui_types/status_alert_ui_type";
 
-class StatusAlertPropsBuilder {
+class StatusAlertPropsBuilder extends BasePropSchema<StatusAlertUIPropsInterface> {
+    public static readonly static_prop_keys = [
+        "alert_box_id",
+        "class_styles",
+        "on_close"
+    ] satisfies readonly (keyof StatusAlertUIPropsInterface)[];
+
     private static readonly content_manager: ContentManagerUtil = ContentManagerUtil.getInstance();
 
     /* ---------------------------------- */
@@ -104,7 +111,7 @@ class StatusAlertPropsBuilder {
     ): StatusAlertUIPropsInterface {
         const props_obj = StatusAlertPropsBuilder.buildPropsObject(alert_status, alert_message, status_icon);
 
-        return reactive<StatusAlertUIPropsInterface>(props_obj);
+        return this.createReactiveProps<StatusAlertUIPropsInterface>(props_obj);
     }
 }
 

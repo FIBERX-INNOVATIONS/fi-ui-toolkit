@@ -1,5 +1,6 @@
 import { reactive, Ref } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import ContentManagerUtil from "../utils/content_manager_util";
 
 import {
@@ -9,7 +10,12 @@ import {
     ScreenLoaderUIContentPayloadInterface
 } from "../ui_types/screen_loader_ui_type";
 
-class ScreenLoaderUIPropsBuilder {
+class ScreenLoaderUIPropsBuilder extends BasePropSchema<ScreenLoaderUIPropsInterface> {
+    public static readonly static_prop_keys = [
+        "class_styles",
+        "loader_symbol"
+    ] satisfies readonly (keyof ScreenLoaderUIPropsInterface)[];
+
     private static readonly content_manager: ContentManagerUtil = ContentManagerUtil.getInstance();
 
     // Method to build props object
@@ -55,7 +61,7 @@ class ScreenLoaderUIPropsBuilder {
             content_data_key,
             class_styles
         );
-        return reactive<ScreenLoaderUIPropsInterface>(props_obj);
+        return this.createReactiveProps<ScreenLoaderUIPropsInterface>(props_obj);
     }
 }
 

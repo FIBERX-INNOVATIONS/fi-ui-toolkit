@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import OverlayUIClassStyles from "../class_styles/overlay_ui_class_styles";
 
 import {
@@ -9,7 +10,13 @@ import {
     OverlayUIActionPropsInterface
 } from "../ui_types/overlay_ui_type";
 
-class OverlayUIPropsBuilder {
+class OverlayUIPropsBuilder extends BasePropSchema<OverlayUIPropsInterface> {
+    public static readonly static_prop_keys = [
+        "id",
+        "action_props",
+        "class_styles"
+    ] satisfies readonly (keyof OverlayUIPropsInterface)[];
+
     public static class_styles?: OverlayUIClassStylesInterface;
 
     public static default_boolean_props?: OverlayUIBooleanPropsInterface;
@@ -61,7 +68,7 @@ class OverlayUIPropsBuilder {
     ): OverlayUIPropsInterface {
         const props = OverlayUIPropsBuilder.buildPropsObject(id, overrides);
 
-        return reactive<OverlayUIPropsInterface>(props);
+        return this.createReactiveProps<OverlayUIPropsInterface>(props);
     }
 
     /* ---------------------------------- */

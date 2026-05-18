@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import ContentManagerUtil from "../utils/content_manager_util";
 import CopyRightUIClassStyles from "../class_styles/copy_right_ui_class_styles";
 
@@ -9,7 +10,9 @@ import {
     CopyRightUIContentPayloadInterface
 } from "../ui_types/copy_rigth_ui_type";
 
-class CopyRightUIPropsBuilder {
+class CopyRightUIPropsBuilder extends BasePropSchema<CopyRightUIPropsInterface> {
+    public static readonly static_prop_keys = ["class_styles"] satisfies readonly (keyof CopyRightUIPropsInterface)[];
+
     private static readonly content_manager: ContentManagerUtil = ContentManagerUtil.getInstance();
 
     /* ---------------------------------- */
@@ -55,7 +58,7 @@ class CopyRightUIPropsBuilder {
     ): CopyRightUIPropsInterface {
         const props_obj = CopyRightUIPropsBuilder.buildPropsObject(content_data_key);
 
-        return reactive<CopyRightUIPropsInterface>(props_obj);
+        return this.createReactiveProps<CopyRightUIPropsInterface>(props_obj);
     }
 }
 

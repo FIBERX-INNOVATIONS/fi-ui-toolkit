@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import NavLinkUIClassStyles from "../class_styles/nav_link_ui_class_styles";
 
 import {
@@ -8,7 +9,13 @@ import {
     NavLinkUIActionPropsInterface
 } from "../ui_types/nav_link_ui_type";
 
-class NavLinkUIPropsBuilder {
+class NavLinkUIPropsBuilder extends BasePropSchema<NavLinkUIPropsInterface> {
+    public static readonly static_prop_keys = [
+        "id",
+        "action_props",
+        "class_styles"
+    ] satisfies readonly (keyof NavLinkUIPropsInterface)[];
+
     public static class_styles?: NavLinkUIClassStylesInterface;
 
     public static default_action_props?: NavLinkUIActionPropsInterface;
@@ -61,7 +68,7 @@ class NavLinkUIPropsBuilder {
     ): NavLinkUIPropsInterface {
         const props = NavLinkUIPropsBuilder.buildPropsObject(id, link, overrides);
 
-        return reactive<NavLinkUIPropsInterface>(props);
+        return this.createReactiveProps<NavLinkUIPropsInterface>(props);
     }
 }
 

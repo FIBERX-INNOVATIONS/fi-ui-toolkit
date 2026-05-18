@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import PageHeaderUIClassStyles from "../class_styles/page_header_ui_class_styles";
 
 import { PageHeaderUIPropsInterface, PageHeaderUIClassStylesInterface } from "../ui_types/page_header_ui_type";
@@ -8,7 +9,12 @@ import { HeaderTextUIPropsInterface } from "../ui_types/header_text_ui_type";
 import { ButtonUIPropsInterface } from "../ui_types/button_ui_type";
 import ContentManagerUtil from "../utils/content_manager_util";
 
-class PageHeaderUIPropsBuilder {
+class PageHeaderUIPropsBuilder extends BasePropSchema<PageHeaderUIPropsInterface> {
+    public static readonly static_prop_keys = [
+        "id",
+        "class_styles"
+    ] satisfies readonly (keyof PageHeaderUIPropsInterface)[];
+
     public static class_styles?: PageHeaderUIClassStylesInterface;
 
     public static configure(class_styles?: PageHeaderUIClassStylesInterface): void {
@@ -54,7 +60,7 @@ class PageHeaderUIPropsBuilder {
             overrides
         );
 
-        return reactive<PageHeaderUIPropsInterface>(props);
+        return this.createReactiveProps<PageHeaderUIPropsInterface>(props);
     }
 }
 

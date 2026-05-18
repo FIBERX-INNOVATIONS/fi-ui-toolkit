@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import ContentManagerUtil from "../utils/content_manager_util";
 import ButtonUIClassStyles from "../class_styles/button_ui_class_styles";
 
@@ -14,7 +15,14 @@ import {
 import RenderHtmlUtil from "../utils/render_html_util";
 import { SVGIconKey } from "../resources/svg_icon_resource";
 
-class ButtonUIPropsBuilder {
+class ButtonUIPropsBuilder extends BasePropSchema<ButtonUIPropsInterface> {
+    public static readonly static_prop_keys = [
+        "id",
+        "type",
+        "action_props",
+        "class_styles"
+    ] satisfies readonly (keyof ButtonUIPropsInterface)[];
+
     private static readonly content_manager = ContentManagerUtil.getInstance();
 
     public static class_styles?: ButtonUIClassStylesInterface;
@@ -108,7 +116,32 @@ class ButtonUIPropsBuilder {
     ): ButtonUIPropsInterface {
         const props = ButtonUIPropsBuilder.buildPropsObject(content_key, id, icon_key, type, overrides, record);
 
-        return reactive<ButtonUIPropsInterface>(props);
+        return this.createReactiveProps<ButtonUIPropsInterface>(props);
+    }
+
+    public static updateText(props: ButtonUIPropsInterface, button_html_content: string): ButtonUIPropsInterface {
+        return this.updateFlatProps(props, {
+            "content_props.button_html_content": button_html_content
+        });
+    }
+
+    public static updateLoadingText(
+        props: ButtonUIPropsInterface,
+        loading_html_content: string
+    ): ButtonUIPropsInterface {
+        return this.updateFlatProps(props, {
+            "content_props.loading_html_content": loading_html_content
+        });
+    }
+
+    public static setDisabled(props: ButtonUIPropsInterface, disabled: boolean): ButtonUIPropsInterface {
+        return this.updateFlatProps(
+            props,
+            {
+                "boolean_props.disabled": disabled
+            },
+            { create_missing_path: true }
+        );
     }
 }
 

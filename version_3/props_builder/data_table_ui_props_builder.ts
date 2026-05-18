@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import {
     DataTableColumnRenderType,
     DataTableUIActionPropsInterface,
@@ -12,7 +13,17 @@ import {
 import DataTableUIClassStyles from "../class_styles/data_table_ui_class_styles";
 import ContentManagerUtil from "../utils/content_manager_util";
 
-class DataTableUIPropsBuilder {
+class DataTableUIPropsBuilder extends BasePropSchema<DataTableUIPropsInterface> {
+    public static readonly static_prop_keys = [
+        "section_id",
+        "table_id",
+        "table_render_obj",
+        "row_key",
+        "class_styles",
+        "action_props",
+        "content"
+    ] satisfies readonly (keyof DataTableUIPropsInterface)[];
+
     /* ---------------------------------- */
     /* Global Config                      */
     /* ---------------------------------- */
@@ -110,7 +121,7 @@ class DataTableUIPropsBuilder {
     ): DataTableUIPropsInterface {
         const props_obj = DataTableUIPropsBuilder.buildPropsObject(row_key, table_render_obj, data, overrides);
 
-        return reactive(props_obj);
+        return this.createReactiveProps<DataTableUIPropsInterface>(props_obj);
     }
 }
 

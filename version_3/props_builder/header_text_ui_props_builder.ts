@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import ContentManagerUtil from "../utils/content_manager_util";
 import HeaderTextUiClassStyles from "../class_styles/header_text_class_styles";
 
@@ -9,7 +10,12 @@ import {
     HeaderTextUIPropsInterface
 } from "../ui_types/header_text_ui_type";
 
-class HeaderTextUIPropsBuilder {
+class HeaderTextUIPropsBuilder extends BasePropSchema<HeaderTextUIPropsInterface> {
+    public static readonly static_prop_keys = [
+        "header_tag",
+        "class_styles"
+    ] satisfies readonly (keyof HeaderTextUIPropsInterface)[];
+
     private static readonly content_manager: ContentManagerUtil = ContentManagerUtil.getInstance();
 
     /* ---------------------------------- */
@@ -59,7 +65,11 @@ class HeaderTextUIPropsBuilder {
             overides.class_styles
         );
 
-        return reactive<HeaderTextUIPropsInterface>(props_obj);
+        return this.createReactiveProps<HeaderTextUIPropsInterface>(props_obj);
+    }
+
+    public static updateText(props: HeaderTextUIPropsInterface, text_value: string): HeaderTextUIPropsInterface {
+        return this.updateProp(props, "text_value", text_value);
     }
 }
 

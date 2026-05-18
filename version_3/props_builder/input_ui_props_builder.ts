@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
+import BasePropSchema from "../base_classes/base_prop_schema";
 import ContentManagerUtil from "../utils/content_manager_util";
 import InputUIClassStyles from "../class_styles/input_ui_class_styles";
 
@@ -15,7 +16,18 @@ import {
     InputUIContentPayloadInterface
 } from "../ui_types/input_ui_type";
 
-class InputUIPropsBuilder {
+class InputUIPropsBuilder extends BasePropSchema<InputUIPropsInterface> {
+    public static readonly static_prop_keys = [
+        "id",
+        "switch_btn_id",
+        "type",
+        "content_props",
+        "number_props",
+        "file_props",
+        "action_props",
+        "class_styles"
+    ] satisfies readonly (keyof InputUIPropsInterface)[];
+
     private static readonly content_manager = ContentManagerUtil.getInstance();
 
     /* ---------------------------------- */
@@ -157,7 +169,45 @@ class InputUIPropsBuilder {
     ): InputUIPropsInterface {
         const props = InputUIPropsBuilder.buildPropsObject(id, type, content_key, overrides);
 
-        return reactive<InputUIPropsInterface>(props);
+        return this.createReactiveProps<InputUIPropsInterface>(props);
+    }
+
+    public static updateValue(
+        props: InputUIPropsInterface,
+        model_value: InputUIPropsInterface["model_value"]
+    ): InputUIPropsInterface {
+        return this.updateProp(props, "model_value", model_value);
+    }
+
+    public static updatePlaceholder(props: InputUIPropsInterface, placeholder_text: string): InputUIPropsInterface {
+        return this.updateProp(props, "placeholder_text", placeholder_text);
+    }
+
+    public static updateOptions(
+        props: InputUIPropsInterface,
+        option_props: SelectOptionInterface[]
+    ): InputUIPropsInterface {
+        return this.updateProp(props, "option_props", option_props);
+    }
+
+    public static setDisabled(props: InputUIPropsInterface, disabled: boolean): InputUIPropsInterface {
+        return this.updateFlatProps(
+            props,
+            {
+                "boolean_props.disabled": disabled
+            },
+            { create_missing_path: true }
+        );
+    }
+
+    public static setLoading(props: InputUIPropsInterface, is_loading: boolean): InputUIPropsInterface {
+        return this.updateFlatProps(
+            props,
+            {
+                "boolean_props.is_loading": is_loading
+            },
+            { create_missing_path: true }
+        );
     }
 }
 
