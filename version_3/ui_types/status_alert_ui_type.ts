@@ -1,6 +1,4 @@
-
 import { SVGIconKey } from "../resources/svg_icon_resource";
-
 
 /* ---------------------------------- */
 /* Class Styles                       */
@@ -27,7 +25,6 @@ export interface StatusAlertUIClassStylesInterface {
 /* ---------------------------------- */
 
 export interface StatusAlertUIPropsInterface {
-
     alert_box_id?: string;
 
     visible?: boolean;
@@ -43,5 +40,4 @@ export interface StatusAlertUIPropsInterface {
     status_content_messgae?: string | null;
 
     on_close?: (event?: MouseEvent) => void | null;
-
 }

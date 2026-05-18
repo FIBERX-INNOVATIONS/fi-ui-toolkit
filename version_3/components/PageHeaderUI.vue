@@ -1,59 +1,34 @@
 <template>
-
-    <div
-        :id="id"
-        :class="class_styles.wrapper_class_style"
-    >
-
+    <div :id="id" :class="class_styles.wrapper_class_style">
         <!-- Top Row -->
 
         <div :class="class_styles.top_row_class_style">
-
             <!-- Header -->
 
             <div :class="class_styles.header_wrapper_class_style">
-
-                <HeaderTextUI
-                    v-if="header_props"
-                    v-bind="header_props"
-                />
-
+                <HeaderTextUI v-if="header_props" v-bind="header_props" />
             </div>
 
             <!-- Action Buttons -->
 
-            <div
-                v-if="computed_refs.has_actions.value"
-                :class="class_styles.action_buttons_wrapper_class_style"
-            >
-
-                <ButtonUI
-                    v-for="(btn,index) in action_buttons"
-                    :key="btn?.id ?? index"
-                    v-bind="btn"
-                />
-
+            <div v-if="has_actions" :class="class_styles.action_buttons_wrapper_class_style">
+                <ButtonUI v-for="(btn, index) in display_action_buttons" :key="btn?.id ?? index" v-bind="btn" />
             </div>
-
         </div>
 
-            <!-- Description -->
+        <!-- Description -->
 
         <div
-            v-if="computed_refs.has_description.value"
+            v-if="has_description"
             :class="class_styles.description_class_style"
-            v-html="description_text"
+            v-html="display_description_text"
         ></div>
 
         <slot />
-
     </div>
-
 </template>
 
-
 <script setup lang="ts">
-
 import PageHeaderUIProps from "../props/page_header_ui_props";
 import PageHeaderUIController from "../controllers/page_header_ui_controller";
 
@@ -61,22 +36,11 @@ const props = defineProps(PageHeaderUIProps);
 
 const controller = new PageHeaderUIController(props);
 
-const {
-    id,
-    header_props,
-    description_text,
-    action_buttons,
-    class_styles
-} = props;
+const { id, header_props, class_styles } = props;
 
-const {
-    computed_refs,
-    components
-} = controller;
+const { computed_refs, components } = controller;
 
-const {
-    HeaderTextUI,
-    ButtonUI
-} = components
+const { HeaderTextUI, ButtonUI } = components;
 
+const { has_actions, has_description, display_description_text, display_action_buttons } = computed_refs;
 </script>

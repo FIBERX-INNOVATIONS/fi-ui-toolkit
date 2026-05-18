@@ -5,7 +5,6 @@ import { InputUIPropsInterface } from "./input_ui_type";
 /* ---------------------------------- */
 
 export interface InputGroupUIClassStylesInterface {
-
     wrapper_class_style: string;
 
     label_wrapper_class_style: string;
@@ -17,13 +16,11 @@ export interface InputGroupUIClassStylesInterface {
     group_input_wrapper_class_style: string;
 }
 
-
 /* ---------------------------------- */
 /* Props Interface                    */
 /* ---------------------------------- */
 
 export interface InputGroupUIPropsInterface {
-
     id?: string;
 
     label_text?: string;
@@ -37,5 +34,4 @@ export interface InputGroupUIPropsInterface {
     input_props?: InputUIPropsInterface;
 
     class_styles?: InputGroupUIClassStylesInterface;
-
 }

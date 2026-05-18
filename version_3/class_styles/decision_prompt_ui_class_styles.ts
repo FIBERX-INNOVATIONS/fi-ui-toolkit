@@ -1,16 +1,15 @@
 import { DecisionPromptUIClassStylesInterface } from "../ui_types/decision_prompt_ui_type";
 
 const DecisionPromptUIClassStyles: DecisionPromptUIClassStylesInterface = {
+    wrapper_class_style: "flex flex-col gap-6 p-6 max-w-md bg-white rounded-lg shadow-lg",
 
-    wrapper_class_style: "flex flex-col gap-4",
+    content_wrapper_class_style: "flex flex-col gap-3",
 
-    content_wrapper_class_style: "flex flex-col gap-2",
+    title_class_style: "text-lg font-bold text-gray-900",
 
-    title_class_style: "text-lg font-semibold",
+    message_class_style: "text-sm text-gray-600 leading-relaxed",
 
-    message_class_style: "text-sm text-gray-600",
-
-    actions_wrapper_class_style: "flex justify-end gap-2"
+    actions_wrapper_class_style: "flex gap-3 justify-end pt-4 border-t border-gray-200"
 };
 
 export default DecisionPromptUIClassStyles;

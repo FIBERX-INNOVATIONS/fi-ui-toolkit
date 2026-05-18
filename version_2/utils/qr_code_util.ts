@@ -1,7 +1,7 @@
 // qr_code_util.ts
 import QRCode from "qrcode";
 
-import { QRCodeOptions } from "../../version_3/types/util_type"
+import { QRCodeOptions } from "../../version_3/types/util_type";
 
 class QRCodeUtil {
     public static readonly name = "qr_code_util";
@@ -12,18 +12,17 @@ class QRCodeUtil {
      * @param options - Optional QR generation config
      * @returns Promise<string> - base64 PNG as data URL
      */
-    public static async generateDataUrl(
-        text: string,
-        options: QRCodeOptions = {}
-    ): Promise<string> {
-        if (!text || typeof text !== "string") { return "" }
+    public static async generateDataUrl(text: string, options: QRCodeOptions = {}): Promise<string> {
+        if (!text || typeof text !== "string") {
+            return "";
+        }
 
         try {
             return await QRCode.toDataURL(text, {
                 errorCorrectionLevel: "M",
                 margin: 2,
                 width: 300,
-                ...options,
+                ...options
             });
         } catch (error: any) {
             console.error("QRCodeUtil.generateDataUrl error:", error);
@@ -37,10 +36,7 @@ class QRCodeUtil {
      * @param options - Optional QR generation config
      * @returns Promise<Buffer>
      */
-    public static async generateBuffer(
-        text: string,
-        options: QRCodeOptions = {}
-    ): Promise<Buffer> {
+    public static async generateBuffer(text: string, options: QRCodeOptions = {}): Promise<Buffer> {
         if (!text || typeof text !== "string") {
             throw new Error("QRCodeUtil.generateBuffer: input text must be a valid string.");
         }
@@ -50,7 +46,7 @@ class QRCodeUtil {
                 errorCorrectionLevel: "M",
                 margin: 2,
                 width: 300,
-                ...options,
+                ...options
             });
         } catch (error: any) {
             console.error("QRCodeUtil.generateBuffer error:", error);

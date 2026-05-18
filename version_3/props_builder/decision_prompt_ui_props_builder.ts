@@ -11,13 +11,10 @@ import ContentManagerUtil from "../utils/content_manager_util";
 import { ButtonUIPropsInterface } from "../ui_types/button_ui_type";
 
 class DecisionPromptUIPropsBuilder {
-
     public static getReactivePropsObject(
         overrides: Partial<DecisionPromptUIPropsInterface> = {}
     ): DecisionPromptUIPropsInterface {
-
         return reactive({
-
             content_props: {
                 title_text: "",
                 message_text: "",
@@ -42,7 +39,6 @@ class DecisionPromptUIPropsBuilder {
                 ...DecisionPromptUIClassStyles,
                 ...overrides.class_styles
             }
-
         });
     }
 
@@ -59,19 +55,16 @@ class DecisionPromptUIPropsBuilder {
     }: {
         title_text_content_key?: string;
         message_text_content_key?: string;
-        record?: Record<string, any>
+        record?: Record<string, any>;
         confirm_button_props?: Partial<ButtonUIPropsInterface>;
         cancel_button_props?: Partial<ButtonUIPropsInterface>;
         class_styles?: DecisionPromptUIClassStylesInterface;
     }): DecisionPromptUIPropsInterface {
-
         const content_manager = ContentManagerUtil.getInstance();
 
-        const title_text =
-            content_manager?.getWithRecord<string>(title_text_content_key ?? "", record, "" ) ?? "";
+        const title_text = content_manager?.getWithRecord<string>(title_text_content_key ?? "", record, "") ?? "";
 
-        const message_text =
-            content_manager?.getWithRecord<string>(message_text_content_key ?? "", record, "") ?? "";
+        const message_text = content_manager?.getWithRecord<string>(message_text_content_key ?? "", record, "") ?? "";
 
         return this.getReactivePropsObject({
             content_props: {

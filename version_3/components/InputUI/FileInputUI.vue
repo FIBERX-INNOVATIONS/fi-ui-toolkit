@@ -28,71 +28,44 @@
             />
 
             <!-- GENERIC FILE PREVIEW -->
-            <div
-                v-else
-                :class="class_styles.generic_file_preview_wrapper_class_style"
-            >
+            <div v-else :class="class_styles.generic_file_preview_wrapper_class_style">
                 <span
                     :class="class_styles.generic_file_preview_icon_class_style"
                     v-html="getSVGIconValue(file_props?.generic_file_preview_icon ?? 'paper_clip_attachment_svg_icon')"
                 ></span>
                 <span
                     :class="class_styles.generic_file_preview_content_class_style"
-                    v-html="file_props?.generic_file_preview_content ?? computed_refs?.file_name?.value ?? 'Selected file'"
+                    v-html="
+                        file_props?.generic_file_preview_content ?? computed_refs?.file_name?.value ?? 'Selected file'
+                    "
                 ></span>
             </div>
         </div>
 
-        <span 
-            v-if="helper_text"
-            :class="class_styles.helper_text_class_style"
-            v-html="helper_text"
-        ></span>
+        <span v-if="helper_text" :class="class_styles.helper_text_class_style" v-html="helper_text"></span>
 
-        <span 
-            v-if="error_text"
-            :class="class_styles.error_text_class_style"
-            v-html="error_text"
-        ></span>
+        <span v-if="error_text" :class="class_styles.error_text_class_style" v-html="error_text"></span>
     </div>
-
 </template>
 
 <script setup lang="ts">
-import InputUIProps      from "../../props/input_ui_props";
+import InputUIProps from "../../props/input_ui_props";
 import InputUIController from "../../controllers/input_ui_controller";
 import { getSVGIconValue } from "../../resources/svg_icon_resource";
 
-const props         = defineProps(InputUIProps);
-const controller    = new InputUIController(props);
+const props = defineProps(InputUIProps);
+const controller = new InputUIController(props);
 
-const {
-    id,
-    type,
-    placeholder_text,
-    helper_text,
-    class_styles,
-    file_props,
-    boolean_props
-} = props
+const { id, type, placeholder_text, helper_text, class_styles, file_props, boolean_props } = props;
 
-const {
-    state_refs,
-    computed_refs,
-    action_handler
-} = controller;
+const { state_refs, computed_refs, action_handler } = controller;
 
-const {
-    input_value,
-    error_text
-} = state_refs
+const { input_value, error_text } = state_refs;
 
-const readonly_class_style  = boolean_props.read_only ? class_styles.input_readonly_class_style : "";
-const input_class_style     = [
+const readonly_class_style = boolean_props.read_only ? class_styles.input_readonly_class_style : "";
+const input_class_style = [
     class_styles.input_class_style,
     readonly_class_style,
     class_styles.file_input_class_style
-
 ].join(" ");
-
 </script>

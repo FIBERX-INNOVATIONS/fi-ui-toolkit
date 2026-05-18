@@ -9,9 +9,7 @@ import {
     ImageRenderUIPropsInterface
 } from "../ui_types/image_render_ui_type";
 
-
 const ImageRenderUIProps = {
-
     id: {
         type: String,
         required: true
@@ -46,7 +44,6 @@ const ImageRenderUIProps = {
         type: Object as PropType<ImageRenderUIClassStylesInterface>,
         default: () => ImageRenderUIClassStyles
     }
-
 } satisfies Record<keyof ImageRenderUIPropsInterface, any>;
 
 export default ImageRenderUIProps;

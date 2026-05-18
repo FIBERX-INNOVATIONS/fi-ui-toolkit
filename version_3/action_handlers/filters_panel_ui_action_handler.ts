@@ -1,23 +1,19 @@
-
-
+import BaseActionHandler from "../base_classes/base_action_handler";
 import BaseController from "../base_classes/base_controller";
 
-import { 
+import {
+    FiltersPanelUIComponentsInterface,
+    FiltersPanelUIComputedDataInterface,
+    FiltersPanelUIPropsInterface,
+    FiltersPanelUIStateDataInterface
+} from "../ui_types/filters_panel_ui_type";
+
+class FiltersPanelUIActionHandler extends BaseActionHandler<
     FiltersPanelUIPropsInterface,
     FiltersPanelUIStateDataInterface,
     FiltersPanelUIComputedDataInterface,
-    FiltersPanelUIComponentsInterface,
-} from "../ui_types/filters_panel_ui_type";
-
-class FiltersPanelUIActionHandler {
-
-    private controller: BaseController<
-        FiltersPanelUIPropsInterface,
-        FiltersPanelUIStateDataInterface,
-        FiltersPanelUIComputedDataInterface,
-        FiltersPanelUIComponentsInterface
-    >;
-
+    FiltersPanelUIComponentsInterface
+> {
     constructor(
         controller: BaseController<
             FiltersPanelUIPropsInterface,
@@ -26,86 +22,57 @@ class FiltersPanelUIActionHandler {
             FiltersPanelUIComponentsInterface
         >
     ) {
-        this.controller = controller;
+        super(controller);
     }
 
+    public togglePanel = (): void => {
+        this.setState("is_open", !this.state_refs.is_open.value);
+    };
 
-    // Method to toggle filter panel
-    public togglePanel  = () => {
+    public applyFilters = async (): Promise<void> => {
+        const filter_values = this.state_refs.filter_values.value;
 
-        const { state_refs } = this.controller;
-
-        this.controller.state_refs.is_open.value = !state_refs.is_open.value;
-
-        return;
-
-    }
-
-    // Method to apply filters
-    public applyFilters = async () => {
-
-        const { state_refs, props, route, router } = this.controller;
-
-        const filter_values = state_refs.filter_values.value;
-
-        if (props.sync_route_query) {
-
-            const new_query: Record<string, any> = {
-                ...route.query
-            };
+        if (this.props.sync_route_query) {
+            const new_query: Record<string, any> = { ...this.controller.route.query };
 
             Object.keys(filter_values).forEach((key) => {
-
                 const filter_raw_value = filter_values[key];
 
                 if (filter_raw_value !== null && filter_raw_value !== "" && filter_raw_value !== undefined) {
-                    const filter_str_value = typeof filter_raw_value === "string" ? filter_raw_value : JSON.stringify(filter_raw_value);
-                    new_query[key] = filter_str_value;
+                    new_query[key] =
+                        typeof filter_raw_value === "string" ? filter_raw_value : JSON.stringify(filter_raw_value);
                 } else {
                     delete new_query[key];
                 }
-
             });
 
-            await router.replace({
-                query: new_query
-            });
-
+            await this.controller.router.replace({ query: new_query });
         }
 
-        await props.action_props?.on_apply_filters?.(filter_values);
+        const { on_apply_filters } = this.props.action_props || {};
 
-    }
+        await this.invokeAction(on_apply_filters, filter_values);
+    };
 
-    // Method to clear filters
-    public clearFilters = async () => {
+    public clearFilters = async (): Promise<void> => {
+        const filter_keys = Object.keys(this.state_refs.filter_values.value);
 
-        const { state_refs, props, route, router } = this.controller;
+        this.setState("filter_values", {});
 
-        const filter_keys = Object.keys(state_refs.filter_values.value);
-
-        // reset filter values
-        this.controller.state_refs.filter_values.value = {};
-
-        if (props.sync_route_query) {
-
-            const new_query: Record<string, any> = { ...route.query };
+        if (this.props.sync_route_query) {
+            const new_query: Record<string, any> = { ...this.controller.route.query };
 
             filter_keys.forEach((key) => {
                 delete new_query[key];
             });
 
-            await router.replace({
-                query: new_query
-            });
-
+            await this.controller.router.replace({ query: new_query });
         }
 
-        await props.action_props?.on_clear_filters?.();
+        const { on_clear_filters } = this.props.action_props || {};
 
-    }
-
-
+        await this.invokeAction(on_clear_filters);
+    };
 }
 
 export default FiltersPanelUIActionHandler;

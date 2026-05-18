@@ -11,7 +11,6 @@ import {
 import { ButtonUIPropsInterface } from "../ui_types/button_ui_type";
 
 const FilePreviewUploadUIProps = {
-
     files: {
         type: Array as PropType<File[]>,
         default: () => []
@@ -41,7 +40,6 @@ const FilePreviewUploadUIProps = {
         type: Object as PropType<FilePreviewUploadUIClassStylesInterface>,
         default: () => ({})
     }
-
 } satisfies Record<keyof FilePreviewUploadUIPropsInterface, any>;
 
 export default FilePreviewUploadUIProps;

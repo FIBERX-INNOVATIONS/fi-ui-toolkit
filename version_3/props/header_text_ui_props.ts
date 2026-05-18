@@ -6,9 +6,9 @@ import {
     HeaderTextUIPropsInterface
 } from "../ui_types/header_text_ui_type";
 
+import HeaderTextUiClassStyles from "../class_styles/header_text_class_styles";
 
 const HeaderTextUIProps = {
-
     header_tag: {
         type: String as PropType<HeaderTagType>,
         default: "h2"
@@ -21,11 +21,8 @@ const HeaderTextUIProps = {
 
     class_styles: {
         type: Object as PropType<HeaderTextUIClassStylesInterface>,
-        default: () => ({
-            text_class_style: ""
-        })
+        default: () => HeaderTextUiClassStyles
     }
-
 } satisfies Record<keyof HeaderTextUIPropsInterface, any>;
 
 export default HeaderTextUIProps;

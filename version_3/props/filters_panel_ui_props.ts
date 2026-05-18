@@ -11,9 +11,7 @@ import {
 
 import { ButtonUIPropsInterface } from "../ui_types/button_ui_type";
 
-
 const FiltersPanelUIProps = {
-
     id: {
         type: String,
         default: ""
@@ -58,7 +56,6 @@ const FiltersPanelUIProps = {
         type: Object as PropType<Record<string, any>>,
         default: () => ({})
     }
-
 } satisfies Record<keyof FiltersPanelUIPropsInterface, any>;
 
 export default FiltersPanelUIProps;

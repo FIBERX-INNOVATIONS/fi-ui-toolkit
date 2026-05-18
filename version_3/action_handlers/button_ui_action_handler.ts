@@ -1,23 +1,19 @@
-
-
+import BaseActionHandler from "../base_classes/base_action_handler";
 import BaseController from "../base_classes/base_controller";
 
-import { 
+import {
+    ButtonUIComponentsInterface,
+    ButtonUIComputedDataInterface,
+    ButtonUIPropsInterface,
+    ButtonUIStateDataInterface
+} from "../ui_types/button_ui_type";
+
+class ButtonUIActionHandler extends BaseActionHandler<
     ButtonUIPropsInterface,
     ButtonUIStateDataInterface,
     ButtonUIComputedDataInterface,
-    ButtonUIComponentsInterface,
-} from "../ui_types/button_ui_type";
-
-class ButtonUIActionHandler {
-
-    private controller: BaseController<
-        ButtonUIPropsInterface,
-        ButtonUIStateDataInterface,
-        ButtonUIComputedDataInterface,
-        ButtonUIComponentsInterface
-    >;
-
+    ButtonUIComponentsInterface
+> {
     constructor(
         controller: BaseController<
             ButtonUIPropsInterface,
@@ -26,53 +22,28 @@ class ButtonUIActionHandler {
             ButtonUIComponentsInterface
         >
     ) {
-        this.controller = controller;
+        super(controller);
     }
 
     public handleOnClick = async (event: MouseEvent): Promise<void> => {
+        await this.runWithLoading(
+            "is_loading",
+            async () => {
+                const { on_click } = this.props.action_props || {};
 
-        if(this.controller.state_refs.is_loading.value) {
-            return 
-        }
-
-        this.controller.state_refs.is_loading.value = true;
-
-        try {
-            const { props, state_refs } = this.controller;
-
-            const { on_click } = props.action_props || {};
-
-            if(!on_click) { 
-                return 
-            }
-
-            await on_click(event, { props });
-            return;
-        }
-        catch(error: any) {
-            console.error(`[${this.controller.name}] handleOnClick error:`, error);
-            return;
-        }
-        finally {
-            this.controller.state_refs.is_loading.value = false;
-        }
-    }
+                const result = await this.invokeAction(on_click, event, { props: this.props });
+                this.setErrorFromResult(result);
+            },
+            { prevent_when_loading: true }
+        );
+    };
 
     public handleOnHover = async (event: MouseEvent): Promise<void> => {
+        const { on_hover } = this.props.action_props || {};
 
-        const { props }     = this.controller;
-        const { on_hover }  = props.action_props || {};
-
-        if(!on_hover) { 
-            return 
-        }
-
-        await on_hover?.(event, { props });
-
-        return;
-
-    }
-
+        const result = await this.invokeAction(on_hover, event, { props: this.props });
+        this.setErrorFromResult(result);
+    };
 }
 
 export default ButtonUIActionHandler;

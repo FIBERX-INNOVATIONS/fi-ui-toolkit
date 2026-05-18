@@ -1,15 +1,14 @@
-
-import BaseController  from "../base_classes/base_controller";
+import BaseController from "../base_classes/base_controller";
 
 import NavLinkUI from "../components/NavLinkUI.vue";
 
 import { ComputedDefinitionType } from "../types/base_type";
 
-import { 
+import {
     DropdownMenuUIPropsInterface,
     DropdownMenuUIStateDataInterface,
     DropdownMenuUIComputedDataInterface,
-    DropdownMenuUIComponentsInterface,
+    DropdownMenuUIComponentsInterface
 } from "../ui_types/dropdown_menu_ui_type";
 
 class DropdownMenuUIController extends BaseController<
@@ -17,28 +16,21 @@ class DropdownMenuUIController extends BaseController<
     DropdownMenuUIStateDataInterface,
     DropdownMenuUIComputedDataInterface,
     DropdownMenuUIComponentsInterface
->{
-
+> {
     constructor(props: DropdownMenuUIPropsInterface) {
-
         super("dropdown_menu_ui", props);
 
         this.getComponentDefinition();
-
     }
 
     protected getUIComponents(): DropdownMenuUIComponentsInterface {
-
         return {
             NavLinkUI
         };
-
     }
 
     protected getUIStateData(): DropdownMenuUIStateDataInterface {
-
         return {
-
             is_open: false,
 
             position: "bottom",
@@ -46,31 +38,28 @@ class DropdownMenuUIController extends BaseController<
             top: 0,
 
             left: 0
-
         };
-
     }
 
     protected getUIComputedData(): ComputedDefinitionType<DropdownMenuUIComputedDataInterface> {
-
         return {
-
             wrapper_style: () => {
-
                 return {
-
                     top: `${this.state_refs.top}px`,
 
                     left: `${this.state_refs.left}px`
-
                 };
+            },
 
+            has_items: () => {
+                return Array.isArray(this.props.menu_items) && this.props.menu_items.length > 0;
+            },
+
+            display_items: () => {
+                return Array.isArray(this.props.menu_items) ? this.props.menu_items : [];
             }
-
         };
-
     }
-
 }
 
 export default DropdownMenuUIController;

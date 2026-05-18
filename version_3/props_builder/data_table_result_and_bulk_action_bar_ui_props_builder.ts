@@ -15,11 +15,8 @@ import {
 
 import { ButtonUIPropsInterface } from "../ui_types/button_ui_type";
 
-
 class DataTableResultAndBulkActionBarUIPropsBuilder {
-
-    private static readonly content_manager =
-        ContentManagerUtil.getInstance();
+    private static readonly content_manager = ContentManagerUtil.getInstance();
 
     /* ---------------------------------- */
     /* Global Config                      */
@@ -33,68 +30,49 @@ class DataTableResultAndBulkActionBarUIPropsBuilder {
 
     public static default_selection_props?: DataTableResultAndBulkActionBarUISelectionPropsInterface;
 
-
     /* ---------------------------------- */
     /* Content Fetch                      */
     /* ---------------------------------- */
 
     private static getContentText(content_key?: string): string {
-
         if (!content_key) return "";
 
-        return (
-            DataTableResultAndBulkActionBarUIPropsBuilder.content_manager?.get<string>(content_key) ?? ""
-        );
-
+        return DataTableResultAndBulkActionBarUIPropsBuilder.content_manager?.get<string>(content_key) ?? "";
     }
-
 
     /* ---------------------------------- */
     /* Configure                          */
     /* ---------------------------------- */
 
     public static configure(params: {
-        class_styles?: DataTableResultAndBulkActionBarUIClassStylesInterface,
-        layout?: HeaderBarLayoutType,
-        content_props?: DataTableResultAndBulkActionBarUIContentPropsInterface,
-        selection_props?: DataTableResultAndBulkActionBarUISelectionPropsInterface
+        class_styles?: DataTableResultAndBulkActionBarUIClassStylesInterface;
+        layout?: HeaderBarLayoutType;
+        content_props?: DataTableResultAndBulkActionBarUIContentPropsInterface;
+        selection_props?: DataTableResultAndBulkActionBarUISelectionPropsInterface;
     }): void {
-        const {
-            class_styles,
-            layout = "text-left",
-            content_props,
-            selection_props
-        } = params
+        const { class_styles, layout = "text-left", content_props, selection_props } = params;
 
         DataTableResultAndBulkActionBarUIPropsBuilder.class_styles =
             class_styles || DataTableResultAndBulkActionBarUIClassStyles;
 
-        DataTableResultAndBulkActionBarUIPropsBuilder.default_layout =
-            layout;
+        DataTableResultAndBulkActionBarUIPropsBuilder.default_layout = layout;
 
-        DataTableResultAndBulkActionBarUIPropsBuilder.default_content_props =
-            content_props || {};
+        DataTableResultAndBulkActionBarUIPropsBuilder.default_content_props = content_props || {};
 
-        DataTableResultAndBulkActionBarUIPropsBuilder.default_selection_props =
-            selection_props || {};
-
+        DataTableResultAndBulkActionBarUIPropsBuilder.default_selection_props = selection_props || {};
     }
-
 
     /* ---------------------------------- */
     /* Build Props Object                 */
     /* ---------------------------------- */
 
     private static buildPropsObject(
-
         id: string,
 
         data_props: DataTableResultAndBulkActionBarUIDataPropsInterface,
 
         overrides: Partial<DataTableResultAndBulkActionBarUIPropsInterface> = {}
-
     ): DataTableResultAndBulkActionBarUIPropsInterface {
-
         const class_styles =
             overrides.class_styles ??
             DataTableResultAndBulkActionBarUIPropsBuilder.class_styles ??
@@ -106,8 +84,7 @@ class DataTableResultAndBulkActionBarUIPropsBuilder {
             overrides.content_props?.header_text_key ??
             DataTableResultAndBulkActionBarUIPropsBuilder.default_content_props?.header_text_key;
 
-        const header_text =
-            DataTableResultAndBulkActionBarUIPropsBuilder.getContentText(header_text_key);
+        const header_text = DataTableResultAndBulkActionBarUIPropsBuilder.getContentText(header_text_key);
 
         const content_props: DataTableResultAndBulkActionBarUIContentPropsInterface = {
             header_text_key: header_text_key
@@ -116,22 +93,17 @@ class DataTableResultAndBulkActionBarUIPropsBuilder {
         /* ---------- Selection ---------- */
 
         const selection_props: DataTableResultAndBulkActionBarUISelectionPropsInterface = {
-
             ...DataTableResultAndBulkActionBarUIPropsBuilder.default_selection_props,
 
             ...overrides.selection_props
-
         };
 
         /* ---------- Final Props ---------- */
 
         return {
-
             id,
 
-            layout:
-                overrides.layout ??
-                DataTableResultAndBulkActionBarUIPropsBuilder.default_layout,
+            layout: overrides.layout ?? DataTableResultAndBulkActionBarUIPropsBuilder.default_layout,
 
             content_props,
 
@@ -140,18 +112,14 @@ class DataTableResultAndBulkActionBarUIPropsBuilder {
             selection_props,
 
             class_styles
-
         };
-
     }
-
 
     /* ---------------------------------- */
     /* Public Builder                     */
     /* ---------------------------------- */
 
     public static getReactivePropsObject(
-
         id: string,
 
         total_records: number,
@@ -167,15 +135,13 @@ class DataTableResultAndBulkActionBarUIPropsBuilder {
         selected_records_count: number = 0,
 
         overrides: Partial<DataTableResultAndBulkActionBarUIPropsInterface> = {}
-
     ): DataTableResultAndBulkActionBarUIPropsInterface {
-
         const data_props: DataTableResultAndBulkActionBarUIDataPropsInterface = {
             total_records,
             filtered_records,
             current_page,
-            total_pages,
-        }
+            total_pages
+        };
 
         const selection_props: DataTableResultAndBulkActionBarUISelectionPropsInterface = {
             show_bulk_button,
@@ -185,17 +151,10 @@ class DataTableResultAndBulkActionBarUIPropsBuilder {
 
         overrides.selection_props = selection_props;
 
-        const props =
-            DataTableResultAndBulkActionBarUIPropsBuilder.buildPropsObject(
-                id,
-                data_props,
-                overrides
-            );
+        const props = DataTableResultAndBulkActionBarUIPropsBuilder.buildPropsObject(id, data_props, overrides);
 
         return reactive<DataTableResultAndBulkActionBarUIPropsInterface>(props);
-
     }
-
 }
 
 export default DataTableResultAndBulkActionBarUIPropsBuilder;

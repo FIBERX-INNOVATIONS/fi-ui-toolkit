@@ -1,7 +1,6 @@
 import { ImageRenderUIClassStylesInterface } from "../ui_types/image_render_ui_type";
 
 const ImageRenderUIClassStyles: ImageRenderUIClassStylesInterface = {
-
     wrapper_class_style: "relative",
 
     image_class_style: "w-full h-auto",
@@ -11,7 +10,6 @@ const ImageRenderUIClassStyles: ImageRenderUIClassStylesInterface = {
     loading_class_style: "opacity-50",
 
     error_class_style: "bg-gray-200"
-
 };
 
 export default ImageRenderUIClassStyles;

@@ -1,6 +1,5 @@
 import { InputType, InputUIPropsInterface, SelectOptionInterface } from "../ui_types/input_ui_type";
 
-
 export interface ListFilterConfig {
     key: string; // used in filter_values + query
     type: InputType;
@@ -8,5 +7,5 @@ export interface ListFilterConfig {
     input_content_key?: string;
     options_content_key?: string;
     options?: SelectOptionInterface[];
-    overides?: Partial<InputUIPropsInterface>
+    overides?: Partial<InputUIPropsInterface>;
 }

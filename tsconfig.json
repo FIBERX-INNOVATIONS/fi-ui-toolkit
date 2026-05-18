@@ -10,18 +10,13 @@
         "skipLibCheck": true,
         "resolveJsonModule": true,
         "allowJs": true,
-         "declaration": true,
+        "declaration": true,
         "types": ["Node"],
         "lib": ["ES6", "DOM"],
         "typeRoots": ["./node_modules/@types", "./version_3/types"],
-        "paths": {
-        },
+        "paths": {},
         "experimentalDecorators": true
     },
-    "include": [
-      "version_3/**/*.vue",
-      "version_3/**/*.ts",
-      "vite-env.d.ts"  
-    ],
-    "exclude": ["node_modules", "dist", "test"]
+    "include": ["version_3/**/*.vue", "version_3/**/*.ts", "vite-env.d.ts"],
+    "exclude": ["node_modules", "dist", "test", "version_3/props_builder"]
 }

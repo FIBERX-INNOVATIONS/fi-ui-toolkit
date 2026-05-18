@@ -1,7 +1,6 @@
+import { RouterLink } from "vue-router";
 
-import { RouterLink, useRoute } from "vue-router";
-
-import BaseController  from "../base_classes/base_controller";
+import BaseController from "../base_classes/base_controller";
 
 import NavLinkUIActionHandler from "../action_handlers/nav_link_ui_action_handler";
 
@@ -9,11 +8,11 @@ import { ComputedDefinitionType } from "../types/base_type";
 
 import { getSVGIconValue, SVGIconValue } from "../resources/svg_icon_resource";
 
-import { 
+import {
     NavLinkUIPropsInterface,
     NavLinkUIStateDataInterface,
     NavLinkUIComputedDataInterface,
-    NavLinkUIComponentsInterface,
+    NavLinkUIComponentsInterface
 } from "../ui_types/nav_link_ui_type";
 
 class NavLinkUIController extends BaseController<
@@ -21,39 +20,33 @@ class NavLinkUIController extends BaseController<
     NavLinkUIStateDataInterface,
     NavLinkUIComputedDataInterface,
     NavLinkUIComponentsInterface
->{
-
-    public action_handler: NavLinkUIActionHandler =
-        new NavLinkUIActionHandler(this);
-
+> {
+    public override action_handler: NavLinkUIActionHandler;
 
     constructor(props: NavLinkUIPropsInterface) {
         super("nav_link_ui", props);
+
+        this.action_handler = new NavLinkUIActionHandler(this);
+        this.setActionHandler(this.action_handler);
+
         this.getComponentDefinition();
     }
 
     protected getUIComponents(): NavLinkUIComponentsInterface {
-
         return {
             RouterLink
         };
-
     }
 
     protected getUIStateData(): NavLinkUIStateDataInterface {
-
         return {
             is_loading: false
         };
-
     }
 
     protected getUIComputedData(): ComputedDefinitionType<NavLinkUIComputedDataInterface> {
-
         return {
-
             component_type: () => {
-
                 if (!this.props.link && this.props.action_props?.on_click) {
                     return "button";
                 }
@@ -67,57 +60,43 @@ class NavLinkUIController extends BaseController<
                 }
 
                 return "button";
-
             },
 
             route_link: () => {
-
                 if (this.props.link?.startsWith("/")) {
                     return this.props.link;
                 }
 
                 return null;
-
             },
 
             anchor_link: () => {
-
                 if (this.props.link?.startsWith("http")) {
                     return this.props.link;
                 }
 
                 return this.props?.link ?? null;
-
             },
 
             anchor_target: () => {
-
                 if (this.props.link?.startsWith("http")) {
                     return "_blank";
                 }
 
                 return null;
-
             },
 
             is_active_computed: () => {
-
                 if (!this.props.link) return false;
 
                 return this.route.path === this.props.link;
-
             },
 
             icon_svg: () => {
-
-                return (getSVGIconValue(this.props.icon)) as SVGIconValue;
-
+                return getSVGIconValue(this.props.icon) as SVGIconValue;
             }
-
         };
-
     }
-
 }
 
 export default NavLinkUIController;

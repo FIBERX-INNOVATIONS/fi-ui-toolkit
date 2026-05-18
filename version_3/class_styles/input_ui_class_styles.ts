@@ -1,5 +1,4 @@
-
-import { InputUIClassStylesInterface } from "../ui_types/input_ui_type"
+import { InputUIClassStylesInterface } from "../ui_types/input_ui_type";
 
 const InputUIClassStyles: InputUIClassStylesInterface = {
     input_class_style: "w-full py-2 px-1",
@@ -11,7 +10,8 @@ const InputUIClassStyles: InputUIClassStylesInterface = {
     active_class_style: "bg-blue-300",
     inactive_class_style: "bg-gray-900",
     caret_icon_class: "absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer",
-    dropdown_wrapper_class_style: "absolute z-50 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto",
+    dropdown_wrapper_class_style:
+        "absolute z-50 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto",
     options_wrapper_class_style: "",
     option_class_style: "px-4 py-2 hover:bg-blue-100 cursor-pointer text-sm",
     option_content_class_style: "",
@@ -23,8 +23,7 @@ const InputUIClassStyles: InputUIClassStylesInterface = {
     img_preview_class_style: "w-24 h-24 object-cover rounded-lg border",
     generic_file_preview_wrapper_class_style: "flex items-center gap-2 text-sm text-gray-600",
     generic_file_preview_icon_class_style: "",
-    generic_file_preview_content_class_style: "",
-}
-
+    generic_file_preview_content_class_style: ""
+};
 
 export default InputUIClassStyles;

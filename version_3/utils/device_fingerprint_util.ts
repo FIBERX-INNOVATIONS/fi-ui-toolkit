@@ -20,7 +20,7 @@ class DeviceFingerprintUtil {
                 screen_info.colorDepth,
                 new Date().getTimezoneOffset(),
                 window.devicePixelRatio ?? 1,
-                this.getCanvasFingerprint(),
+                this.getCanvasFingerprint()
             ];
 
             const raw_string = data.join("###");
@@ -48,7 +48,7 @@ class DeviceFingerprintUtil {
 
         for (let i = 0; i < str.length; i++) {
             const char = str.charCodeAt(i);
-            hash = ((hash << 5) - hash) + char;
+            hash = (hash << 5) - hash + char;
             hash |= 0; // Convert to 32bit integer
         }
 
@@ -90,8 +90,7 @@ class DeviceFingerprintUtil {
 
         if (/windows phone/i.test(ua)) return "Windows Phone";
         if (/android/i.test(ua)) return /mobile/i.test(ua) ? "Android Phone" : "Android Tablet";
-        if (/iPad|Macintosh/i.test(ua) && typeof document !== "undefined" && "ontouchend" in document)
-            return "iPad";
+        if (/iPad|Macintosh/i.test(ua) && typeof document !== "undefined" && "ontouchend" in document) return "iPad";
         if (/iPhone/i.test(ua)) return "iPhone";
         if (/Macintosh/i.test(ua)) return "Mac";
         if (/Windows NT/i.test(ua)) return "Windows PC";
@@ -109,7 +108,7 @@ class DeviceFingerprintUtil {
         return {
             device_id: this.generateFingerprint(),
             device_name: this.getDeviceName(),
-            user_agent: typeof navigator !== "undefined" ? navigator.userAgent : "Unknown",
+            user_agent: typeof navigator !== "undefined" ? navigator.userAgent : "Unknown"
         };
     }
 }

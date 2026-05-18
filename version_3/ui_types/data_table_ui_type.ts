@@ -3,30 +3,28 @@ import { DataTableCellComponentUIClassStylesInterface } from "./data_table_cell_
 
 import { SVGIconKey } from "../resources/svg_icon_resource";
 
-import { 
-    InputUIActionPropsInterface, 
-    InputUIBooleanPropsInterface, 
-    InputUIContentOptionsInterface, 
-    InputValue 
+import {
+    InputUIActionPropsInterface,
+    InputUIBooleanPropsInterface,
+    InputUIContentOptionsInterface,
+    InputValue
 } from "./input_ui_type";
 
-import { 
-    HeaderTagType,
-} from "./header_text_ui_type";
+import { HeaderTagType } from "./header_text_ui_type";
 
-import { 
-    ButtonUIActionPropsInterface, 
-    ButtonUIBooleanPropsInterface, 
-    ButtonUIContentOptionsInterface 
+import {
+    ButtonUIActionPropsInterface,
+    ButtonUIBooleanPropsInterface,
+    ButtonUIContentOptionsInterface
 } from "./button_ui_type";
 
-export interface DataTableUIActionPropsInterface<T = any> {
+export interface DataTableUIActionPropsInterface<T = Record<string, any>> {
     on_sort?: (
         key: keyof T,
         direction: "asc" | "desc" | null,
         config?: { props: DataTableUIPropsInterface<T> }
     ) => Promise<void>;
-};
+}
 
 /* ---------------------------------- */
 /* Class Styles                       */
@@ -42,7 +40,7 @@ export interface DataTableUIClassStylesInterface {
     tbody_class_style: string;
     tr_class_style: string;
     td_class_style: string;
-    sortable_header_wrapper_class_style?: string
+    sortable_header_wrapper_class_style?: string;
     sortable_header_icon_class_style?: string;
     loading_section_wrapper_class_style: string;
     loader_text_wrapper_class_style: string;
@@ -52,22 +50,17 @@ export interface DataTableUIClassStylesInterface {
     empty_data_class_style: string;
 }
 
-
 /* ---------------------------------- */
 /* Cell Render Return Type            */
 /* ---------------------------------- */
 
-export type DataTableCellRenderReturnType =
-    | string
-    | number
-    | null
-    | Component;
+export type DataTableCellRenderReturnType = string | number | null | Component;
 
 /* ---------------------------------- */
 /* Column Render Config               */
 /* ---------------------------------- */
 
-export interface DataTableColumnRenderType<T = any> {
+export interface DataTableColumnRenderType<T = Record<string, any>> {
     key: keyof T;
 
     sortable?: boolean;
@@ -129,9 +122,9 @@ export interface DataTableColumnRenderType<T = any> {
 
         getImgSubText?: (record: T, record_index?: number) => string;
 
-        getDateTextContent?: (record: T, record_index?: number) => string; 
+        getDateTextContent?: (record: T, record_index?: number) => string;
 
-        getTextContent?: (record: T, record_index?: number) => string; 
+        getTextContent?: (record: T, record_index?: number) => string;
 
         [key: string]: any;
     };
@@ -144,14 +137,13 @@ export interface DataTableUIContentPropsInterface {
     loader_html_content?: string;
 
     empty_data_html_content?: string;
-
 }
 
 /* ---------------------------------- */
 /* Props                              */
 /* ---------------------------------- */
 
-export interface DataTableUIPropsInterface<T = any> {
+export interface DataTableUIPropsInterface<T = Record<string, any>> {
     section_id?: string;
     table_id?: string;
 
@@ -174,7 +166,7 @@ export interface DataTableUIPropsInterface<T = any> {
 /* State                              */
 /* ---------------------------------- */
 
-export interface DataTableUIStateDataInterface<T = any> {
+export interface DataTableUIStateDataInterface<T = Record<string, any>> {
     loading: boolean;
     sort_key: keyof T | null;
     sort_direction: "asc" | "desc" | null;
@@ -184,13 +176,17 @@ export interface DataTableUIStateDataInterface<T = any> {
 /* Computed                           */
 /* ---------------------------------- */
 
-export interface DataTableUIComputedDataInterface<T = any> {}
+export interface DataTableUIComputedDataInterface<T = Record<string, any>> {
+    has_data: boolean;
+    is_empty: boolean;
+    display_data: T[];
+}
 
 /* ---------------------------------- */
 /* Components                         */
 /* ---------------------------------- */
 
-export interface DataTableUIComponentsInterface { }
+export interface DataTableUIComponentsInterface {}
 
 export interface DataTableUIBuilderConfig {
     section_id?: string;

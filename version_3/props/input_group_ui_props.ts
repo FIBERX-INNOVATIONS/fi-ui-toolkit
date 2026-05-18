@@ -2,16 +2,11 @@ import { PropType } from "vue";
 
 import InputGroupUIClassStyles from "../class_styles/input_group_ui_class_styles";
 
-import {
-    InputGroupUIPropsInterface,
-    InputGroupUIClassStylesInterface
-} from "../ui_types/input_group_ui_type";
+import { InputGroupUIPropsInterface, InputGroupUIClassStylesInterface } from "../ui_types/input_group_ui_type";
 
 import { InputUIPropsInterface } from "../ui_types/input_ui_type";
 
-
 const InputGroupUIProps = {
-
     id: {
         type: String,
         required: false
@@ -32,8 +27,8 @@ const InputGroupUIProps = {
         default: "*"
     },
 
-    helper_text: { 
-        type: String, 
+    helper_text: {
+        type: String,
         require: false,
         default: ""
     },
@@ -47,7 +42,6 @@ const InputGroupUIProps = {
         type: Object as PropType<InputGroupUIClassStylesInterface>,
         default: () => InputGroupUIClassStyles
     }
-
 } satisfies Record<keyof InputGroupUIPropsInterface, any>;
 
 export default InputGroupUIProps;

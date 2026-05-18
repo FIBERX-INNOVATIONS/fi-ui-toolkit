@@ -9,11 +9,8 @@ import {
     CopyRightUIContentPayloadInterface
 } from "../ui_types/copy_rigth_ui_type";
 
-
 class CopyRightUIPropsBuilder {
-
-    private static readonly content_manager: ContentManagerUtil =
-        ContentManagerUtil.getInstance();
+    private static readonly content_manager: ContentManagerUtil = ContentManagerUtil.getInstance();
 
     /* ---------------------------------- */
     /* Global Config                      */
@@ -21,15 +18,12 @@ class CopyRightUIPropsBuilder {
 
     public static class_styles?: CopyRightUIClassStylesInterface;
 
-
     /* ---------------------------------- */
     /* Setup Method                       */
     /* ---------------------------------- */
 
-    public static configure(
-        class_styles: CopyRightUIClassStylesInterface
-    ): void {
-        CopyRightUIPropsBuilder.class_styles  = class_styles || CopyRightUIClassStyles
+    public static configure(class_styles: CopyRightUIClassStylesInterface): void {
+        CopyRightUIPropsBuilder.class_styles = class_styles || CopyRightUIClassStyles;
     }
 
     /* ---------------------------------- */
@@ -37,23 +31,19 @@ class CopyRightUIPropsBuilder {
     /* ---------------------------------- */
 
     private static buildPropsObject(
-        content_data_key: string = "content_resource.auth_layout_ui.footer",
+        content_data_key: string = "content_resource.auth_layout_ui.footer"
     ): CopyRightUIPropsInterface {
-        const content_data = CopyRightUIPropsBuilder.content_manager?.get<CopyRightUIContentPayloadInterface>(content_data_key) ?? {};
+        const content_data =
+            CopyRightUIPropsBuilder.content_manager?.get<CopyRightUIContentPayloadInterface>(content_data_key) ?? {};
 
-        const {
-            powered_by_text = "",
-            author_text = "",
-            year_text
-        } = content_data
+        const { powered_by_text = "", author_text = "", year_text } = content_data;
 
         return {
             powered_by_text,
             author_text,
             year_text,
             class_styles: CopyRightUIPropsBuilder.class_styles
-        }
-
+        };
     }
 
     /* ---------------------------------- */
@@ -61,14 +51,12 @@ class CopyRightUIPropsBuilder {
     /* ---------------------------------- */
 
     public static getReactivePropsObject(
-       content_data_key: string = "content_resource.auth_layout_ui.footer",
+        content_data_key: string = "content_resource.auth_layout_ui.footer"
     ): CopyRightUIPropsInterface {
-
         const props_obj = CopyRightUIPropsBuilder.buildPropsObject(content_data_key);
 
         return reactive<CopyRightUIPropsInterface>(props_obj);
     }
-
 }
 
 export default CopyRightUIPropsBuilder;

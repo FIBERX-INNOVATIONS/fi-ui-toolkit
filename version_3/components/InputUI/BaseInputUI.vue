@@ -1,18 +1,15 @@
 <template>
-    <component
-        :is="getInputComponent(props.type)"
-        v-bind="props"
-    />
+    <component :is="getInputComponent(props.type)" v-bind="props" />
 </template>
 
 <script setup lang="ts">
-import { InputType }        from "../../ui_types/input_ui_type";
-import InputUIProps         from "../../props/input_ui_props";
-import InputUIController    from "../../controllers/input_ui_controller";
+import { InputType } from "../../ui_types/input_ui_type";
+import InputUIProps from "../../props/input_ui_props";
+import InputUIController from "../../controllers/input_ui_controller";
 
-const props             = defineProps(InputUIProps);
-const controller        = new InputUIController(props);
-const { components }    = controller;
+const props = defineProps(InputUIProps);
+const controller = new InputUIController(props);
+const { components } = controller;
 
 const {
     TextInputUI,
@@ -29,7 +26,7 @@ const {
     DateInputUI,
     DateRangeInputUI,
     MultiSelectSearchInputUI
-} = components
+} = components;
 
 // Dynamically map input type to component
 const getInputComponent = (type?: InputType) => {
@@ -70,4 +67,3 @@ const getInputComponent = (type?: InputType) => {
     }
 };
 </script>
-

@@ -1,46 +1,69 @@
 {
-  "name": "fi-ui-toolkit",
-  "version": "4.0.22",
-  "description": "fi-ui-toolkit is a customizable Vue 3 component library designed to provide reusable, styled, and configurable UI elements across multiple Vue applications. It helps standardize UI structure, simplify development, and promote consistency across your projects.",
-  "homepage": "https://github.com/Ojooh/fi-ui-toolkit#readme",
-  "bugs": {
-    "url": "https://github.com/Ojooh/fi-ui-toolkit/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Ojooh/fi-ui-toolkit.git"
-  },
-  "license": "ISC",
-  "author": "David Matt-Ojo",
-  "type": "commonjs",
-  "main": "app.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "@vuepic/vue-datepicker": "^12.1.0",
-    "axios": "^1.12.2",
-    "csstype": "^3.1.3",
-    "dayjs": "^1.11.18",
-    "entities": "^4.5.0",
-    "estree-walker": "^2.0.2",
-    "js-yaml": "^4.1.0",
-    "magic-string": "^0.30.17",
-    "mitt": "^3.0.1",
-    "nanoid": "^3.3.11",
-    "picocolors": "^1.1.1",
-    "postcss": "^8.5.6",
-    "qrcode": "^1.5.4",
-    "source-map-js": "^1.2.1",
-    "vue-router": "^4.5.1",
-    "vue3-tel-input": "^1.0.4"
-  },
-  "devDependencies": {
-    "@types/js-yaml": "^4.0.9",
-    "@types/node": "^24.6.0",
-    "vite": "^7.1.7"
-  },
-  "peerDependencies": {
-    "vue": "^3.5.17"
-  }
+    "name": "fi-ui-toolkit",
+    "version": "4.0.22",
+    "description": "fi-ui-toolkit is a customizable Vue 3 component library designed to provide reusable, styled, and configurable UI elements across multiple Vue applications. It helps standardize UI structure, simplify development, and promote consistency across your projects.",
+    "homepage": "https://github.com/Ojooh/fi-ui-toolkit#readme",
+    "bugs": {
+        "url": "https://github.com/Ojooh/fi-ui-toolkit/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Ojooh/fi-ui-toolkit.git"
+    },
+    "license": "ISC",
+    "author": "David Matt-Ojo",
+    "type": "commonjs",
+    "main": "app.ts",
+    "scripts": {
+        "format": "prettier --write . --ignore-unknown",
+        "format:check": "prettier --check . --ignore-unknown",
+        "lint": "eslint version_3 vite-env.d.ts eslint.config.mjs && npm run typecheck",
+        "lint:fix": "eslint . --fix",
+        "precommit": "lint-staged && npm run typecheck",
+        "prepare": "git config core.hooksPath .githooks",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "typecheck": "vue-tsc --noEmit"
+    },
+    "dependencies": {
+        "@vuepic/vue-datepicker": "^12.1.0",
+        "axios": "^1.12.2",
+        "csstype": "^3.1.3",
+        "dayjs": "^1.11.18",
+        "entities": "^4.5.0",
+        "estree-walker": "^2.0.2",
+        "js-yaml": "^4.1.0",
+        "magic-string": "^0.30.17",
+        "mitt": "^3.0.1",
+        "nanoid": "^3.3.11",
+        "picocolors": "^1.1.1",
+        "postcss": "^8.5.6",
+        "qrcode": "^1.5.4",
+        "source-map-js": "^1.2.1",
+        "vue-router": "^4.5.1",
+        "vue3-tel-input": "^1.0.4"
+    },
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "@types/js-yaml": "^4.0.9",
+        "@types/node": "^24.6.0",
+        "eslint": "^10.4.0",
+        "eslint-plugin-vue": "^10.9.1",
+        "lint-staged": "^16.4.0",
+        "prettier": "^3.8.3",
+        "typescript": "^6.0.3",
+        "typescript-eslint": "^8.59.3",
+        "vite": "^7.1.7",
+        "vue-eslint-parser": "^10.4.0",
+        "vue-tsc": "^3.2.9"
+    },
+    "peerDependencies": {
+        "vue": "^3.5.17"
+    },
+    "lint-staged": {
+        "*.{ts,vue,js,cjs,mjs}": [
+            "prettier --write",
+            "eslint --fix"
+        ],
+        "*.{json,md,css}": "prettier --write"
+    }
 }

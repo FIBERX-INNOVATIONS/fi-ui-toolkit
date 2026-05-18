@@ -2,6 +2,15 @@ import { Component } from "vue";
 import { ButtonUIClassStylesInterface, ButtonUIPropsInterface } from "./button_ui_type";
 
 /* ---------------------------------- */
+/* Action Props                       */
+/* ---------------------------------- */
+
+export interface DecisionPromptUIActionPropsInterface {
+    on_confirm?: () => Promise<void>;
+    on_cancel?: () => Promise<void>;
+}
+
+/* ---------------------------------- */
 /* Class Styles                       */
 /* ---------------------------------- */
 
@@ -30,18 +39,18 @@ export interface DecisionPromptUIContentPropsInterface {
     message_text?: string;
 }
 
-
 /* ---------------------------------- */
 /* Props Interface                    */
 /* ---------------------------------- */
 
 export interface DecisionPromptUIPropsInterface {
-
     content_props?: DecisionPromptUIContentPropsInterface;
 
     confirm_button_props?: ButtonUIPropsInterface;
 
     cancel_button_props?: ButtonUIPropsInterface;
+
+    action_props?: DecisionPromptUIActionPropsInterface;
 
     class_styles?: DecisionPromptUIClassStylesInterface;
 }
@@ -50,13 +59,21 @@ export interface DecisionPromptUIPropsInterface {
 /* State                              */
 /* ---------------------------------- */
 
-export interface DecisionPromptUIStateDataInterface {}
+export interface DecisionPromptUIStateDataInterface {
+    is_confirming: boolean;
+    is_canceling: boolean;
+    error_text: string | null;
+}
 
 /* ---------------------------------- */
 /* Computed                           */
 /* ---------------------------------- */
 
-export interface DecisionPromptUIComputedDataInterface {}
+export interface DecisionPromptUIComputedDataInterface {
+    confirm_button_disabled: boolean;
+    cancel_button_disabled: boolean;
+    is_processing: boolean;
+}
 
 /* ---------------------------------- */
 /* Components                         */

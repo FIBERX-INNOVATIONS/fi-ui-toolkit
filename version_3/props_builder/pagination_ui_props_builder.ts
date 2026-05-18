@@ -22,30 +22,23 @@ class PaginationUIPropsBuilder {
     public static default_content?: PaginationUIContentPropsInterface;
 
     private static getBtnContentPayload(content_key?: string): PaginationUIBtnContentPayload {
-        const defualt_content_payload = { prev_btn_text: "", next_btn_text: "" }
+        const defualt_content_payload = { prev_btn_text: "", next_btn_text: "" };
 
         if (!content_key) return defualt_content_payload;
 
-        
         return (
-            PaginationUIPropsBuilder.content_manager?.get<PaginationUIBtnContentPayload>(content_key) ?? defualt_content_payload
+            PaginationUIPropsBuilder.content_manager?.get<PaginationUIBtnContentPayload>(content_key) ??
+            defualt_content_payload
         );
-
     }
 
     public static configure(params: {
-        class_styles?: PaginationUIClassStylesInterface,
-        layout?: PaginationLayoutType,
-        config?: PaginationUIConfigPropsInterface,
-        content?: PaginationUIContentPropsInterface
+        class_styles?: PaginationUIClassStylesInterface;
+        layout?: PaginationLayoutType;
+        config?: PaginationUIConfigPropsInterface;
+        content?: PaginationUIContentPropsInterface;
     }) {
-
-        const {
-            class_styles,
-            layout = "center",
-            config,
-            content
-        } = params
+        const { class_styles, layout = "center", config, content } = params;
 
         this.class_styles = class_styles || PaginationUIClassStyles;
         this.default_layout = layout;
@@ -58,9 +51,7 @@ class PaginationUIPropsBuilder {
         data_props: PaginationUIDataPropsInterface,
         overrides: Partial<PaginationUIPropsInterface> = {}
     ): PaginationUIPropsInterface {
-
         return {
-
             id,
 
             layout: overrides.layout ?? this.default_layout,
@@ -79,13 +70,8 @@ class PaginationUIPropsBuilder {
 
             action_props: overrides.action_props,
 
-            class_styles:
-                overrides.class_styles ??
-                this.class_styles ??
-                PaginationUIClassStyles
-
+            class_styles: overrides.class_styles ?? this.class_styles ?? PaginationUIClassStyles
         };
-
     }
 
     public static getReactivePropsObject(
@@ -101,12 +87,11 @@ class PaginationUIPropsBuilder {
             content_props: { next_btn_text: "", prev_btn_text: "" }
         }
     ): PaginationUIPropsInterface {
-
         const content_payload = this.getBtnContentPayload(content_key);
 
         const data_props = { current_page, total_pages };
 
-        if(overrides.content_props) {
+        if (overrides.content_props) {
             overrides.content_props.next_btn_text = content_payload.next_btn_text;
             overrides.content_props.prev_btn_text = content_payload.prev_btn_text;
         }
@@ -115,7 +100,6 @@ class PaginationUIPropsBuilder {
 
         return reactive<PaginationUIPropsInterface>(props);
     }
-
 }
 
 export default PaginationUIPropsBuilder;

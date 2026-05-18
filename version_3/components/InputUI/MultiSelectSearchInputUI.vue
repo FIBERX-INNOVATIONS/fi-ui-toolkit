@@ -1,6 +1,6 @@
 <template>
     <div :class="multi_select_search_class_styles?.wrapper_class_style">
-         <!-- Chips -->
+        <!-- Chips -->
         <div :class="multi_select_search_class_styles?.chips_wrapper_class_style">
             <span
                 v-for="(item, index) in state_refs?.selected_options?.value"
@@ -14,8 +14,7 @@
                     :class="multi_select_search_class_styles?.chip_btn_class_style"
                     @click="action_handler.handleMultiSelectRemove($event, item)"
                     v-html="getSVGIconValue('x_circile_svg_icon')"
-                >
-                </button>
+                ></button>
             </span>
         </div>
 
@@ -34,12 +33,12 @@
                     :disabled="boolean_props.disabled"
                     @focus="action_handler?.toggleDropdown(true)"
                     @input="action_handler?.onSearchInput?.($event)"
-            />
-            <span 
-                :class="class_styles.caret_icon_class" 
-                v-html="content_props.caret_html_contewnt" 
-                @click="action_handler?.toggleDropdown(!is_multi_search_dropdown_open)"
-            ></span>
+                />
+                <span
+                    :class="class_styles.caret_icon_class"
+                    v-html="content_props.caret_html_contewnt"
+                    @click="action_handler?.toggleDropdown(!is_multi_search_dropdown_open)"
+                ></span>
             </div>
 
             <div
@@ -60,17 +59,14 @@
                 />
 
                 <!-- Options -->
-                <ul 
-                    v-if="state_refs?.record_options?.value?.length"
-                    :class="class_styles.options_wrapper_class_style"
-                >
+                <ul v-if="state_refs?.record_options?.value?.length" :class="class_styles.options_wrapper_class_style">
                     <li
                         v-for="(option, index) in state_refs.filtered_options.value"
                         :key="index"
                         @click="action_handler.handleMultiSelectAdd($event, option)"
                         :class="class_styles.option_class_style"
                     >
-                        <span 
+                        <span
                             :class="class_styles.option_content_class_style"
                             v-html="render_option_label?.(option) ?? option.label_text"
                         ></span>
@@ -78,47 +74,35 @@
                 </ul>
 
                 <!-- No Results -->
-                <div 
-                    v-else-if="!record_options.length && !is_loading" 
+                <div
+                    v-else-if="!record_options.length && !is_loading"
                     :class="class_styles.options_wrapper_class_style"
                     v-html="content_props?.no_options_html_content"
-                >
-                </div>
+                ></div>
 
                 <!-- Loader -->
-                <div 
-                    v-if="is_loading" 
+                <div
+                    v-if="is_loading"
                     :class="class_styles.options_wrapper_class_style"
                     v-html="content_props?.loader_html_content"
-                >
-                </div>
+                ></div>
             </div>
 
-                
+            <span v-if="helper_text" :class="class_styles.helper_text_class_style" v-html="helper_text"></span>
 
-            <span 
-                v-if="helper_text"
-                :class="class_styles.helper_text_class_style"
-                v-html="helper_text"
-            ></span>
-
-            <span 
-                v-if="error_text"
-                :class="class_styles.error_text_class_style"
-                v-html="error_text"
-            ></span>
+            <span v-if="error_text" :class="class_styles.error_text_class_style" v-html="error_text"></span>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import InputUIProps      from "../../props/input_ui_props";
+import InputUIProps from "../../props/input_ui_props";
 import InputUIController from "../../controllers/input_ui_controller";
 import { getSVGIconValue } from "../../resources/svg_icon_resource";
 import { computed } from "vue";
 
-const props         = defineProps(InputUIProps);
-const controller    = new InputUIController(props);
+const props = defineProps(InputUIProps);
+const controller = new InputUIController(props);
 
 const {
     id,
@@ -132,30 +116,13 @@ const {
     action_props
 } = props;
 
-const {
-    render_option_label
-} = action_props
+const { render_option_label } = action_props;
 
-const {
-    state_refs,
-    action_handler,
-    computed_refs
-} = controller;
+const { state_refs, action_handler, computed_refs } = controller;
 
-const {
-    input_value,
-    search_value,
-    error_text,
-    is_multi_search_dropdown_open,
-    record_options,
-    is_loading
-} = state_refs
+const { input_value, search_value, error_text, is_multi_search_dropdown_open, record_options, is_loading } = state_refs;
 
-const readonly_class_style  = boolean_props.read_only ? class_styles.input_readonly_class_style : "";
-const input_class_style     = [
-    class_styles.input_class_style,
-    readonly_class_style
-].join(" ");
+const readonly_class_style = boolean_props.read_only ? class_styles.input_readonly_class_style : "";
+const input_class_style = [class_styles.input_class_style, readonly_class_style].join(" ");
 const multi_select_search_class_styles = class_styles.multi_select_search_class_styles;
-
 </script>

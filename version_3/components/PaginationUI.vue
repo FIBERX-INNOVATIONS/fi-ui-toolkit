@@ -4,9 +4,9 @@
         <button
             :disabled="is_prev_disabled"
             :class="[button_class(is_prev_disabled), class_styles.prev_btn_class_style]"
-            @click="action_handler.handlePageChange(props.data_props.current_page - 1)"
+            @click="action_handler.handlePageChange(current_page - 1)"
         >
-            <span 
+            <span
                 :class="class_styles.btn_icon_class_style"
                 v-html="getSVGIconValue(content_props.prev_btn_icon ?? 'less_than_caret_svg_icon')"
             ></span>
@@ -20,7 +20,10 @@
                 v-for="p in pages"
                 :key="p"
                 :disabled="p === '...'"
-                :class="[class_styles.button_class_style, p === props.data_props.current_page ? class_styles.active_page_class_style : '']"
+                :class="[
+                    class_styles.button_class_style,
+                    p === current_page ? class_styles.active_page_class_style : ''
+                ]"
                 @click="p !== '...' && action_handler.handlePageChange(parseInt(p.toString()))"
             >
                 {{ p }}
@@ -31,21 +34,19 @@
         <button
             :disabled="is_next_disabled"
             :class="[button_class(is_next_disabled), class_styles.next_btn_class_style]"
-            @click="action_handler.handlePageChange(props.data_props.current_page + 1)"
+            @click="action_handler.handlePageChange(current_page + 1)"
         >
             {{ content_props.next_btn_text }}
 
-            <span 
+            <span
                 :class="class_styles.btn_icon_class_style"
                 v-html="getSVGIconValue(content_props.next_btn_icon ?? 'greater_than_caret_svg_icon')"
             ></span>
         </button>
-
     </div>
 </template>
 
 <script setup lang="ts">
-
 import PaginationUIProps from "../props/pagination_ui_props";
 import PaginationUIController from "../controllers/pagination_ui_controller";
 import { getSVGIconValue } from "../resources/svg_icon_resource";
@@ -57,11 +58,8 @@ const { class_styles, content_props, config_props } = props;
 
 const { computed_refs, action_handler } = controller;
 
-const { pages, is_prev_disabled, is_next_disabled } = computed_refs;
-
+const { pages, is_prev_disabled, is_next_disabled, current_page } = computed_refs;
 
 const button_class = (disabled: boolean) =>
     `${class_styles.button_class_style} ${disabled ? class_styles.disabled_class_style : ""}`;
-
-
 </script>

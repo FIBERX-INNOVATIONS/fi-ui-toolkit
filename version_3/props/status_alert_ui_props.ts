@@ -1,17 +1,12 @@
-
 import { PropType } from "vue";
 
 import StatusAlertUIClassstyles from "../class_styles/status_alert_ui_class_styles";
 
 import { SVGIconKey } from "../resources/svg_icon_resource";
 
-import {
-    StatusAlertUIPropsInterface,
-    StatusAlertUIClassStylesInterface
-} from "../ui_types/status_alert_ui_type";
+import { StatusAlertUIPropsInterface, StatusAlertUIClassStylesInterface } from "../ui_types/status_alert_ui_type";
 
 const StatusAlertUIProps = {
-
     alert_box_id: {
         type: String,
         require: true
@@ -52,7 +47,6 @@ const StatusAlertUIProps = {
         required: true,
         default: () => {}
     }
-
 } satisfies Record<keyof StatusAlertUIPropsInterface, any>;
 
 export default StatusAlertUIProps;

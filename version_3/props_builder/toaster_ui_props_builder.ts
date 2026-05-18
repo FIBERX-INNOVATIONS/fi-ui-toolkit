@@ -1,7 +1,6 @@
-
 import { reactive } from "vue";
 
-import { 
+import {
     ToasterUIPropsInterface,
     ToasterUIClassStylesInterface,
     ToasterUIActionPropsInterface,
@@ -11,11 +10,9 @@ import {
 import ToasterUIClassStyles from "../class_styles/toaster_ui_class_styles";
 import { SVGIconKey } from "../resources/svg_icon_resource";
 
-
 class ToasterUIPropsBuilder {
-
     public static toaster_id: string = "StatusAlertBox";
-    
+
     public static class_styles?: ToasterUIClassStylesInterface;
 
     public static default_action_props?: ToasterUIActionPropsInterface;
@@ -23,15 +20,14 @@ class ToasterUIPropsBuilder {
     public static configure(
         toaster_id: string,
         class_styles: ToasterUIClassStylesInterface,
-        action_props?: ToasterUIActionPropsInterface,
+        action_props?: ToasterUIActionPropsInterface
     ): void {
-
-        ToasterUIPropsBuilder.toaster_id            = toaster_id ?? "ToasterBox";
-        ToasterUIPropsBuilder.class_styles          = class_styles || ToasterUIClassStyles;
-        ToasterUIPropsBuilder.default_action_props  = action_props || {};
+        ToasterUIPropsBuilder.toaster_id = toaster_id ?? "ToasterBox";
+        ToasterUIPropsBuilder.class_styles = class_styles || ToasterUIClassStyles;
+        ToasterUIPropsBuilder.default_action_props = action_props || {};
     }
 
-     /* ---------------------------------- */
+    /* ---------------------------------- */
     /* Build Props                        */
     /* ---------------------------------- */
 
@@ -42,7 +38,6 @@ class ToasterUIPropsBuilder {
         duration?: number,
         class_styles?: ToasterUIClassStylesInterface
     ): ToasterUIPropsInterface {
-
         return {
             id: ToasterUIPropsBuilder.toaster_id,
             message,
@@ -64,19 +59,10 @@ class ToasterUIPropsBuilder {
         duration?: number,
         class_styles?: ToasterUIClassStylesInterface
     ): ToasterUIPropsInterface {
-
-        const props_obj = ToasterUIPropsBuilder.buildPropsObject(
-            message,
-            status,
-            status_icon,
-            duration,
-            class_styles
-        );
+        const props_obj = ToasterUIPropsBuilder.buildPropsObject(message, status, status_icon, duration, class_styles);
 
         return reactive<ToasterUIPropsInterface>(props_obj);
     }
-
-
 }
 
 export default ToasterUIPropsBuilder;

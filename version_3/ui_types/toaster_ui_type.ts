@@ -4,11 +4,10 @@ import { ActionMethodRetrunInterface } from "./input_ui_type";
 export type ToastStatusType = "success" | "error" | "warning" | "info";
 
 export interface ToasterUIClassStylesInterface {
-
     wrapper_class_style: string;
 
     icon_wrapper_class_style: string;
-    
+
     icon_class_style: string;
 
     message_class_style: string;
@@ -19,7 +18,6 @@ export interface ToasterUIClassStylesInterface {
 }
 
 export interface ToasterUIPropsInterface {
-
     id?: string;
 
     message?: string;
@@ -33,25 +31,19 @@ export interface ToasterUIPropsInterface {
     class_styles?: ToasterUIClassStylesInterface;
 
     action_props?: ToasterUIActionPropsInterface;
-
 }
 
 export interface ToasterUIStateDataInterface {
-
     visible: boolean;
-
 }
 
 export interface ToasterUIComputedDataInterface {
-
     is_visible: boolean;
-
 }
 
 export interface ToasterUIComponentsInterface {}
 
 export interface ToasterUIActionPropsInterface {
-
     on_click?: (
         event?: MouseEvent,
         visible?: boolean,
@@ -63,5 +55,4 @@ export interface ToasterUIActionPropsInterface {
         visible?: boolean,
         input_config?: { props: ToasterUIPropsInterface }
     ) => Promise<ActionMethodRetrunInterface>;
-
 }

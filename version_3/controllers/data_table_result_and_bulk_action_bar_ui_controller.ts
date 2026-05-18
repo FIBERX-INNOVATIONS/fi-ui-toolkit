@@ -1,6 +1,6 @@
 import BaseController from "../base_classes/base_controller";
 
-import { ComputedDefinitionType } from "../types/base_type";
+import { ComputedDefinitionType, WatchersType } from "../types/base_type";
 
 import ButtonUI from "../components/ButtonUI.vue";
 
@@ -13,13 +13,13 @@ import {
 
 import ContentManagerUtil from "../utils/content_manager_util";
 
-class DataTableResultAndBulkActionBarUIUIController extends BaseController<
+class DataTableResultAndBulkActionBarUIController extends BaseController<
     DataTableResultAndBulkActionBarUIPropsInterface,
     DataTableResultAndBulkActionBarUIStateDataInterface,
     DataTableResultAndBulkActionBarUIComputedDataInterface,
     DataTableResultAndBulkActionBarUIComponentsInterface
 > {
-    public content_manager: ContentManagerUtil = ContentManagerUtil.getInstance();
+    private content_manager: ContentManagerUtil = ContentManagerUtil.getInstance();
 
     constructor(props: DataTableResultAndBulkActionBarUIPropsInterface) {
         super("data_table_result_and_bulk_action_bar_ui", props);
@@ -33,40 +33,37 @@ class DataTableResultAndBulkActionBarUIUIController extends BaseController<
     }
 
     protected getUIStateData(): DataTableResultAndBulkActionBarUIStateDataInterface {
-        return {};
+        return {
+            is_initialized: true
+        };
     }
 
     protected getUIComputedData(): ComputedDefinitionType<DataTableResultAndBulkActionBarUIComputedDataInterface> {
-
         return {
+            display_record_count: (): number => {
+                const { data_props } = this.props;
+                return data_props.filtered_records ?? data_props.total_records;
+            },
 
             computed_header_text: (): string => {
-
                 const { data_props, content_props } = this.props;
 
-                const {
-                    total_records,
-                    filtered_records,
-                    current_page,
-                    total_pages
-                } = data_props;
-
-                const showing = filtered_records ?? total_records;
+                const showing = this.computed_refs.display_record_count.value;
 
                 if (content_props?.header_text_key) {
-                    return this.content_manager.getWithRecord<string>(
-                        content_props.header_text_key,
-                        {...data_props, showing },
-                        `Showing ${showing} of ${total_records} records (Page ${current_page} of ${total_pages})`
-                    ) ?? "";
+                    return (
+                        this.content_manager.getWithRecord<string>(
+                            content_props.header_text_key,
+                            { ...data_props, showing },
+                            `Showing ${showing} of ${data_props.total_records} records (Page ${data_props.current_page} of ${data_props.total_pages})`
+                        ) ?? ""
+                    );
                 }
 
-                return `Showing ${showing} of ${total_records} records (Page ${current_page} of ${total_pages})`;
-
+                return `Showing ${showing} of ${data_props.total_records} records (Page ${data_props.current_page} of ${data_props.total_pages})`;
             },
 
             show_bulk_button: (): boolean => {
-
                 const { selection_props } = this.props;
 
                 if (!selection_props?.show_bulk_button) {
@@ -75,11 +72,29 @@ class DataTableResultAndBulkActionBarUIUIController extends BaseController<
 
                 return (selection_props.selected_count ?? 0) > 0;
             }
-
         };
-
     }
 
+    protected getUIWatchers(): WatchersType<
+        DataTableResultAndBulkActionBarUIPropsInterface,
+        DataTableResultAndBulkActionBarUIStateDataInterface
+    > {
+        return {
+            data_props: {
+                handler: () => {
+                    // Force computed updates when data props change
+                },
+                options: { deep: true }
+            },
+
+            selection_props: {
+                handler: () => {
+                    // Force computed updates when selection changes
+                },
+                options: { deep: true }
+            }
+        };
+    }
 }
 
-export default DataTableResultAndBulkActionBarUIUIController;
+export default DataTableResultAndBulkActionBarUIController;

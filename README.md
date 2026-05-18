@@ -28,15 +28,15 @@ Example config object:
 
 ```js
 const topBarConfig = {
-  background_color: '#f9f9f9',
-  height: 92,
-  has_shadow: true,
-  section_1_component: ImageTextUI,
-  section_1_props: {
-    text: "My App",
-    text_class: "text-lg font-bold",
-    image_src: "/logo.png",
-  }
+    background_color: "#f9f9f9",
+    height: 92,
+    has_shadow: true,
+    section_1_component: ImageTextUI,
+    section_1_props: {
+        text: "My App",
+        text_class: "text-lg font-bold",
+        image_src: "/logo.png"
+    }
 };
 ```
 
@@ -46,17 +46,17 @@ const topBarConfig = {
 
 Each component:
 
-* Comes with a dedicated **controller class** to handle logic, configuration defaults, and Vue lifecycle hooks.
-* Can be dynamically rendered using `<component :is="...">` patterns.
-* Can be extended or overridden for specific use cases.
+- Comes with a dedicated **controller class** to handle logic, configuration defaults, and Vue lifecycle hooks.
+- Can be dynamically rendered using `<component :is="...">` patterns.
+- Can be extended or overridden for specific use cases.
 
 ---
 
 ## 💡 Development Tips
 
-* Use `markRaw()` from Vue to pass components via props without reactivity overhead.
-* Extend and wrap base components in your apps to preserve core logic and style consistency.
-* Use Tailwind utility classes via `class_style` props for custom appearance.
+- Use `markRaw()` from Vue to pass components via props without reactivity overhead.
+- Extend and wrap base components in your apps to preserve core logic and style consistency.
+- Use Tailwind utility classes via `class_style` props for custom appearance.
 
 ---
 

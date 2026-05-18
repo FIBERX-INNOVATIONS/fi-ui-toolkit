@@ -44,8 +44,6 @@ export interface FilePreviewUploadUIClassStylesInterface {
 
     add_more_wrapper_class_style?: string;
 
-
-
     add_more_file_btn_content_class_style?: string;
 }
 
@@ -54,24 +52,17 @@ export interface FilePreviewUploadUIClassStylesInterface {
 /* ---------------------------------- */
 
 export interface FilePreviewUploadUIActionPropsInterface {
-
     on_add_more?: () => Promise<boolean>;
 
-    on_remove_file?: (
-        file: FilePreviewItemInterface,
-        index: number
-    ) => Promise<boolean>;
+    on_remove_file?: (file: FilePreviewItemInterface, index: number) => Promise<boolean>;
 
     on_file_upload?: (files: File[]) => Promise<boolean>;
-
 }
 
 export interface FilePreviewUploadUIContentPropsInterface {
-
     add_more_file_btn_content?: string;
 
     remove_file_btn_content?: string;
-
 }
 
 /* ---------------------------------- */
@@ -79,7 +70,6 @@ export interface FilePreviewUploadUIContentPropsInterface {
 /* ---------------------------------- */
 
 export interface FilePreviewUploadUIPropsInterface {
-
     files?: File[];
 
     multiple?: boolean;

@@ -1,14 +1,10 @@
 import { SVGIconKey } from "../resources/svg_icon_resource";
-import { ButtonUIPropsInterface } from "../ui_types/button_ui_type";
 
 /* ---------------------------------- */
 /* Layout                             */
 /* ---------------------------------- */
 
-export type PaginationLayoutType =
-    | "center"
-    | "left"
-    | "right";
+export type PaginationLayoutType = "center" | "left" | "right";
 
 /* ---------------------------------- */
 /* Content Props                      */
@@ -96,6 +92,8 @@ export interface PaginationUIComputedDataInterface {
     pages: (number | string)[];
     is_prev_disabled: boolean;
     is_next_disabled: boolean;
+    current_page: number;
+    total_pages: number;
 }
 
 /* ---------------------------------- */
@@ -106,5 +104,5 @@ export interface PaginationUIComponentsInterface {}
 
 export interface PaginationUIBtnContentPayload {
     prev_btn_text: string;
-    next_btn_text: string
+    next_btn_text: string;
 }

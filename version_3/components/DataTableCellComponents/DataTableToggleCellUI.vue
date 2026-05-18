@@ -20,21 +20,11 @@ const props = defineProps(DataTableSerialCellUIProps);
 
 const controller = new DataTableSerialCellUIController(props);
 
-const { 
-    column,
-    record_index,
-} = props;
+const { column, record_index } = props;
 
-const { 
-    computed_refs,
-    components
-} = controller;
+const { computed_refs, components } = controller;
 
-const {
-    SwitchInputUI
-
-} = components
-
+const { SwitchInputUI } = components;
 
 const class_styles = column?.props?.class_styles;
 </script>

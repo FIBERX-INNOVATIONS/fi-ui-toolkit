@@ -15,51 +15,47 @@ class ToasterUIController extends BaseController<
     ToasterUIStateDataInterface,
     ToasterUIComputedDataInterface,
     ToasterUIComponentsInterface
->{
-
-    public action_handler = new ToasterUIActionHandler(this);
+> {
+    public override action_handler: ToasterUIActionHandler;
 
     constructor(props: ToasterUIPropsInterface) {
-
         super("toaster_ui", props);
 
-        this.getComponentDefinition();
+        this.action_handler = new ToasterUIActionHandler(this);
+        this.setActionHandler(this.action_handler);
 
+        this.getComponentDefinition();
     }
 
     protected getUIComponents(): ToasterUIComponentsInterface {
-
         return {};
-
     }
 
     protected getUIStateData(): ToasterUIStateDataInterface {
-
         return {
-
             visible: !!(this.props.status && this.props.message)
-
         };
-
     }
 
     protected getUIWatchers(): WatchersType<ToasterUIPropsInterface, ToasterUIStateDataInterface> {
+        const syncVisible = () => {
+            this.state_refs.visible.value = !!(this.props.status && this.props.message);
+            this.action_handler.restartAutoClose();
+        };
+
         return {
-            status: () => { 
-                this.state_refs.visible.value = !!(this.props.status && this.props.message)
-            },
-            message: () => { 
-                this.state_refs.visible.value = !!(this.props.status && this.props.message)
-            },
+            status: syncVisible,
+            message: syncVisible,
             duration: () => {
                 this.action_handler.restartAutoClose();
             },
             visible: (new_val) => {
-                this.action_handler.handleOnHide()
+                if (!new_val) {
+                    this.action_handler.handleOnHide();
+                }
             }
         };
     }
-
 }
 
 export default ToasterUIController;

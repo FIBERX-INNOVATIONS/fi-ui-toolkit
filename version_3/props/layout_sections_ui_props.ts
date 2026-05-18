@@ -8,9 +8,7 @@ import {
     LayoutSectionsUIPropsInterface
 } from "../ui_types/layout_sections_ui_type";
 
-
 const LayoutSectionsUIProps = {
-
     id: {
         type: String,
         required: true
@@ -25,7 +23,6 @@ const LayoutSectionsUIProps = {
         type: Object as PropType<LayoutSectionsUIClassStylesInterface>,
         default: () => LayoutSectionsUIClassStyles
     }
-
 } satisfies Record<keyof LayoutSectionsUIPropsInterface, any>;
 
 export default LayoutSectionsUIProps;

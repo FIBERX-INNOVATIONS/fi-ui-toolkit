@@ -1,22 +1,19 @@
-
+import BaseActionHandler from "../base_classes/base_action_handler";
 import BaseController from "../base_classes/base_controller";
 
-import { 
+import {
+    NavLinkUIComponentsInterface,
+    NavLinkUIComputedDataInterface,
+    NavLinkUIPropsInterface,
+    NavLinkUIStateDataInterface
+} from "../ui_types/nav_link_ui_type";
+
+class NavLinkUIActionHandler extends BaseActionHandler<
     NavLinkUIPropsInterface,
     NavLinkUIStateDataInterface,
     NavLinkUIComputedDataInterface,
-    NavLinkUIComponentsInterface,
-} from "../ui_types/nav_link_ui_type";
-
-class NavLinkUIActionHandler {
-
-    private controller: BaseController<
-        NavLinkUIPropsInterface,
-        NavLinkUIStateDataInterface,
-        NavLinkUIComputedDataInterface,
-        NavLinkUIComponentsInterface
-    >;
-
+    NavLinkUIComponentsInterface
+> {
     constructor(
         controller: BaseController<
             NavLinkUIPropsInterface,
@@ -25,22 +22,14 @@ class NavLinkUIActionHandler {
             NavLinkUIComponentsInterface
         >
     ) {
-        this.controller = controller;
+        super(controller);
     }
 
-    public handleOnClick = async (event: MouseEvent): Promise<void> =>  {
+    public handleOnClick = async (event: MouseEvent): Promise<void> => {
+        const { on_click } = this.props.action_props || {};
 
-        const { props } = this.controller;
-
-        await props.action_props?.on_click?.(
-            event,
-            { props }
-        );
-
-        return;
-
-    }
-
+        await this.invokeAction(on_click, event, { props: this.props });
+    };
 }
 
 export default NavLinkUIActionHandler;

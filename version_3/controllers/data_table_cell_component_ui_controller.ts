@@ -1,16 +1,14 @@
-
-
-import BaseController  from "../base_classes/base_controller";
+import BaseController from "../base_classes/base_controller";
 
 import { ComputedDefinitionType } from "../types/base_type";
 
 import DataTableCellComponentUIActionHandler from "../action_handlers/data_table_cell_component_ui_action_handler";
 
-import { 
+import {
     DataTableCellComponentUIPropsInterface,
     DataTableCellComponentUIStateDataInterface,
     DataTableCellComponentUIComputedDataInterface,
-    DataTableCellComponentUIComponentsInterface,
+    DataTableCellComponentUIComponentsInterface
 } from "../ui_types/data_table_cell_component_ui_type";
 
 import ImageRenderUI from "../components/ImageRenderUI.vue";
@@ -18,7 +16,6 @@ import SwitchInputUI from "../components/InputUI/SwitchInputUI.vue";
 import HeaderTextUI from "../components/HeaderTextUI.vue";
 import ButtonUI from "../components/ButtonUI.vue";
 import CheckboxInputUI from "../components/InputUI/CheckboxInputUI.vue";
-
 
 class DataTableCellComponentUIController<T = any> extends BaseController<
     DataTableCellComponentUIPropsInterface,
@@ -48,18 +45,13 @@ class DataTableCellComponentUIController<T = any> extends BaseController<
     }
 
     protected getUIStateData(): DataTableCellComponentUIStateDataInterface {
-
-        return {
-
-        };
-
+        return {};
     }
 
     protected getUIComputedData(): ComputedDefinitionType<DataTableCellComponentUIComputedDataInterface> {
-
         return {
             raw_record_value: this.action_handler.getRecordValueByColKey,
-            
+
             serial_value: this.action_handler.getSerialValue,
 
             img_src: this.action_handler.getImgSrc,
@@ -84,11 +76,9 @@ class DataTableCellComponentUIController<T = any> extends BaseController<
 
             input_boolean_props: this.action_handler.getInputBooleanProps,
 
-            input_action_props: this.action_handler.getInputActionProps,
+            input_action_props: this.action_handler.getInputActionProps
         };
-
     }
-
 }
 
 export default DataTableCellComponentUIController;

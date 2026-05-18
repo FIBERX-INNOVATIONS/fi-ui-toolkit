@@ -8,18 +8,13 @@ import {
     ContentMenuPayloadInterface
 } from "../ui_types/dropdown_menu_ui_type";
 
-import { 
-    NavLinkUIClassStylesInterface, 
-    NavLinkUIPropsInterface 
-} from "../ui_types/nav_link_ui_type";
+import { NavLinkUIClassStylesInterface, NavLinkUIPropsInterface } from "../ui_types/nav_link_ui_type";
 
 import ContentManagerUtil from "../utils/content_manager_util";
 import NavLinkUIPropsBuilder from "./nav_link_ui_props_builder";
 import { SVGIconKey } from "../resources/svg_icon_resource";
 
-
 class DropdownMenuUIPropsBuilder {
-
     public static class_styles?: DropdownMenuUIClassStylesInterface;
 
     public static readonly content_manager: ContentManagerUtil = ContentManagerUtil.getInstance();
@@ -28,99 +23,67 @@ class DropdownMenuUIPropsBuilder {
 
     private static activeClickHandler: ((e: MouseEvent) => void) | null = null;
 
-
-    public static configure(
-        class_styles?: DropdownMenuUIClassStylesInterface
-    ): void {
-
-        DropdownMenuUIPropsBuilder.class_styles =
-            class_styles || DropdownMenuUIClassStyles;
-
+    public static configure(class_styles?: DropdownMenuUIClassStylesInterface): void {
+        DropdownMenuUIPropsBuilder.class_styles = class_styles || DropdownMenuUIClassStyles;
     }
 
-
     private static buildPropsObject(
-
         id: string,
 
         overrides: Partial<DropdownMenuUIPropsInterface> = {}
-
     ): DropdownMenuUIPropsInterface {
-
         return {
-
             id,
 
             menu_items: overrides.menu_items ?? [],
 
-            class_styles:
-                overrides.class_styles ??
-                DropdownMenuUIPropsBuilder.class_styles ??
-                DropdownMenuUIClassStyles
-
+            class_styles: overrides.class_styles ?? DropdownMenuUIPropsBuilder.class_styles ?? DropdownMenuUIClassStyles
         };
-
     }
 
-
     public static getReactivePropsObject(
-
         id: string,
 
         overrides: Partial<DropdownMenuUIPropsInterface> = {}
-
     ): DropdownMenuUIPropsInterface {
-
-        const props =
-            DropdownMenuUIPropsBuilder.buildPropsObject(
-                id,
-                overrides
-            );
+        const props = DropdownMenuUIPropsBuilder.buildPropsObject(id, overrides);
 
         return reactive<DropdownMenuUIPropsInterface>(props);
-
     }
 
-    public static buildMenuList (
+    public static buildMenuList(
         content_key: string,
         class_styles: NavLinkUIClassStylesInterface
     ): NavLinkUIPropsInterface[] {
-        if(!content_key) { return [] }
+        if (!content_key) {
+            return [];
+        }
 
-        const content_payload = 
+        const content_payload =
             DropdownMenuUIPropsBuilder.content_manager.get<ContentMenuPayloadInterface[]>(content_key);
 
-        if(!content_payload || !content_payload.length) { return [] }
+        if (!content_payload || !content_payload.length) {
+            return [];
+        }
 
         const nav_links = [];
 
-        for ( const payload of content_payload) {
-            const {
-                menu_text,
-                menu_link,
-                menu_icon,
-                menu_id_text = "",
-                menu_img_link,
-            } = payload;
+        for (const payload of content_payload) {
+            const { menu_text, menu_link, menu_icon, menu_id_text = "", menu_img_link } = payload;
 
-            const nav_link_item = NavLinkUIPropsBuilder.getReactivePropsObject(
-                menu_id_text,
-                menu_link,
-                {
-                    icon: (menu_icon) as SVGIconKey,
-                    img_src: menu_img_link,
-                    img_alt_text: menu_text,
-                    content: menu_text,
-                    class_styles
-                }
-            )
+            const nav_link_item = NavLinkUIPropsBuilder.getReactivePropsObject(menu_id_text, menu_link, {
+                icon: menu_icon as SVGIconKey,
+                img_src: menu_img_link,
+                img_alt_text: menu_text,
+                content: menu_text,
+                class_styles
+            });
 
             nav_links.push(nav_link_item);
         }
 
-        return nav_links
+        return nav_links;
     }
-
 
     /* ---------------------------------- */
     /* Smart Dropdown Toggle              */
@@ -132,9 +95,8 @@ class DropdownMenuUIPropsBuilder {
         close_on_outside_click: boolean = true,
         close_on_scroll: boolean = true
     ): void {
-
-        const trigger   = document.getElementById(trigger_id);
-        const menu      = document.getElementById(menu_id);
+        const trigger = document.getElementById(trigger_id);
+        const menu = document.getElementById(menu_id);
 
         if (!trigger || !menu) return;
 
@@ -158,65 +120,64 @@ class DropdownMenuUIPropsBuilder {
             return;
         }
 
-            // OPEN MENU
-            menu.style.display = "block";
-            menu.style.visibility = "visible";
+        // OPEN MENU
+        menu.style.display = "block";
+        menu.style.visibility = "visible";
 
-            const rect = trigger.getBoundingClientRect();
-            const viewport_width = window.innerWidth;
-            const viewport_height = window.innerHeight;
+        const rect = trigger.getBoundingClientRect();
+        const viewport_width = window.innerWidth;
+        const viewport_height = window.innerHeight;
 
-            const menu_width = menu.offsetWidth || 200;
-            const menu_height = menu.offsetHeight || 200;
+        const menu_width = menu.offsetWidth || 200;
+        const menu_height = menu.offsetHeight || 200;
 
-            let top = rect.bottom;
-            let left = rect.left;
+        let top = rect.bottom;
+        let left = rect.left;
 
-            if (rect.bottom + menu_height > viewport_height) {
-                top = rect.top - menu_height;
-            }
+        if (rect.bottom + menu_height > viewport_height) {
+            top = rect.top - menu_height;
+        }
 
-            if (rect.left + menu_width > viewport_width) {
-                left = rect.right - menu_width;
-            }
+        if (rect.left + menu_width > viewport_width) {
+            left = rect.right - menu_width;
+        }
 
-            menu.style.top = `${top}px`;
-            menu.style.left = `${left}px`;
+        menu.style.top = `${top}px`;
+        menu.style.left = `${left}px`;
 
-            // ✅ OUTSIDE CLICK
-            if (close_on_outside_click) {
-                this.activeClickHandler = (event: MouseEvent) => {
-                    const target = event.target as Node;
+        // ✅ OUTSIDE CLICK
+        if (close_on_outside_click) {
+            this.activeClickHandler = (event: MouseEvent) => {
+                const target = event.target as Node;
 
-                    if (!menu.contains(target) && !trigger.contains(target)) {
-                        menu.style.display = "none";
-                        menu.style.visibility = "hidden";
-
-                        document.removeEventListener("click", this.activeClickHandler!);
-                        this.activeClickHandler = null;
-                    }
-                };
-
-                setTimeout(() => {
-                    document.addEventListener("click", this.activeClickHandler!);
-                }, 10);
-            }
-
-            // ✅ SCROLL CLOSE
-            if (close_on_scroll) {
-                this.activeScrollHandler = () => {
+                if (!menu.contains(target) && !trigger.contains(target)) {
                     menu.style.display = "none";
                     menu.style.visibility = "hidden";
 
-                    document.removeEventListener("scroll", this.activeScrollHandler!, true);
-                    this.activeScrollHandler = null;
-                };
+                    document.removeEventListener("click", this.activeClickHandler!);
+                    this.activeClickHandler = null;
+                }
+            };
 
-                setTimeout(() => {
-                    document.addEventListener("scroll", this.activeScrollHandler!, true);
-                }, 10);
-            }
+            setTimeout(() => {
+                document.addEventListener("click", this.activeClickHandler!);
+            }, 10);
+        }
 
+        // ✅ SCROLL CLOSE
+        if (close_on_scroll) {
+            this.activeScrollHandler = () => {
+                menu.style.display = "none";
+                menu.style.visibility = "hidden";
+
+                document.removeEventListener("scroll", this.activeScrollHandler!, true);
+                this.activeScrollHandler = null;
+            };
+
+            setTimeout(() => {
+                document.addEventListener("scroll", this.activeScrollHandler!, true);
+            }, 10);
+        }
 
         // const rect = trigger.getBoundingClientRect();
 
@@ -244,7 +205,6 @@ class DropdownMenuUIPropsBuilder {
 
         // menu.style.top = `${top}px`;
         // menu.style.left = `${left}px`;
-
 
         // if (close_on_outside_click) {
 
@@ -280,7 +240,6 @@ class DropdownMenuUIPropsBuilder {
         //     }, 10);
         // }
     }
-
 }
 
 export default DropdownMenuUIPropsBuilder;

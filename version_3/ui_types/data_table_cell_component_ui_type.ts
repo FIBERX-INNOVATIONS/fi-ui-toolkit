@@ -10,12 +10,12 @@ import { SVGIconValue } from "../resources/svg_icon_resource";
 import { HeaderTextUIClassStylesInterface } from "./header_text_ui_type";
 import { ButtonUIClassStylesInterface } from "./button_ui_type";
 
-import { 
-    InputUIActionPropsInterface, 
-    InputUIBooleanPropsInterface, 
-    InputUIClassStylesInterface, 
-    InputUIContentOptionsInterface, 
-    InputValue 
+import {
+    InputUIActionPropsInterface,
+    InputUIBooleanPropsInterface,
+    InputUIClassStylesInterface,
+    InputUIContentOptionsInterface,
+    InputValue
 } from "./input_ui_type";
 
 export interface DataTableCellComponentUIClassStylesInterface {
@@ -99,7 +99,6 @@ export interface DataTableCellComponentUIComputedDataInterface {
 /* ---------------------------------- */
 
 export interface DataTableCellComponentUIComponentsInterface {
-
     ImageRenderUI: Component;
 
     SwitchInputUI: Component;
@@ -109,5 +108,4 @@ export interface DataTableCellComponentUIComponentsInterface {
     HeaderTextUI: Component;
 
     ButtonUI: Component;
-
 }

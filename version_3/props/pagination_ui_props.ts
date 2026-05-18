@@ -13,7 +13,6 @@ import {
 import PaginationUIClassStyles from "../class_styles/pagination_ui_class_styles";
 
 const PaginationUIProps = {
-
     id: { type: String },
 
     layout: {
@@ -49,7 +48,6 @@ const PaginationUIProps = {
         type: Object as PropType<PaginationUIClassStylesInterface>,
         default: () => PaginationUIClassStyles
     }
-
 } satisfies Record<keyof PaginationUIPropsInterface, any>;
 
 export default PaginationUIProps;

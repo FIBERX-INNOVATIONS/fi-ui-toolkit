@@ -1,12 +1,11 @@
 <template>
     <div :class="class_styles?.wrapper_class_style">
-        <a 
+        <a
             :href="computed_refs?.link_url?.value"
             :target="column?.props?.link_target"
             :class="class_styles?.url_link_class_style?.wrapper_class_style"
         >
-
-            <img 
+            <img
                 v-if="column?.props?.getImgSrc?.(record)"
                 :src="computed_refs?.img_src?.value"
                 :class="class_styles?.url_link_class_style?.icon_class_style"
@@ -14,12 +13,12 @@
             />
 
             <span
-                v-else-if="computed_refs?.link_icon?.value" 
+                v-else-if="computed_refs?.link_icon?.value"
                 :class="class_styles?.url_link_class_style?.icon_class_style"
                 v-html="computed_refs?.link_icon?.value"
             ></span>
 
-            <span 
+            <span
                 :class="class_styles?.url_link_class_style?.text_class_style"
                 v-html="computed_refs?.link_text?.value"
             ></span>
@@ -35,16 +34,9 @@ const props = defineProps(DataTableCellComponentUIProps);
 
 const controller = new DataTableCellComponentUIController(props);
 
-const { 
-    column,
-    record_index,
-} = props;
+const { column, record_index } = props;
 
-const { 
-    computed_refs,
-    components
-} = controller;
-
+const { computed_refs, components } = controller;
 
 const class_styles = column?.props?.class_styles;
 </script>

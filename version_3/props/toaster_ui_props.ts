@@ -1,19 +1,16 @@
-
 import { PropType } from "vue";
 
-import { 
+import {
     ToastStatusType,
     ToasterUIActionPropsInterface,
-    ToasterUIClassStylesInterface, 
-    ToasterUIPropsInterface 
+    ToasterUIClassStylesInterface,
+    ToasterUIPropsInterface
 } from "../ui_types/toaster_ui_type";
 
 import ToasterUIClassStyles from "../class_styles/toaster_ui_class_styles";
 import { SVGIconKey } from "../resources/svg_icon_resource";
 
-
 const ToasterUIProps = {
-
     id: {
         type: String,
         default: undefined
@@ -48,7 +45,6 @@ const ToasterUIProps = {
         type: Object as PropType<ToasterUIActionPropsInterface>,
         default: () => ({})
     }
-
 } satisfies Record<keyof ToasterUIPropsInterface, any>;
 
 export default ToasterUIProps;

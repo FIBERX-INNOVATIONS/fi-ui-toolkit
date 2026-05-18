@@ -1,5 +1,4 @@
 import { Component } from "vue";
-import { st } from "vue-router/dist/router-CWoNjPRp.mjs";
 
 /* ---------------------------------- */
 /* Action Return                      */
@@ -8,41 +7,33 @@ import { st } from "vue-router/dist/router-CWoNjPRp.mjs";
 export interface ImageRenderActionReturnInterface {
     status: boolean;
     msg: string;
-    data?: Record<string, any>;
+    data?: Record<string, unknown>;
 }
-
 
 /* ---------------------------------- */
 /* Action Props                       */
 /* ---------------------------------- */
 
 export interface ImageRenderUIActionPropsInterface {
-
     on_click?: (
         event?: MouseEvent,
         config?: { props: ImageRenderUIPropsInterface }
     ) => Promise<ImageRenderActionReturnInterface | void>;
-
 }
-
 
 /* ---------------------------------- */
 /* Boolean Props                      */
 /* ---------------------------------- */
 
 export interface ImageRenderUIBooleanPropsInterface {
-
     lazy_load?: boolean;
-
 }
-
 
 /* ---------------------------------- */
 /* Class Styles                       */
 /* ---------------------------------- */
 
 export interface ImageRenderUIClassStylesInterface {
-
     wrapper_class_style: string;
 
     image_class_style: string;
@@ -54,16 +45,13 @@ export interface ImageRenderUIClassStylesInterface {
     loading_class_style: string;
 
     error_class_style: string;
-
 }
-
 
 /* ---------------------------------- */
 /* Props Interface                    */
 /* ---------------------------------- */
 
 export interface ImageRenderUIPropsInterface {
-
     id?: string;
 
     src?: string;
@@ -77,33 +65,25 @@ export interface ImageRenderUIPropsInterface {
     action_props?: ImageRenderUIActionPropsInterface;
 
     class_styles?: ImageRenderUIClassStylesInterface;
-
 }
-
 
 /* ---------------------------------- */
 /* State                              */
 /* ---------------------------------- */
 
 export interface ImageRenderUIStateDataInterface {
-
     is_loading: boolean;
 
     has_error: boolean;
-
 }
-
 
 /* ---------------------------------- */
 /* Computed                           */
 /* ---------------------------------- */
 
 export interface ImageRenderUIComputedDataInterface {
-
     show_image: boolean;
-
 }
-
 
 /* ---------------------------------- */
 /* Components                         */

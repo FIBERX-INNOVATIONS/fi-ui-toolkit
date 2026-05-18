@@ -1,33 +1,15 @@
+import BaseActionHandler from "../base_classes/base_action_handler";
 import BaseController from "../base_classes/base_controller";
-import LoggerUtil from "../utils/logger_util";
+
 import { StatusAlertUIPropsInterface } from "../ui_types/status_alert_ui_type";
 
-class StatusAlertUIActionHandler {
-    public readonly name = "status_alert_ui_action_handler";
-
-    // Singleton instance
-    private static instance: StatusAlertUIActionHandler | null = null;
-
-    // Make controller static so it’s shared across all usage
-    private controller: BaseController<StatusAlertUIPropsInterface>;
-
-    private readonly logger: LoggerUtil = new LoggerUtil({ prefix: this.name, show_timestamp: false });
-
-    /** Private constructor */
-    constructor(
-        controller: BaseController<StatusAlertUIPropsInterface>
-    ) {
-        this.controller = controller;
+class StatusAlertUIActionHandler extends BaseActionHandler<StatusAlertUIPropsInterface> {
+    constructor(controller: BaseController<StatusAlertUIPropsInterface>) {
+        super(controller);
     }
 
-    /** Handle click event */
-    public handleOnClick = (event: MouseEvent) => {
-        const ctrl = this.controller;
-        const { on_close } = ctrl.props;
-
-        if (!on_close) return;
-
-        on_close(event);
+    public handleOnClick = async (event: MouseEvent): Promise<void> => {
+        await this.invokeAction(this.props.on_close, event);
     };
 }
 

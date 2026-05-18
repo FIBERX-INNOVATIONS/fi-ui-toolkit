@@ -7,15 +7,13 @@ import {
     ModalAnimationType,
     ModalUIActionPropsInterface,
     ModalUIPropsInterface,
-    ModalUIContentPropsInterface,
+    ModalUIContentPropsInterface
 } from "../ui_types/modal_ui_type";
 
 import { SVGIconKey } from "../resources/svg_icon_resource";
 import { OverlayUIPropsInterface } from "../ui_types/overlay_ui_type";
 
-
 const ModalUIProps = {
-
     overlay_props: {
         type: Object as PropType<OverlayUIPropsInterface>,
         default: () => ({})
@@ -60,7 +58,6 @@ const ModalUIProps = {
         type: Object as PropType<ModalUIClassStylesInterface>,
         default: () => ModalUIClassStyles
     }
-
 } satisfies Record<keyof ModalUIPropsInterface, any>;
 
 export default ModalUIProps;

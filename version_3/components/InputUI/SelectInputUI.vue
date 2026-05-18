@@ -22,53 +22,25 @@
             </option>
         </select>
 
-        <span 
-            v-if="helper_text"
-            :class="class_styles.helper_text_class_style"
-            v-html="helper_text"
-        ></span>
+        <span v-if="helper_text" :class="class_styles.helper_text_class_style" v-html="helper_text"></span>
 
-        <span 
-            v-if="error_text"
-            :class="class_styles.error_text_class_style"
-            v-html="error_text"
-        ></span>
+        <span v-if="error_text" :class="class_styles.error_text_class_style" v-html="error_text"></span>
     </div>
-
 </template>
 
 <script setup lang="ts">
-import InputUIProps      from "../../props/input_ui_props";
+import InputUIProps from "../../props/input_ui_props";
 import InputUIController from "../../controllers/input_ui_controller";
 
-const props         = defineProps(InputUIProps);
-const controller    = new InputUIController(props);
+const props = defineProps(InputUIProps);
+const controller = new InputUIController(props);
 
-const {
-    id,
-    type,
-    placeholder_text,
-    helper_text,
-    class_styles,
-    number_props,
-    boolean_props,
-    option_props
-} = props
+const { id, type, placeholder_text, helper_text, class_styles, number_props, boolean_props, option_props } = props;
 
-const {
-    state_refs,
-    action_handler
-} = controller;
+const { state_refs, action_handler } = controller;
 
-const {
-    input_value,
-    error_text
-} = state_refs
+const { input_value, error_text } = state_refs;
 
-const readonly_class_style  = boolean_props.read_only ? class_styles.input_readonly_class_style : "";
-const input_class_style     = [
-    class_styles.input_class_style,
-    readonly_class_style
-].join(" ");
-
+const readonly_class_style = boolean_props.read_only ? class_styles.input_readonly_class_style : "";
+const input_class_style = [class_styles.input_class_style, readonly_class_style].join(" ");
 </script>

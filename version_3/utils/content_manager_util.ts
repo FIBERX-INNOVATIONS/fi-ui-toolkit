@@ -1,5 +1,5 @@
-import LoggerUtil                   from "./logger_util";
-import { ContentObjectType }        from "../types/util_type";
+import LoggerUtil from "./logger_util";
+import { ContentObjectType } from "../types/util_type";
 
 class ContentManagerUtil {
     public readonly name = "content_manager_util";
@@ -11,7 +11,7 @@ class ContentManagerUtil {
     private static _content_data: ContentObjectType = {};
     private static _merged_api_responses: ContentObjectType = {};
 
-    private constructor() { }
+    private constructor() {}
 
     /** Singleton accessor */
     public static getInstance(): ContentManagerUtil {
@@ -49,8 +49,7 @@ class ContentManagerUtil {
             ContentManagerUtil._is_loaded = Object.keys(ContentManagerUtil._content_data).length > 0;
 
             return ContentManagerUtil._is_loaded;
-        } 
-        catch (error: unknown) {
+        } catch (error: unknown) {
             this.logger.error("Error loading content data:", { error });
             throw error;
         }
@@ -81,7 +80,6 @@ class ContentManagerUtil {
         record: Record<string, any> = {},
         default_value: T | null = null
     ): T | null {
-
         // First get the base content
         let value = this.get<T>(key_path, default_value);
 
@@ -96,7 +94,6 @@ class ContentManagerUtil {
 
         // Replace {{placeholders}} with record values
         const parsed_value = value.replace(/\{\{(.*?)\}\}/g, (_, key) => {
-
             const trimmed_key = key.trim();
 
             // Support nested keys like {{user.name}}
@@ -104,9 +101,7 @@ class ContentManagerUtil {
                 return obj && obj[k] !== undefined ? obj[k] : undefined;
             }, record);
 
-            return resolved !== undefined && resolved !== null
-                ? String(resolved)
-                : "";
+            return resolved !== undefined && resolved !== null ? String(resolved) : "";
         });
 
         return parsed_value as T;
@@ -141,20 +136,21 @@ class ContentManagerUtil {
 
         if (bracket_matches.length > 0) {
             bracket_matches.forEach((match, index) => {
-                dynamic_params[`val_${index + 1}`] = match[1];  // val_1, val_2, ...
+                dynamic_params[`val_${index + 1}`] = match[1]; // val_1, val_2, ...
             });
             // Replace [xxx] → [*] to build the lookup key
             api_response = api_response.replace(/\[[^\]]+\]/g, "[*]");
         }
 
         // Get template
-        let template = ContentManagerUtil._merged_api_responses[api_response] || 
-                       ContentManagerUtil._merged_api_responses["error_occurred"];
+        let template =
+            ContentManagerUtil._merged_api_responses[api_response] ||
+            ContentManagerUtil._merged_api_responses["error_occurred"];
 
         // Replace placeholders in template
         if (typeof template === "string") {
             Object.entries(dynamic_params).forEach(([key, value]) => {
-                const regex = new RegExp(`%${key}%`, "g"); 
+                const regex = new RegExp(`%${key}%`, "g");
                 template = template.replace(regex, value);
             });
         }

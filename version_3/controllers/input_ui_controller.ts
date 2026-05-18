@@ -1,4 +1,3 @@
-
 import InputUIActionHandler from "../action_handlers/input_ui_action_handler";
 
 import BaseController from "../base_classes/base_controller";
@@ -17,7 +16,7 @@ import {
 import TextInputUI from "../components/InputUI/TextInputUI.vue";
 import TextAreaInputUI from "../components/InputUI/TextAreaInputUI.vue";
 import CheckboxInputUI from "../components/InputUI/CheckboxInputUI.vue";
-import NumberInputUI  from "../components/InputUI/NumberInputUI.vue";
+import NumberInputUI from "../components/InputUI/NumberInputUI.vue";
 import SelectInputUI from "../components/InputUI/SelectInputUI.vue";
 import SelectSearchInputUI from "../components/InputUI/SelectSearchInputUI.vue";
 import SwitchInputUI from "../components/InputUI/SwitchInputUI.vue";
@@ -29,10 +28,8 @@ import DateInputUI from "../components/InputUI/DateInputUI.vue";
 import DateRangeInputUI from "../components/InputUI/DateRangeInputUI.vue";
 import MultiSelectSearchInputUI from "../components/InputUI/MultiSelectSearchInputUI.vue";
 
-import { VueDatePicker } from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
-
-
+import { VueDatePicker } from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
 
 class InputUIController extends BaseController<
     InputUIPropsInterface,
@@ -40,7 +37,6 @@ class InputUIController extends BaseController<
     InputUIComputedDataInterface,
     InputUIComponentsInterface
 > {
-
     public action_handler: InputUIActionHandler = new InputUIActionHandler(this);
 
     constructor(props: InputUIPropsInterface) {
@@ -69,7 +65,6 @@ class InputUIController extends BaseController<
     }
 
     protected getUIStateData(): InputUIStateDataInterface {
-
         return {
             input_value: this.props.model_value ?? "",
 
@@ -79,7 +74,9 @@ class InputUIController extends BaseController<
 
             end_date: (this.props.model_value as InputDateRangeValueType)?.end_date ?? "",
 
-            selected_text: this.props.selected_text_prefix ? `${this.props.selected_text_prefix ?? ""}: ${this.props.model_value ?? ""}` : null,
+            selected_text: this.props.selected_text_prefix
+                ? `${this.props.selected_text_prefix ?? ""}: ${this.props.model_value ?? ""}`
+                : null,
 
             error_text: null,
 
@@ -101,17 +98,14 @@ class InputUIController extends BaseController<
 
             filtered_options: []
         };
-
     }
 
     protected getUIComputedData(): ComputedDefinitionType<InputUIComputedDataInterface> {
-
         return {
-
-            has_error: () => !!this.state_refs.error_text,
+            has_error: () => !!this.state_refs.error_text.value,
 
             preview_url: (): string | null => {
-                const value = (this.state_refs.input_value.value) as File | string;
+                const value = this.state_refs.input_value.value as File | string;
 
                 return this.action_handler.generateFilePreviewURL(value);
             },
@@ -134,7 +128,7 @@ class InputUIController extends BaseController<
 
                 return false;
             },
-            
+
             file_name: (): string | null => {
                 const { computed_refs, state_refs } = this;
 
@@ -151,55 +145,42 @@ class InputUIController extends BaseController<
 
                 return "Selected file";
             }
-
         };
-
     }
 
     protected getUIWatchers(): WatchersType<InputUIPropsInterface, InputUIStateDataInterface> {
         return {
             model_value: (new_val) => {
-                this.state_refs.input_value.value = new_val
-            },
-
-            input_value: (new_val) => {
-                this.props.action_props?.on_change?.(undefined, new_val, { props: this.props });
+                this.state_refs.input_value.value = new_val ?? null;
             },
 
             route: (new_val) => {
                 const is_empty_query = Object.keys(new_val.query).length === 0;
 
-                if(is_empty_query) {
+                if (is_empty_query) {
                     this.state_refs.input_value.value = null;
                 }
             },
 
             record_options: (new_val: SelectOptionInterface[]) => {
-                const selected_values = this.state_refs.selected_options.value.map(o => o.value);
-                const filtered_values = (this.state_refs.record_options.value || []).filter(
-                    opt => !selected_values.includes(opt.value)
-                );
+                const selected_values = this.state_refs.selected_options.value.map((o) => o.value);
+                const filtered_values = (new_val || []).filter((opt) => !selected_values.includes(opt.value));
 
                 this.state_refs.filtered_options.value = filtered_values;
             },
 
             selected_options: (new_val: SelectOptionInterface[]) => {
-                const selected_values = new_val.map(o => o.value);
+                const selected_values = new_val.map((o) => o.value);
                 const filtered_values = (this.state_refs.record_options.value || []).filter(
-                    opt => !selected_values.includes(opt.value)
+                    (opt) => !selected_values.includes(opt.value)
                 );
 
-                this.state_refs.filtered_options.value  = filtered_values;
-                this.state_refs.input_value.value       = selected_values
+                this.state_refs.filtered_options.value = filtered_values;
             }
-
         };
     }
 
-    protected async handleOnMountedLogic(): Promise<void> {
-        
-    }
-
+    protected async handleOnMountedLogic(): Promise<void> {}
 }
 
 export default InputUIController;

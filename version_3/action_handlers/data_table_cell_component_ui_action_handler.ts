@@ -1,34 +1,28 @@
-
+import BaseActionHandler from "../base_classes/base_action_handler";
+import BaseController from "../base_classes/base_controller";
 
 import { getSVGIconValue, SVGIconValue } from "../resources/svg_icon_resource";
 
-import BaseController from "../base_classes/base_controller";
+import {
+    DataTableCellComponentUIComponentsInterface,
+    DataTableCellComponentUIComputedDataInterface,
+    DataTableCellComponentUIPropsInterface,
+    DataTableCellComponentUIStateDataInterface
+} from "../ui_types/data_table_cell_component_ui_type";
 
-import { 
+import {
+    InputUIActionPropsInterface,
+    InputUIBooleanPropsInterface,
+    InputUIContentOptionsInterface,
+    InputValue
+} from "../ui_types/input_ui_type";
+
+class DataTableCellComponentUIActionHandler extends BaseActionHandler<
     DataTableCellComponentUIPropsInterface,
     DataTableCellComponentUIStateDataInterface,
     DataTableCellComponentUIComputedDataInterface,
-    DataTableCellComponentUIComponentsInterface,
-} from "../ui_types/data_table_cell_component_ui_type";
-
-import InputTransformerUtil from "../utils/input_transformer_util";
-
-import { 
-    InputUIActionPropsInterface,
-    InputUIBooleanPropsInterface, 
-    InputUIContentOptionsInterface, 
-    InputValue 
-} from "../ui_types/input_ui_type";
-
-class DataTableCellComponentUIActionHandler {
-
-    private controller: BaseController<
-        DataTableCellComponentUIPropsInterface,
-        DataTableCellComponentUIStateDataInterface,
-        DataTableCellComponentUIComputedDataInterface,
-        DataTableCellComponentUIComponentsInterface
-    >;
-
+    DataTableCellComponentUIComponentsInterface
+> {
     constructor(
         controller: BaseController<
             DataTableCellComponentUIPropsInterface,
@@ -37,248 +31,96 @@ class DataTableCellComponentUIActionHandler {
             DataTableCellComponentUIComponentsInterface
         >
     ) {
-        this.controller = controller;
+        super(controller);
     }
 
-    // Method to get record value from column key, used as fallback for various render values
-    public getRecordValueByColKey = (): string | undefined => {
-        const { props } = this.controller;
+    private getColumnPropValue<TValue>(prop_key: string, fallback?: () => TValue | undefined): TValue | undefined {
+        const { record, column, record_index } = this.props;
+        const column_props = column?.props as Record<string, any> | undefined;
+        const prop_value = column_props?.[prop_key];
 
-        const { 
-            record,
-            column
-        } = props;
+        if (typeof prop_value === "function") {
+            return prop_value(record, record_index);
+        }
+
+        return fallback?.();
+    }
+
+    public getRecordValueByColKey = (): string | undefined => {
+        const { record, column } = this.props;
 
         return column?.key && record ? record[column.key]?.toString() : "";
-    }
+    };
 
-    // Method to get serial value for the cell, used when column type is set to "serial"
     public getSerialValue = (): string | number | undefined => {
-
-        const { props } = this.controller;
-
-        const { 
-            record_index = 0, 
-            column 
-        } = props;
-
+        const { record_index = 0, column } = this.props;
         const base_value = record_index + 1;
 
-        const {
-            prefix = "",
-            suffix = "",
-            pad_start
-        } = column?.props || {};
+        const { prefix = "", suffix = "", pad_start } = column?.props || {};
 
-        let formatted_value: string | number = base_value;
-
-        if (pad_start) {
-            formatted_value = String(base_value).padStart(pad_start, "0");
-        }
+        const formatted_value = pad_start ? String(base_value).padStart(pad_start, "0") : base_value;
 
         return `${prefix}${formatted_value}${suffix}`;
-    }
+    };
 
-    // Methods to get image render values, with fallback to record value by column key if specific render method is not provided in column props
     public getImgSrc = (): string | undefined => {
+        return this.getColumnPropValue("getImgSrc", this.getRecordValueByColKey);
+    };
 
-        const { props } = this.controller;
-
-        const { 
-            record,
-            column
-        } = props;
-
-        if(column?.props?.getImgSrc) {
-            return column.props.getImgSrc?.(record);
-        }
-
-        return this.getRecordValueByColKey();
-    }
-
-    // Method to get image alt text, with fallback to record value by column key if specific render method is not provided in column props
     public getImgAltText = (): string | undefined => {
+        return this.getColumnPropValue("getImgAltText", this.getRecordValueByColKey);
+    };
 
-        const { props } = this.controller;
-
-        const { 
-            record,
-            column
-        } = props;
-
-        if(column?.props?.getImgAltText) {
-            return column.props.getImgAltText?.(record);
-        }
-
-        return this.getRecordValueByColKey();
-    }
-
-    // Method to get image content text, with fallback to record value by column key if specific render method is not provided in column props
     public getImgContent = (): string | undefined => {
+        return this.getColumnPropValue("getImgContent", this.getRecordValueByColKey);
+    };
 
-        const { props } = this.controller;
-
-        const { 
-            record,
-            column
-        } = props;
-
-        if(column?.props?.getImgContent) {
-            return column.props.getImgContent?.(record);
-        }
-
-        return this.getRecordValueByColKey();
-    }
-
-    // Method to get image sub text, with fallback to record value by column key if specific render method is not provided in column props
     public getImgSubText = (): string | undefined => {
+        return this.getColumnPropValue("getImgSubText", this.getRecordValueByColKey);
+    };
 
-        const { props } = this.controller;
-
-        const { 
-            record,
-            column
-        } = props;
-
-        if(column?.props?.getImgSubText) {
-            return column.props.getImgSubText?.(record);
-        }
-
-        return this.getRecordValueByColKey();
-    }
-
-    // Method to get link URL, with fallback to record value by column key if specific render method is not provided in column props
     public getLinkURL = (): string | undefined => {
-        const { props } = this.controller;
+        return this.getColumnPropValue("getLinkURL", this.getRecordValueByColKey);
+    };
 
-        const { 
-            record,
-            column
-        } = props;
-
-        if(column?.props?.getLinkURL) {
-            return column.props.getLinkURL?.(record);
-        }
-
-        return this.getRecordValueByColKey();
-    }
-
-    // Method to get link text, with fallback to record value by column key if specific render method is not provided in column props
     public getLinkText = (): string | undefined => {
-        const { props } = this.controller;
+        return this.getColumnPropValue("getLinkText", this.getRecordValueByColKey);
+    };
 
-        const { 
-            record,
-            column
-        } = props;
-
-        if(column?.props?.getLinkText) {
-            return column.props.getLinkText?.(record);
-        }
-
-        return this.getRecordValueByColKey();
-    }
-
-    // Method to get link icon, with fallback to default link icon if specific icon key is not provided in column props
     public getLinkIcon = (): SVGIconValue | string | undefined => {
-        const { props } = this.controller;
+        const { column } = this.props;
 
-        const { 
-            record,
-            column
-        } = props;
-
-        if(column?.props?.icon_key) {
+        if (column?.props?.icon_key) {
             return getSVGIconValue(column.props.icon_key);
         }
 
-       return getSVGIconValue("link_square_arrow_top_right_svg_icon");
-    }
+        return getSVGIconValue("link_square_arrow_top_right_svg_icon");
+    };
 
-    // Method to get date text content, with fallback to record value by column key if specific render method is not provided in column props
     public getTextContent = (): string | undefined => {
-        const { props } = this.controller;
+        return (
+            this.getColumnPropValue<string>("getDateTextContent") ??
+            this.getColumnPropValue<string>("getTextContent") ??
+            this.getRecordValueByColKey() ??
+            "-"
+        );
+    };
 
-        const { 
-            record,
-            column
-        } = props;
-
-        if(column?.props?.getDateTextContent) {
-            return column.props.getDateTextContent?.(record);
-        }   
-
-        if(column?.props?.getTextContent) {
-            return column.props.getTextContent?.(record);
-        }
-
-        const date_value = this.getRecordValueByColKey();
-
-        if(date_value) {
-            return date_value;
-        }
-
-        return "-";
-    }
-
-    // Method to get input model value
     public getInputModelValue = (): InputValue | undefined => {
-        const { record, column, record_index } = this.controller.props;
+        return this.getColumnPropValue<InputValue>("input_model_value");
+    };
 
-        if(!record || !column || !column?.props?.input_model_value) {
-            return undefined;
-        }
-
-        const { input_model_value } = column?.props;
-
-        return input_model_value?.(record, record_index)
-
-    }
-
-    // Method to get input content props value
     public getInputContentProps = (): InputUIContentOptionsInterface | undefined => {
-        const { record, column, record_index } = this.controller.props;
+        return this.getColumnPropValue<InputUIContentOptionsInterface>("input_content_props");
+    };
 
-        if(!record || !column || !column?.props?.input_content_props) {
-            return undefined;
-        }
-
-        const { input_content_props } = column?.props;
-
-        return input_content_props?.(record, record_index)
-
-    }
-
-    // Method to get input boolean props value
     public getInputBooleanProps = (): InputUIBooleanPropsInterface | undefined => {
-        const { record, column, record_index } = this.controller.props;
+        return this.getColumnPropValue<InputUIBooleanPropsInterface>("input_ui_boolean_props");
+    };
 
-        if(!record || !column || !column?.props?.input_ui_boolean_props) {
-            return undefined;
-        }
-
-        const { input_ui_boolean_props } = column?.props;
-
-        return input_ui_boolean_props?.(record, record_index)
-
-    }
-
-    // Method to get input action props value
     public getInputActionProps = (): InputUIActionPropsInterface | undefined => {
-        const { record, column, record_index } = this.controller.props;
-
-        if(!column || !column?.props?.input_action_props) {
-            return undefined;
-        }
-
-        const { input_action_props } = column?.props;
-
-        return input_action_props?.(record, record_index)
-
-    }
-
-
-
+        return this.getColumnPropValue<InputUIActionPropsInterface>("input_action_props");
+    };
 }
 
 export default DataTableCellComponentUIActionHandler;

@@ -1,22 +1,19 @@
-
+import BaseActionHandler from "../base_classes/base_action_handler";
 import BaseController from "../base_classes/base_controller";
 
-import { 
+import {
+    OverlayUIComponentsInterface,
+    OverlayUIComputedDataInterface,
+    OverlayUIPropsInterface,
+    OverlayUIStateDataInterface
+} from "../ui_types/overlay_ui_type";
+
+class OverlayUIActionHandler extends BaseActionHandler<
     OverlayUIPropsInterface,
     OverlayUIStateDataInterface,
     OverlayUIComputedDataInterface,
-    OverlayUIComponentsInterface,
-} from "../ui_types/overlay_ui_type";
-
-class OverlayUIActionHandler {
-
-    private controller: BaseController<
-        OverlayUIPropsInterface,
-        OverlayUIStateDataInterface,
-        OverlayUIComputedDataInterface,
-        OverlayUIComponentsInterface
-    >;
-
+    OverlayUIComponentsInterface
+> {
     constructor(
         controller: BaseController<
             OverlayUIPropsInterface,
@@ -25,58 +22,44 @@ class OverlayUIActionHandler {
             OverlayUIComponentsInterface
         >
     ) {
-        this.controller = controller;
+        super(controller);
     }
 
-    public async handleOpen() {
-
-        const { props } = this.controller;
-
-        this.controller.state_refs.is_open.value = true;
-
-        if (props.boolean_props?.lock_scroll) {
-            document.body.style.overflow = "hidden";
+    public syncBodyScrollLock = (is_open: boolean): void => {
+        if (!this.props.boolean_props?.lock_scroll) {
+            return;
         }
 
-        await props.action_props?.on_open?.({
-            props
-        });
+        document.body.style.overflow = is_open ? "hidden" : "";
+    };
 
-    }
+    public handleOpen = async (): Promise<void> => {
+        this.setState("is_open", true);
+        this.syncBodyScrollLock(true);
 
+        const { on_open } = this.props.action_props || {};
 
-    public async handleClose() {
+        await this.invokeAction(on_open, { props: this.props });
+    };
 
-        const { props } = this.controller;
+    public handleClose = async (): Promise<void> => {
+        this.setState("is_open", false);
+        this.syncBodyScrollLock(false);
 
-        this.controller.state_refs.is_open.value = false;
+        const { on_close } = this.props.action_props || {};
 
-        document.body.style.overflow = "";
+        await this.invokeAction(on_close, { props: this.props });
+    };
 
-        await props.action_props?.on_close?.({
-            props
-        });
+    public handleOverlayClick = async (event: MouseEvent): Promise<void> => {
+        const { on_overlay_click } = this.props.action_props || {};
 
-    }
+        await this.invokeAction(on_overlay_click, event, { props: this.props });
 
-
-    public async handleOverlayClick(event: MouseEvent) {
-
-        const { props } = this.controller;
-
-        await props.action_props?.on_overlay_click?.(
-            event,
-            { props }
-        );
-
-        if (props.boolean_props?.close_on_overlay_click) {
-
+        if (this.props.boolean_props?.close_on_overlay_click) {
             await this.handleClose();
-
         }
-
-    }
-
+    };
 }
 
 export default OverlayUIActionHandler;

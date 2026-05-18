@@ -5,13 +5,10 @@ import FilePreviewUploadUIClassStyles from "../class_styles/file_preview_upload_
 import { FilePreviewUploadUIPropsInterface } from "../ui_types/file_preview_upload_ui_type";
 
 class FilePreviewUploadUIPropsBuilder {
-
     public static getReactivePropsObject(
         overrides: Partial<FilePreviewUploadUIPropsInterface> = {}
     ): FilePreviewUploadUIPropsInterface {
-
         return reactive({
-
             files: overrides.files ?? [],
 
             upload_button_props: {
@@ -29,7 +26,6 @@ class FilePreviewUploadUIPropsBuilder {
                 ...FilePreviewUploadUIClassStyles,
                 ...overrides.class_styles
             }
-
         });
     }
 }

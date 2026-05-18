@@ -1,4 +1,4 @@
-import { ref,  } from "vue";
+import { ref } from "vue";
 
 import BaseController from "../base_classes/base_controller";
 
@@ -20,9 +20,8 @@ class FilePreviewUploadUIController extends BaseController<
     FilePreviewUploadUIStateDataInterface,
     FilePreviewUploadUIComputedDataInterface,
     FilePreviewUploadUIComponentsInterface
->{
-
-    public action_handler = new FilePreviewUploadUIActionHandler(this);
+> {
+    public action_handler: FilePreviewUploadUIActionHandler = new FilePreviewUploadUIActionHandler(this);
 
     public file_input_ref = ref<HTMLInputElement | null>(null);
 
@@ -36,7 +35,6 @@ class FilePreviewUploadUIController extends BaseController<
     }
 
     protected getUIStateData(): FilePreviewUploadUIStateDataInterface {
-
         return {
             is_adding_more: false,
 
@@ -47,7 +45,6 @@ class FilePreviewUploadUIController extends BaseController<
             preview_files: this.action_handler.generatePreviewFiles(this.props.files || [])
         };
     }
-
 }
 
 export default FilePreviewUploadUIController;

@@ -1,107 +1,80 @@
-
-
+import BaseActionHandler from "../base_classes/base_action_handler";
 import BaseController from "../base_classes/base_controller";
 
 import ContentManagerUtil from "../utils/content_manager_util";
 
-import { 
-    DataTableUIPropsInterface,
-    DataTableUIStateDataInterface,
-    DataTableUIComputedDataInterface,
-    DataTableUIComponentsInterface,
-    DataTableColumnRenderType,
+import {
     DataTableCellRenderReturnType,
+    DataTableColumnRenderType,
+    DataTableUIComponentsInterface,
+    DataTableUIComputedDataInterface,
+    DataTableUIPropsInterface,
+    DataTableUIStateDataInterface
 } from "../ui_types/data_table_ui_type";
 
-class DataTableUIActionHandler<T = any> {
-
-    private controller: BaseController<
-        DataTableUIPropsInterface<T>,
-        DataTableUIStateDataInterface,
-        DataTableUIComputedDataInterface<T>,
-        DataTableUIComponentsInterface
-    >;
-
+class DataTableUIActionHandler<T extends Record<string, any> = Record<string, any>> extends BaseActionHandler<
+    DataTableUIPropsInterface<T>,
+    DataTableUIStateDataInterface<T>,
+    DataTableUIComputedDataInterface<T>,
+    DataTableUIComponentsInterface
+> {
     constructor(
         controller: BaseController<
             DataTableUIPropsInterface<T>,
-            DataTableUIStateDataInterface,
+            DataTableUIStateDataInterface<T>,
             DataTableUIComputedDataInterface<T>,
             DataTableUIComponentsInterface
         >
     ) {
-        this.controller = controller;
+        super(controller);
     }
 
-    /* SORT HANDLER */
     public handleSortDataByCol = async (key: keyof T): Promise<void> => {
-        this.controller.state_refs.loading.value = true;
-
-        try {
-            const { state_refs, props } = this.controller;
-
-            const { sort_key, sort_direction, loading } = state_refs;
+        await this.runWithLoading("loading", async () => {
+            const { sort_key, sort_direction } = this.state_refs;
 
             if (sort_key.value !== key) {
                 sort_key.value = key;
                 sort_direction.value = "asc";
-            } 
-            else {
-                if (sort_direction.value === "asc") {
-                    sort_direction.value = "desc";
-                } else if (sort_direction.value === "desc") {
-                    sort_direction.value = null;
-                    sort_key.value = null;
-                } else {
-                    sort_direction.value = "asc";
-                }
+            } else if (sort_direction.value === "asc") {
+                sort_direction.value = "desc";
+            } else if (sort_direction.value === "desc") {
+                sort_direction.value = null;
+                sort_key.value = null;
+            } else {
+                sort_direction.value = "asc";
             }
 
-            await props.action_props?.on_sort?.(
-                key,
-                sort_direction.value,
-                { props }
-            );
-        }
-        catch(error: unknown) {
+            const { on_sort } = this.props.action_props || {};
 
-        }
-        finally {
-            this.controller.state_refs.loading.value = false;
-        }
-    }
+            await this.invokeAction(on_sort, key, sort_direction.value, { props: this.props });
+        });
+    };
 
-    /* HEADER RENDER */
-    public getHeaderContent(col: DataTableColumnRenderType<T>) {
-
+    public getHeaderContent(col: DataTableColumnRenderType<T>): DataTableCellRenderReturnType {
         if (col.header?.render) {
             return col.header.render(col);
         }
 
         if (col.header?.label_key) {
             const cm = ContentManagerUtil.getInstance();
-            return cm?.get<string | null>?.(col.header?.label_key) ?? null;
+            return cm?.get<string>(col.header.label_key) ?? null;
         }
 
+        return null;
     }
 
-    /* CELL RENDER (🔥 CORE) */
-    public getCellContent(
-        col: DataTableColumnRenderType<T>,
-        row: T,
-        index: number
-    ): DataTableCellRenderReturnType | null {
-
+    public getCellContent(col: DataTableColumnRenderType<T>, row: T, index: number): DataTableCellRenderReturnType {
         if (col.cell?.render) {
             return col.cell.render(row, index);
         }
 
         if (col.cell?.content_key) {
             const cm = ContentManagerUtil.getInstance();
-            return cm?.get<string | null>?.(col.cell.content_key, "") ?? null;
+            return cm?.get<string>(col.cell.content_key) ?? null;
         }
 
-        return row?.[col.key] ?? null;
+        return (row?.[col.key] as DataTableCellRenderReturnType) ?? null;
     }
 }
 

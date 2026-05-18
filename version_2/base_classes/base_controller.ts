@@ -1,17 +1,7 @@
-
-import { 
-    reactive,
-    ref,
-    isRef,
-    computed, 
-    watch, 
-    onMounted, 
-    onBeforeUnmount,
-    watchEffect
-} from "vue";
-import { useRoute, useRouter }              from "vue-router";
-import LoggerUtil                           from "../utils/logger_util";
-import { ComponentDefinitionInterface  }    from "../types/component_type";
+import { reactive, ref, isRef, computed, watch, onMounted, onBeforeUnmount, watchEffect } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import LoggerUtil from "../utils/logger_util";
+import { ComponentDefinitionInterface } from "../types/component_type";
 
 class BaseController {
     public readonly name: string;
@@ -25,23 +15,31 @@ class BaseController {
 
     constructor(component_name: string, props: Record<string, any> = {}) {
         this.component_name = component_name;
-        this.name           = `${component_name}_controller`;
+        this.name = `${component_name}_controller`;
 
-        this.props          = props;
-        this.logger         = new LoggerUtil({ prefix: this.name,  show_timestamp: false})
+        this.props = props;
+        this.logger = new LoggerUtil({ prefix: this.name, show_timestamp: false });
     }
 
     // Method to get ui components
-    protected getUIComponents(): Record<string, any> { return  {}; }
+    protected getUIComponents(): Record<string, any> {
+        return {};
+    }
 
     // Method to to get ui computed data
-    protected getUIComputedData(): Record<string, () => any> { return {}; }
+    protected getUIComputedData(): Record<string, () => any> {
+        return {};
+    }
 
     // Method to get ui watchers
-    protected getUIWatchers(): Record<string, (new_val: any, old_val: any) => void> { return {}; }
+    protected getUIWatchers(): Record<string, (new_val: any, old_val: any) => void> {
+        return {};
+    }
 
     // Method to get ui state data
-    protected getUIStateData(): Record<string, any> { return {} }
+    protected getUIStateData(): Record<string, any> {
+        return {};
+    }
 
     // Default lifecycle methods (can be overridden in child class)
     protected async handleOnCreatedLogic(): Promise<void> {
@@ -68,11 +66,9 @@ class BaseController {
         Object.entries(raw_state).forEach(([key, value]) => {
             if (isRef(value)) {
                 this.state_refs[key] = value;
-            } 
-            else if (typeof value === "object" && value !== null) {
+            } else if (typeof value === "object" && value !== null) {
                 this.state_refs[key] = reactive(value);
-            } 
-            else {
+            } else {
                 this.state_refs[key] = ref(value);
             }
         });
@@ -81,7 +77,7 @@ class BaseController {
         const computed_data = this.getUIComputedData();
         Object.entries(computed_data).forEach(([key, getter]) => {
             // Check if the getter is async
-            if (getter.constructor.name === 'AsyncFunction') {
+            if (getter.constructor.name === "AsyncFunction") {
                 // Async: store a ref and call getter to update it
                 const valueRef = ref<any>(null);
                 watchEffect(async () => {
@@ -101,34 +97,37 @@ class BaseController {
 
             // special case for globals like route
             if (!source) {
-                if (key === "route") { source = useRoute(); }
-
-                else if (key === "router") { source = useRouter(); }
+                if (key === "route") {
+                    source = useRoute();
+                } else if (key === "router") {
+                    source = useRouter();
+                }
             }
 
-            if (source) { 
+            if (source) {
                 // Always wrap source in a getter so Vue tracks reactivity correctly
-                watch(
-                    () => isRef(source) ? source.value : source,
-                    fn,
-                    { deep: true }
-                );
-             }
+                watch(() => (isRef(source) ? source.value : source), fn, { deep: true });
+            }
         });
 
-        async() => { await this.handleOnCreatedLogic(); }
+        this.handleOnCreatedLogic().catch((error) => {
+            this.logger.error(`[Created] Component ${this.name} failed during created logic`, error);
+        });
 
-        onMounted(async () => { await this.handleOnMountedLogic(); });
+        onMounted(async () => {
+            await this.handleOnMountedLogic();
+        });
 
-        onBeforeUnmount(async () => { await this.handleBeforeUnmountedLogic(); });
+        onBeforeUnmount(async () => {
+            await this.handleBeforeUnmountedLogic();
+        });
 
-        return { 
-            props: this.props, 
+        return {
+            props: this.props,
             state_refs: this.state_refs,
-            components: this.components, 
-            computed_refs: this.computed_refs 
+            components: this.components,
+            computed_refs: this.computed_refs
         };
-        
     }
 }
 

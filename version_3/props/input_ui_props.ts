@@ -1,6 +1,6 @@
 import { PropType } from "vue";
 
-import InputUIClassStyles from "../class_styles/input_ui_class_styles"
+import InputUIClassStyles from "../class_styles/input_ui_class_styles";
 import {
     InputType,
     InputUIClassStylesInterface,
@@ -10,37 +10,36 @@ import {
     InputUINumberPropsInterface,
     InputUIActionPropsInterface,
     InputUIFilePropsInterface,
-    InputUIPropsInterface
+    InputUIPropsInterface,
+    InputValue
 } from "../ui_types/input_ui_type";
 
-
 const InputUIProps = {
-
-    id: { 
-        type: String, 
-        required: true,
+    id: {
+        type: String,
+        required: true
     },
 
-    switch_btn_id: { 
-        type: String, 
-        require: false 
+    switch_btn_id: {
+        type: String,
+        require: false
     },
 
-    type: { 
+    type: {
         type: String as PropType<InputType>,
         default: "text"
     },
 
     model_value: {
-        type: [String, Number, Boolean, Array, Object] as PropType<string | number | boolean | Array<any> | File | null>,
+        type: [String, Number, Boolean, Array, Object] as PropType<InputValue>,
         default: null,
         require: false
     },
 
-    placeholder_text: { 
-        type: String, 
-        default: "", 
-        require: false 
+    placeholder_text: {
+        type: String,
+        default: "",
+        require: false
     },
 
     content_props: {
@@ -60,37 +59,35 @@ const InputUIProps = {
 
     number_props: {
         type: Object as PropType<InputUINumberPropsInterface>,
-        default: () => ({}) 
+        default: () => ({})
     },
 
     file_props: {
         type: Object as PropType<InputUIFilePropsInterface>,
-        default: () => ({}) 
+        default: () => ({})
     },
 
     action_props: {
         type: Object as PropType<InputUIActionPropsInterface>,
-        default: () => ({}) 
+        default: () => ({})
     },
 
-    selected_text_prefix: { 
-        type: String, 
+    selected_text_prefix: {
+        type: String as PropType<string | null>,
         require: false,
         default: ""
     },
 
-
-    helper_text: { 
-        type: String, 
+    helper_text: {
+        type: String,
         require: false,
         default: ""
     },
 
     class_styles: {
         type: Object as PropType<InputUIClassStylesInterface>,
-        default: () => (InputUIClassStyles)
+        default: () => InputUIClassStyles
     }
-
 } satisfies Record<keyof InputUIPropsInterface, any>;
 
 export default InputUIProps;

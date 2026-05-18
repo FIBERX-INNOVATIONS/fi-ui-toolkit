@@ -5,16 +5,10 @@ import { SVGIconKey } from "../resources/svg_icon_resource";
 import ContentManagerUtil from "../utils/content_manager_util";
 import StatusAlertUIClassstyles from "../class_styles/status_alert_ui_class_styles";
 
-import {
-    StatusAlertUIClassStylesInterface,
-    StatusAlertUIPropsInterface
-} from "../ui_types/status_alert_ui_type";
-
+import { StatusAlertUIClassStylesInterface, StatusAlertUIPropsInterface } from "../ui_types/status_alert_ui_type";
 
 class StatusAlertPropsBuilder {
-
-    private static readonly content_manager: ContentManagerUtil =
-        ContentManagerUtil.getInstance();
+    private static readonly content_manager: ContentManagerUtil = ContentManagerUtil.getInstance();
 
     /* ---------------------------------- */
     /* Global Config                      */
@@ -32,7 +26,6 @@ class StatusAlertPropsBuilder {
 
     public static getStatusTextClassStyle: (alert_status: string | null) => string;
 
-
     /* ---------------------------------- */
     /* Setup Method                       */
     /* ---------------------------------- */
@@ -43,16 +36,15 @@ class StatusAlertPropsBuilder {
         on_close: (event?: MouseEvent) => void | null,
         getStatusBgClassStyle: (alert_status: string | null) => string,
         getAnimationClassStyle: (visible: boolean) => string,
-        getStatusTextClassStyle: (alert_status: string | null) => string,
+        getStatusTextClassStyle: (alert_status: string | null) => string
     ): void {
+        StatusAlertPropsBuilder.alert_box_id = alert_box_id ?? "StatusAlertBox";
+        StatusAlertPropsBuilder.class_styles = class_styles || StatusAlertUIClassstyles;
 
-        StatusAlertPropsBuilder.alert_box_id        = alert_box_id ?? "StatusAlertBox";
-        StatusAlertPropsBuilder.class_styles        = class_styles || StatusAlertUIClassstyles;
-
-        StatusAlertPropsBuilder.on_close                 = on_close
-        StatusAlertPropsBuilder.getStatusBgClassStyle    = getStatusBgClassStyle
-        StatusAlertPropsBuilder.getAnimationClassStyle   = getAnimationClassStyle
-        StatusAlertPropsBuilder.getStatusTextClassStyle  = getStatusTextClassStyle
+        StatusAlertPropsBuilder.on_close = on_close;
+        StatusAlertPropsBuilder.getStatusBgClassStyle = getStatusBgClassStyle;
+        StatusAlertPropsBuilder.getAnimationClassStyle = getAnimationClassStyle;
+        StatusAlertPropsBuilder.getStatusTextClassStyle = getStatusTextClassStyle;
     }
 
     /* ---------------------------------- */
@@ -62,19 +54,27 @@ class StatusAlertPropsBuilder {
     private static buildPropsObject(
         alert_status: string | null,
         alert_message: string | null | undefined,
-        status_icon: SVGIconKey | null,
+        status_icon: SVGIconKey | null
     ): StatusAlertUIPropsInterface {
+        const visible = !!(alert_status && alert_message);
+        const class_styles = StatusAlertPropsBuilder.class_styles;
+        const bg_class_style =
+            alert_status && StatusAlertPropsBuilder?.getStatusBgClassStyle
+                ? StatusAlertPropsBuilder?.getStatusBgClassStyle?.(alert_status)
+                : "";
+        const animation_class_style =
+            (visible !== undefined || visible != null) && StatusAlertPropsBuilder?.getAnimationClassStyle
+                ? StatusAlertPropsBuilder?.getAnimationClassStyle?.(visible)
+                : "";
+        const text_class_style =
+            alert_status && StatusAlertPropsBuilder?.getStatusTextClassStyle
+                ? StatusAlertPropsBuilder?.getStatusTextClassStyle?.(alert_status)
+                : "";
 
-        const visible                   = !!(alert_status && alert_message);
-        const class_styles              = StatusAlertPropsBuilder.class_styles;
-        const bg_class_style            = alert_status && StatusAlertPropsBuilder?.getStatusBgClassStyle ? StatusAlertPropsBuilder?.getStatusBgClassStyle?.(alert_status) : "";
-        const animation_class_style     = (visible !== undefined || visible != null) && StatusAlertPropsBuilder?.getAnimationClassStyle ? StatusAlertPropsBuilder?.getAnimationClassStyle?.(visible) : "";
-        const text_class_style          = alert_status && StatusAlertPropsBuilder?.getStatusTextClassStyle ? StatusAlertPropsBuilder?.getStatusTextClassStyle?.(alert_status) : "";
-
-        const alert_box_class_style     = `${class_styles?.alert_box_class_style} ${ bg_class_style} ${animation_class_style}`;
-        const close_btn_class_style     = `${class_styles?.close_btn_class_style} ${bg_class_style ?? ""} ${text_class_style}`;
-        const status_icon_class_style   = `${class_styles?.status_icon_class_style} ${text_class_style}`;
-        const status_content_class_style= `${class_styles?.status_content_class_style} ${text_class_style}`;
+        const alert_box_class_style = `${class_styles?.alert_box_class_style} ${bg_class_style} ${animation_class_style}`;
+        const close_btn_class_style = `${class_styles?.close_btn_class_style} ${bg_class_style ?? ""} ${text_class_style}`;
+        const status_icon_class_style = `${class_styles?.status_icon_class_style} ${text_class_style}`;
+        const status_content_class_style = `${class_styles?.status_content_class_style} ${text_class_style}`;
 
         return {
             alert_box_id: StatusAlertPropsBuilder.alert_box_id,
@@ -84,7 +84,7 @@ class StatusAlertPropsBuilder {
             status_content_messgae: alert_message,
             on_close: StatusAlertPropsBuilder.on_close,
             class_styles: {
-                ...(class_styles),
+                ...class_styles,
                 alert_box_class_style,
                 close_btn_class_style,
                 status_icon_class_style,
@@ -102,16 +102,10 @@ class StatusAlertPropsBuilder {
         alert_message: string | null | undefined = null,
         status_icon: SVGIconKey | null = null
     ): StatusAlertUIPropsInterface {
-
-        const props_obj = StatusAlertPropsBuilder.buildPropsObject(
-            alert_status,
-            alert_message,
-            status_icon
-        );
+        const props_obj = StatusAlertPropsBuilder.buildPropsObject(alert_status, alert_message, status_icon);
 
         return reactive<StatusAlertUIPropsInterface>(props_obj);
     }
-
 }
 
 export default StatusAlertPropsBuilder;

@@ -1,9 +1,5 @@
-
 import EncryptorDecryptorUtil from "./encryptor_decryptor_util";
-import { 
-    StorageFieldType,
-    StorageSchemaType
-} from "../types/util_type";
+import { StorageFieldType, StorageSchemaType } from "../types/util_type";
 
 class LocalStorageManagerUtil<TSchema extends StorageSchemaType> {
     private static instance: LocalStorageManagerUtil<any>;
@@ -32,22 +28,19 @@ class LocalStorageManagerUtil<TSchema extends StorageSchemaType> {
         return LocalStorageManagerUtil.instance;
     }
 
-    public set<K extends keyof TSchema>(
-        key: K,
-        value: TSchema[K] extends StorageFieldType<infer V> ? V : never
-    ): void {
+    public set<K extends keyof TSchema>(key: K, value: TSchema[K] extends StorageFieldType<infer V> ? V : never): void {
         const field = this.schema[key as string];
 
-        if(!field || !value) { return }
+        if (!field || !value) {
+            return;
+        }
 
         const encrypted_value = this.encryptor.encrypt(value);
 
         localStorage.setItem(field.encrypted_key, encrypted_value);
     }
 
-    public get<K extends keyof TSchema>(
-        key: K
-    ): TSchema[K] extends StorageFieldType<infer V> ? V | null : never {
+    public get<K extends keyof TSchema>(key: K): TSchema[K] extends StorageFieldType<infer V> ? V | null : never {
         const field = this.schema[key as string];
 
         const stored_value = localStorage.getItem(field.encrypted_key);

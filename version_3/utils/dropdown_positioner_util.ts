@@ -1,4 +1,4 @@
-type Position = 'top' | 'bottom' | 'left' | 'right';
+type Position = "top" | "bottom" | "left" | "right";
 
 interface PositionResult {
     top: number;
@@ -18,22 +18,16 @@ export const positionDropdownRelative = (
     dropdownEl: HTMLElement | null,
     options: Options = {}
 ): PositionResult | null => {
-
-    if(!triggerEl || !dropdownEl ) {
+    if (!triggerEl || !dropdownEl) {
         return null;
     }
 
-    const {
-        preferredPosition = 'bottom',
-        offset = 8,
-        autoApplyStyles = false,
-        watch = false
-    } = options;
+    const { preferredPosition = "bottom", offset = 8, autoApplyStyles = false, watch = false } = options;
 
     const parent = triggerEl.offsetParent as HTMLElement;
 
     if (!parent) {
-        throw new Error('No offsetParent found. Ensure parent has position: relative.');
+        throw new Error("No offsetParent found. Ensure parent has position: relative.");
     }
 
     const parentRect = parent.getBoundingClientRect();
@@ -46,8 +40,8 @@ export const positionDropdownRelative = (
         left: triggerRect.left - parentRect.left,
         width: triggerRect.width,
         height: triggerRect.height,
-        right: (triggerRect.left - parentRect.left) + triggerRect.width,
-        bottom: (triggerRect.top - parentRect.top) + triggerRect.height
+        right: triggerRect.left - parentRect.left + triggerRect.width,
+        bottom: triggerRect.top - parentRect.top + triggerRect.height
     };
 
     const parentWidth = parent.clientWidth;
@@ -72,10 +66,10 @@ export const positionDropdownRelative = (
 
     if (!fits[preferredPosition]) {
         placement =
-            (fits.bottom && 'bottom') ||
-            (fits.top && 'top') ||
-            (fits.right && 'right') ||
-            (fits.left && 'left') ||
+            (fits.bottom && "bottom") ||
+            (fits.top && "top") ||
+            (fits.right && "right") ||
+            (fits.left && "left") ||
             preferredPosition;
     }
 
@@ -83,22 +77,22 @@ export const positionDropdownRelative = (
     let left = 0;
 
     switch (placement) {
-        case 'bottom':
+        case "bottom":
             top = trigger.bottom + offset;
             left = trigger.left + (trigger.width - dropdownRect.width) / 2;
             break;
 
-        case 'top':
+        case "top":
             top = trigger.top - dropdownRect.height - offset;
             left = trigger.left + (trigger.width - dropdownRect.width) / 2;
             break;
 
-        case 'right':
+        case "right":
             top = trigger.top + (trigger.height - dropdownRect.height) / 2;
             left = trigger.right + offset;
             break;
 
-        case 'left':
+        case "left":
             top = trigger.top + (trigger.height - dropdownRect.height) / 2;
             left = trigger.left - dropdownRect.width - offset;
             break;
@@ -110,7 +104,7 @@ export const positionDropdownRelative = (
 
     if (autoApplyStyles) {
         Object.assign(dropdownEl.style, {
-            position: 'absolute',
+            position: "absolute",
             top: `${top}px`,
             left: `${left}px`
         });
@@ -118,15 +112,14 @@ export const positionDropdownRelative = (
 
     // Watch for updates
     if (watch) {
-        const update = () =>
-            positionDropdownRelative(triggerEl, dropdownEl, options);
+        const update = () => positionDropdownRelative(triggerEl, dropdownEl, options);
 
-        window.addEventListener('resize', update);
-        parent.addEventListener('scroll', update);
+        window.addEventListener("resize", update);
+        parent.addEventListener("scroll", update);
 
         (dropdownEl as any).__cleanup = () => {
-            window.removeEventListener('resize', update);
-            parent.removeEventListener('scroll', update);
+            window.removeEventListener("resize", update);
+            parent.removeEventListener("scroll", update);
         };
     }
 

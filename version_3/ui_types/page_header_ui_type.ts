@@ -8,7 +8,6 @@ import { ButtonUIClassStylesInterface, ButtonUIPropsInterface } from "./button_u
 /* ---------------------------------- */
 
 export interface PageHeaderUIClassStylesInterface {
-
     wrapper_class_style: string;
 
     top_row_class_style: string;
@@ -21,17 +20,14 @@ export interface PageHeaderUIClassStylesInterface {
 
     header_text_class_styles?: HeaderTextUIClassStylesInterface;
 
-    action_button_class_styles?: ButtonUIClassStylesInterface
-
+    action_button_class_styles?: ButtonUIClassStylesInterface;
 }
-
 
 /* ---------------------------------- */
 /* Props Interface                    */
 /* ---------------------------------- */
 
 export interface PageHeaderUIPropsInterface {
-
     id?: string;
 
     header_props?: HeaderTextUIPropsInterface;
@@ -41,9 +37,7 @@ export interface PageHeaderUIPropsInterface {
     action_buttons?: ButtonUIPropsInterface[];
 
     class_styles?: PageHeaderUIClassStylesInterface;
-
 }
-
 
 /* ---------------------------------- */
 /* State                              */
@@ -53,28 +47,26 @@ export interface PageHeaderUIStateDataInterface {
     initialized: boolean;
 }
 
-
 /* ---------------------------------- */
 /* Computed                           */
 /* ---------------------------------- */
 
 export interface PageHeaderUIComputedDataInterface {
-
     has_actions: boolean;
 
     has_description: boolean;
 
-}
+    display_description_text: string;
 
+    display_action_buttons: ButtonUIPropsInterface[];
+}
 
 /* ---------------------------------- */
 /* Components                         */
 /* ---------------------------------- */
 
 export interface PageHeaderUIComponentsInterface {
-
     HeaderTextUI: Component;
 
     ButtonUI: Component;
-
 }

@@ -11,9 +11,7 @@ import {
     ButtonUIPropsInterface
 } from "../ui_types/button_ui_type";
 
-
 const ButtonUIProps = {
-
     id: {
         type: String,
         required: true
@@ -43,7 +41,6 @@ const ButtonUIProps = {
         type: Object as PropType<ButtonUIClassStylesInterface>,
         default: () => ButtonUIClassStyles
     }
-
 } satisfies Record<keyof ButtonUIPropsInterface, any>;
 
 export default ButtonUIProps;

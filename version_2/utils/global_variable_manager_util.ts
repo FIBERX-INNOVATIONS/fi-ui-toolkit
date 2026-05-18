@@ -1,5 +1,3 @@
-
-
 class GlobalVariableManagerUtil {
     private static instance: GlobalVariableManagerUtil;
     private variables: Map<string, any>;

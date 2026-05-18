@@ -12,7 +12,6 @@ import {
 import DataTableResultAndBulkActionBarUIClassStyles from "../class_styles/data_table_result_and_bulk_action_bar_ui_class_styles";
 
 const DataTableResultAndBulkActionBarUIUIProps = {
-
     id: {
         type: String,
         required: false
@@ -43,7 +42,6 @@ const DataTableResultAndBulkActionBarUIUIProps = {
         type: Object as PropType<DataTableResultAndBulkActionBarUIClassStylesInterface>,
         default: () => DataTableResultAndBulkActionBarUIClassStyles
     }
-
 } satisfies Record<keyof DataTableResultAndBulkActionBarUIPropsInterface, any>;
 
 export default DataTableResultAndBulkActionBarUIUIProps;

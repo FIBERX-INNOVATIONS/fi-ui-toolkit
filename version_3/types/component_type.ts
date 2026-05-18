@@ -1,17 +1,21 @@
+import { ComputedRefsType, StateRefsType } from "./base_type";
 
 export type PropRenderFnType = (
     index: number,
-    record: Record<string, any>,
-    records: Record<string, any>[]
+    record: Record<string, unknown>,
+    records: Record<string, unknown>[]
 ) => string | number | null;
 
 export type PropRenderContentFnType = () => string | number | null;
 
-export interface ComponentDefinitionInterface {
-    props: Record<string, any>;
-    components: Record<string, any>;
-    state_refs: Record<string, any>;
-    computed_refs: Record<string, any>;
+export interface ComponentDefinitionInterface<
+    Props extends object = object,
+    State extends object = object,
+    Computed extends object = object,
+    Components extends object = object
+> {
+    props: Props;
+    components: Components;
+    state_refs: StateRefsType<State>;
+    computed_refs: ComputedRefsType<Computed>;
 }
-
-

@@ -5,10 +5,7 @@ import { ButtonUIPropsInterface } from "../ui_types/button_ui_type";
 /* Layout                             */
 /* ---------------------------------- */
 
-export type HeaderBarLayoutType =
-    | "text-left"
-    | "text-right"
-    | "stacked-mobile";
+export type HeaderBarLayoutType = "text-left" | "text-right" | "stacked-mobile";
 
 /* ---------------------------------- */
 /* Content Props                      */
@@ -72,7 +69,9 @@ export interface DataTableResultAndBulkActionBarUIPropsInterface {
 /* State                              */
 /* ---------------------------------- */
 
-export interface DataTableResultAndBulkActionBarUIStateDataInterface {}
+export interface DataTableResultAndBulkActionBarUIStateDataInterface {
+    is_initialized: boolean;
+}
 
 /* ---------------------------------- */
 /* Computed                           */
@@ -81,6 +80,7 @@ export interface DataTableResultAndBulkActionBarUIStateDataInterface {}
 export interface DataTableResultAndBulkActionBarUIComputedDataInterface {
     computed_header_text: string;
     show_bulk_button: boolean;
+    display_record_count: number;
 }
 
 /* ---------------------------------- */

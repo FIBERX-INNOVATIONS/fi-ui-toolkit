@@ -1,21 +1,19 @@
+import BaseActionHandler from "../base_classes/base_action_handler";
 import BaseController from "../base_classes/base_controller";
 
-import { 
+import {
+    ImageRenderUIComponentsInterface,
+    ImageRenderUIComputedDataInterface,
+    ImageRenderUIPropsInterface,
+    ImageRenderUIStateDataInterface
+} from "../ui_types/image_render_ui_type";
+
+class ImageRenderUIActionHandler extends BaseActionHandler<
     ImageRenderUIPropsInterface,
     ImageRenderUIStateDataInterface,
     ImageRenderUIComputedDataInterface,
-    ImageRenderUIComponentsInterface,
-} from "../ui_types/image_render_ui_type";
-
-class ImageRenderUIActionHandler {
-
-    private controller: BaseController<
-        ImageRenderUIPropsInterface,
-        ImageRenderUIStateDataInterface,
-        ImageRenderUIComputedDataInterface,
-        ImageRenderUIComponentsInterface
-    >;
-
+    ImageRenderUIComponentsInterface
+> {
     constructor(
         controller: BaseController<
             ImageRenderUIPropsInterface,
@@ -24,37 +22,23 @@ class ImageRenderUIActionHandler {
             ImageRenderUIComponentsInterface
         >
     ) {
-
-        this.controller = controller;
-
+        super(controller);
     }
 
-    public handleOnClick = async (event: MouseEvent):Promise<void> =>  {
+    public handleOnClick = async (event: MouseEvent): Promise<void> => {
+        const { on_click } = this.props.action_props || {};
 
-        const { props } = this.controller;
+        await this.invokeAction(on_click, event, { props: this.props });
+    };
 
-        await props.action_props?.on_click?.(
-            event,
-            { props }
-        );
-        return;
+    public handleOnLoad = (): void => {
+        this.setState("is_loading", false);
+    };
 
-    }
-
-    public handleOnLoad = () => {
-
-        this.controller.state_refs.is_loading.value = false;
-
-    }
-
-    public handleOnError = () => {
-
-        this.controller.state_refs.is_loading.value = false;
-
-        this.controller.state_refs.has_error.value = true;
-
-    }
-
+    public handleOnError = (): void => {
+        this.setState("is_loading", false);
+        this.setState("has_error", true);
+    };
 }
 
 export default ImageRenderUIActionHandler;

@@ -9,9 +9,7 @@ import {
     OverlayUIPropsInterface
 } from "../ui_types/overlay_ui_type";
 
-
 const OverlayUIProps = {
-
     id: {
         type: String,
         required: true
@@ -36,7 +34,6 @@ const OverlayUIProps = {
         type: Object as PropType<OverlayUIClassStylesInterface>,
         default: () => OverlayUIClassStyles
     }
-
 } satisfies Record<keyof OverlayUIPropsInterface, any>;
 
 export default OverlayUIProps;

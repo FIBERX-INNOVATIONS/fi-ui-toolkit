@@ -4,8 +4,7 @@
             :header_tag="column?.props?.header_tag"
             :text_value="computed_refs?.text_content?.value"
             :class_styles="class_styles?.text_content_class_style"
-
-        /> 
+        />
     </div>
 </template>
 
@@ -17,20 +16,11 @@ const props = defineProps(DataTableSerialCellUIProps);
 
 const controller = new DataTableSerialCellUIController(props);
 
-const { 
-    column,
-    record_index,
-} = props;
+const { column, record_index } = props;
 
-const { 
-    computed_refs,
-    components
-} = controller;
+const { computed_refs, components } = controller;
 
-const {
-    HeaderTextUI
-} = components
-
+const { HeaderTextUI } = components;
 
 const class_styles = column?.props?.class_styles;
 </script>

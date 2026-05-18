@@ -11,20 +11,19 @@ export interface APIClientConfigInterface {
 
     request_timeout?: number;
 
-    custom_headers?: () => Record<string, any> | AxiosHeaders
+    custom_headers?: () => Record<string, any> | AxiosHeaders;
 }
 
 export interface APIResponseInterface<T = any> {
-  status: string;
-  msg: string;
-  data?: T;
-  full_response?: AxiosResponse;
+    status: string;
+    msg: string;
+    data?: T;
+    full_response?: AxiosResponse;
 }
 
 import { AxiosRequestConfig } from "axios";
 
 export interface APIRequestConfig extends AxiosRequestConfig {
-
     /** Prevent retry logic (401 refresh / 409 csrf) */
     disable_retry?: boolean;
 
@@ -32,5 +31,4 @@ export interface APIRequestConfig extends AxiosRequestConfig {
     _retry?: boolean;
 
     _csrfRetry?: boolean;
-
 }

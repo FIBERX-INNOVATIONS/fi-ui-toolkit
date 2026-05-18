@@ -1,4 +1,3 @@
-
 import { PropType } from "vue";
 
 import ScreenLoaderUIClassStyles from "../class_styles/screen_loader_ui_class_styles";
@@ -9,10 +8,7 @@ import {
     ScreenLoaderUIPropsInterface
 } from "../ui_types/screen_loader_ui_type";
 
-
-
 const ScreenLoaderUIProps = {
-
     visible: {
         type: Boolean,
         default: false
@@ -32,7 +28,6 @@ const ScreenLoaderUIProps = {
         type: String,
         default: "Loading..."
     }
-
 } satisfies Record<keyof ScreenLoaderUIPropsInterface, any>;
 
 export default ScreenLoaderUIProps;

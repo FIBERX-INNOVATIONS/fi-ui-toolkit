@@ -6,12 +6,12 @@ import {
     DecisionPromptUIPropsInterface,
     DecisionPromptUIClassStylesInterface,
     DecisionPromptUIContentPropsInterface,
+    DecisionPromptUIActionPropsInterface
 } from "../ui_types/decision_prompt_ui_type";
 
 import { ButtonUIPropsInterface } from "../ui_types/button_ui_type";
 
 const DecisionPromptUIProps = {
-
     content_props: {
         type: Object as PropType<DecisionPromptUIContentPropsInterface>,
         default: () => ({})
@@ -27,11 +27,15 @@ const DecisionPromptUIProps = {
         default: () => ({})
     },
 
+    action_props: {
+        type: Object as PropType<DecisionPromptUIActionPropsInterface>,
+        default: () => ({})
+    },
+
     class_styles: {
         type: Object as PropType<DecisionPromptUIClassStylesInterface>,
         default: () => DecisionPromptUIClassStyles
     }
-
 } satisfies Record<keyof DecisionPromptUIPropsInterface, any>;
 
 export default DecisionPromptUIProps;

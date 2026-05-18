@@ -1,4 +1,3 @@
-
 /* ---------------------------------- */
 /* Loader Symbol                      */
 /* ---------------------------------- */
@@ -33,8 +32,8 @@ export interface ScreenLoaderUIPropsInterface {
     loader_text?: string;
 }
 
-export interface ScreenLoaderUIContentPayloadInterface { 
-    img_src_link?: string | null, 
+export interface ScreenLoaderUIContentPayloadInterface {
+    img_src_link?: string | null;
     img_alt_text?: string | null;
     loader_text?: string | null;
 }

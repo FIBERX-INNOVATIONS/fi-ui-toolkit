@@ -1,16 +1,15 @@
 <template>
-    <component
-        :is="props.header_tag"
-        :class="props.class_styles?.text_class_style"
-    >
-        {{ props.text_value }}
+    <component :is="header_tag" :class="class_styles.text_class_style">
+        {{ text_value }}
     </component>
 </template>
 
 <script setup lang="ts">
-import HeaderTextUIProps      from "../props/header_text_ui_props";
+import HeaderTextUIProps from "../props/header_text_ui_props";
 import HeaderTextUIController from "../controllers/header_text_ui_controller";
 
-const props         = defineProps(HeaderTextUIProps);
-const controller    = new HeaderTextUIController(props)
+const props = defineProps(HeaderTextUIProps);
+new HeaderTextUIController(props);
+
+const { header_tag, text_value, class_styles } = props;
 </script>

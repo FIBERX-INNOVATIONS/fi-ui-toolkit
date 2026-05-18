@@ -20,9 +20,14 @@ class InputTransformerUtil {
 
     /** 🔠 Capitalize the first letter of each word in a string */
     public static capitalizeEachWord(string?: string): string {
-        if(!string) { return "" }
-        
-        return string.split(" ").map(word => this.capitalize(word)).join(" ");
+        if (!string) {
+            return "";
+        }
+
+        return string
+            .split(" ")
+            .map((word) => this.capitalize(word))
+            .join(" ");
     }
 
     // Method to format date of birth
@@ -31,18 +36,22 @@ class InputTransformerUtil {
     }
 
     // Method to format date value Thu, Aug 14 2025
-    public static formatReadableDate (date_value: string): string {
-        if (!date_value) { return ""; }
+    public static formatReadableDate(date_value: string): string {
+        if (!date_value) {
+            return "";
+        }
 
         return dayjs(date_value).format("ddd, MMM DD YYYY");
-    };
+    }
 
-     // Method to format date time value Thu, Aug 14 2025, 10:45 AM
-    public static formatReadableDateTime (date_value: string): string {
-        if (!date_value) { return ""; }
-        
+    // Method to format date time value Thu, Aug 14 2025, 10:45 AM
+    public static formatReadableDateTime(date_value: string): string {
+        if (!date_value) {
+            return "";
+        }
+
         return dayjs(date_value).format("ddd, MMM DD YYYY, hh:mm A");
-    };
+    }
 
     // Format member full name
     public static formatMemberFullName(first_name?: string, last_name?: string): string | null {
@@ -51,9 +60,7 @@ class InputTransformerUtil {
 
     // Format member preview
     public static formatMemberPreview(first_name?: string, last_name?: string, public_id?: string): string | null {
-        return first_name && last_name && public_id 
-            ? `(${public_id}) - ${first_name} ${last_name}` 
-            : null;
+        return first_name && last_name && public_id ? `(${public_id}) - ${first_name} ${last_name}` : null;
     }
 
     /** 💰 Format a number with commas */
@@ -64,11 +71,12 @@ class InputTransformerUtil {
 
     /** 🔢 Format large numbers with suffixes (K, M, B, T) */
     public static nFormatter(num: number, digits = 1): string {
-        const item = this.count_lookup.slice().reverse().find(item => num >= item.value);
+        const item = this.count_lookup
+            .slice()
+            .reverse()
+            .find((item) => num >= item.value);
         if (item) {
-            const formatted = (num / item.value)
-                .toFixed(digits)
-                .replace(/\.0+$|(\.[0-9]*[1-9])0+$/, "$1");
+            const formatted = (num / item.value).toFixed(digits).replace(/\.0+$|(\.[0-9]*[1-9])0+$/, "$1");
             return `${formatted}${item.symbol}`;
         }
         return "0";
@@ -98,12 +106,18 @@ class InputTransformerUtil {
 
     /** 🔠 Convert snake_case to Title Case */
     public static toTitleCase(str: string): string {
-        return str.split("_").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+        return str
+            .split("_")
+            .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+            .join(" ");
     }
 
     /** 🐫 Convert snake_case to PascalCase */
     public static toPascalCase(str: string): string {
-        return str.split("_").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join("");
+        return str
+            .split("_")
+            .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+            .join("");
     }
 
     /** 🔠 Convert string to snake_case */
@@ -115,21 +129,25 @@ class InputTransformerUtil {
     }
 
     // Method to add spacing between camel case
-    public static spaceCamelCase(text: string): string { return this.toPascalCase(text)?.replace(/([a-z])([A-Z])/g, '$1 $2'); }
+    public static spaceCamelCase(text: string): string {
+        return this.toPascalCase(text)?.replace(/([a-z])([A-Z])/g, "$1 $2");
+    }
 
     /** 🔄 Convert snake_case to plural snake_case */
     public static pluralizeSnakeCase(snake_str: string): string {
         const parts = snake_str.split("_");
         const last_word = parts.pop()!;
-        let plural = "";
+        const plural = (() => {
+            if (last_word.endsWith("y") && !/[aeiou]y$/.test(last_word)) {
+                return last_word.slice(0, -1) + "ies";
+            }
 
-        if (last_word.endsWith("y") && !/[aeiou]y$/.test(last_word)) {
-            plural = last_word.slice(0, -1) + "ies";
-        } else if (["s", "x", "z"].includes(last_word.slice(-1)) || last_word.endsWith("ch") || last_word.endsWith("sh")) {
-            plural = last_word + "es";
-        } else {
-            plural = last_word + "s";
-        }
+            if (["s", "x", "z"].includes(last_word.slice(-1)) || last_word.endsWith("ch") || last_word.endsWith("sh")) {
+                return last_word + "es";
+            }
+
+            return last_word + "s";
+        })();
 
         return [...parts, plural].join("_");
     }
@@ -151,31 +169,36 @@ class InputTransformerUtil {
     }
 
     // Method to format json string to json object
-    public static toJson(json_input: string | object | null | undefined): Record<string, unknown> | null  {
+    public static toJson(json_input: string | object | null | undefined): Record<string, unknown> | null {
         try {
-            if(!json_input || json_input === "") { return null }
+            if (!json_input || json_input === "") {
+                return null;
+            }
 
-            if(typeof json_input === "string") { return JSON.parse(json_input) as Record<string, unknown>; }
-
-            else if(typeof json_input === "object") { return json_input as Record<string, unknown>; }
-
-            else { return null }
-        }
-        catch(error) {
+            if (typeof json_input === "string") {
+                return JSON.parse(json_input) as Record<string, unknown>;
+            } else if (typeof json_input === "object") {
+                return json_input as Record<string, unknown>;
+            } else {
+                return null;
+            }
+        } catch (error) {
             return null;
         }
-    }   
+    }
 
     // Method to format url to anchor tag html
-    public static formatURLToAnchorHtml (
-        url_text: string | null, 
+    public static formatURLToAnchorHtml(
+        url_text: string | null,
         url_link: string,
         class_style: string = "w-full flex items-center space-x-2 truncate justify-center text-sm text-blue-900 underline cursor-pointer hover:text-blue-400",
         icon_class_style: string = "mx-2w-4 h-4 flex items-center"
     ): string {
-        if (!url_link) { return "—"; }
+        if (!url_link) {
+            return "—";
+        }
 
-        const text = url_text ? url_text: url_link;
+        const text = url_text ? url_text : url_link;
 
         return RenderHtmlUtil.renderHtml({
             text,
@@ -185,11 +208,10 @@ class InputTransformerUtil {
             href: url_link,
             order: "text-first",
             icon_class_style
-        })
-
+        });
     }
 
-    public static extractInputBaseAndIndexFieldKey (value: string): { base: string; index: number | null } {
+    public static extractInputBaseAndIndexFieldKey(value: string): { base: string; index: number | null } {
         const regex = /^(.*?)(?:_(\d+))?$/;
         const match = value.match(regex);
         return {
@@ -227,30 +249,32 @@ class InputTransformerUtil {
             }
 
             // Get existing keys from the object (used to match by index)
-            const object_keys   = Object.keys(form_data[object_name]);
-            const total_keys    = object_keys.length;
+            const object_keys = Object.keys(form_data[object_name]);
+            const total_keys = object_keys.length;
 
             // ✅ Check if a record exists at this index
             const record_exists = index >= 0 && index < total_keys;
 
             if (record_exists) {
                 // Extract the existing key/value at this index
-                const existing_key      = object_keys[index];
-                const existing_value    = existing_key ? form_data?.[object_name]?.[existing_key] : "";
+                const existing_key = object_keys[index];
+                const existing_value = existing_key ? form_data?.[object_name]?.[existing_key] : "";
 
                 // 🔄 If we're changing the key name: delete old key and reassign value under the new key
                 if (base.endsWith("_key")) {
                     delete form_data[object_name][existing_key];
                     form_data[object_name][input_value] = existing_value;
-                } 
+                }
                 // 🧩 Otherwise we're updating the value for an existing key
-                else { form_data[object_name][existing_key] = input_value; }
-            }
-            else {
+                else {
+                    form_data[object_name][existing_key] = input_value;
+                }
+            } else {
                 // 🆕 No existing record at this index — create a new one
                 // Add a new key placeholder
-                if (base.endsWith("_key")) { form_data[object_name][input_value] = ""; }
-                else {
+                if (base.endsWith("_key")) {
+                    form_data[object_name][input_value] = "";
+                } else {
                     // Add a temporary key name (until user enters the real key)
                     const temp_key = `Key_${index}`;
                     form_data[object_name][temp_key] = input_value;
@@ -293,29 +317,38 @@ class InputTransformerUtil {
 
     public static resolveTypedValue(raw: any): any {
         // Already a non-string value – return as is
-        if (typeof raw !== "string") { return raw; }
+        if (typeof raw !== "string") {
+            return raw;
+        }
 
         const value = raw.trim();
 
         // 1. --- Handle boolean ---
-        if (value === "true") { return true; }
+        if (value === "true") {
+            return true;
+        }
 
-        if (value === "false") { return false; }
+        if (value === "false") {
+            return false;
+        }
 
         // 2. --- Handle null / undefined ---
-        if (value === "null") { return null; }
+        if (value === "null") {
+            return null;
+        }
 
-        if (value === "undefined") { return undefined; }
+        if (value === "undefined") {
+            return undefined;
+        }
 
         // 3. --- Handle numbers (int or float) ---
         // Only convert if the entire string matches a number
-        if (/^-?\d+(\.\d+)?$/.test(value)) { return Number(value); }
+        if (/^-?\d+(\.\d+)?$/.test(value)) {
+            return Number(value);
+        }
 
         // 4. --- Handle array strings like "[1,2,3]" or "['a','b']" ---
-        if (
-            (value.startsWith("[") && value.endsWith("]")) ||
-            (value.startsWith("{") && value.endsWith("}"))
-        ) {
+        if ((value.startsWith("[") && value.endsWith("]")) || (value.startsWith("{") && value.endsWith("}"))) {
             try {
                 return JSON.parse(value.replace(/'/g, '"'));
             } catch {
@@ -327,24 +360,23 @@ class InputTransformerUtil {
         return value;
     }
 
-
     public static buildFormDataObject(
         input_id: string,
         input_value: string | number | boolean,
         form_data: Record<string, any> = {}
     ): Record<string, any> {
-        const keys                  = input_id.split(".");
-        const resolved_value        = this.resolveTypedValue(input_value);
-        const array_length_pattern  = /^\[(\d+)\]$/;
-        let current: any            = form_data;
+        const keys = input_id.split(".");
+        const resolved_value = this.resolveTypedValue(input_value);
+        const array_length_pattern = /^\[(\d+)\]$/;
+        let current: any = form_data;
 
         for (let i = 0; i < keys.length; i++) {
-            const key               = keys[i];
-            const next_key          = keys[i + 1];
-            const is_last           = i === keys.length - 1;
-            const is_index          = !isNaN(Number(key));
-            const is_push_array     = key === "[]";
-            const is_limited_array  = array_length_pattern.test(key); // "[5]" pattern
+            const key = keys[i];
+            const next_key = keys[i + 1];
+            const is_last = i === keys.length - 1;
+            const is_index = !isNaN(Number(key));
+            const is_push_array = key === "[]";
+            const is_limited_array = array_length_pattern.test(key); // "[5]" pattern
 
             // ----------------------------------------------------------
             // CASE 1: NUMERIC INDEX  — e.g. "users.0.name"
@@ -353,44 +385,58 @@ class InputTransformerUtil {
                 const index = Number(key);
 
                 // Convert current to an array if it isn't one yet
-                if (!Array.isArray(current)) { current = []; }
+                if (!Array.isArray(current)) {
+                    current = [];
+                }
 
                 // Ensure the array is long enough
-                while (current.length <= index) { current.push({}); }
+                while (current.length <= index) {
+                    current.push({});
+                }
 
-                if (is_last) { current[index] = resolved_value; } 
-
-                else {
-                    if (typeof current[index] !== "object" || current[index] === null) { current[index] = {}; }
+                if (is_last) {
+                    current[index] = resolved_value;
+                } else {
+                    if (typeof current[index] !== "object" || current[index] === null) {
+                        current[index] = {};
+                    }
 
                     current = current[index];
                 }
                 continue;
-            } 
+            }
 
             // ----------------------------------------------------------
             // CASE 2: PUSH MODE "[]" — push if value is valid, unique
             // ----------------------------------------------------------
             if (is_push_array) {
                 // Convert current to an array if it isn't one yet
-                if (!Array.isArray(current)) { current = []; }
+                if (!Array.isArray(current)) {
+                    current = [];
+                }
 
                 // 1. do not push null or undefined
-                if (resolved_value === null || resolved_value === undefined) { return form_data; }
+                if (resolved_value === null || resolved_value === undefined) {
+                    return form_data;
+                }
 
                 // 2. ensure unique values
-                if (!current.includes(resolved_value)) { current.push(resolved_value); }
+                if (!current.includes(resolved_value)) {
+                    current.push(resolved_value);
+                }
 
                 // 3. remove value if in  array already
                 else {
                     const index = current.indexOf(resolved_value);
 
-                    if (index !== -1) { current.splice(index, 1); }
+                    if (index !== -1) {
+                        current.splice(index, 1);
+                    }
                 }
 
                 continue;
             }
-            
+
             // ----------------------------------------------------------
             // CASE 3: LIMITED ARRAY MODE "[5]"
             // ----------------------------------------------------------
@@ -398,16 +444,20 @@ class InputTransformerUtil {
                 const max_size = Number(key.match(array_length_pattern)![1]);
 
                 // Convert current to an array if it isn't one yet
-                if (!Array.isArray(current)) { current = []; }
+                if (!Array.isArray(current)) {
+                    current = [];
+                }
 
                 // ignore null/undefined
-                if (resolved_value === null || resolved_value === undefined) { return form_data; }
+                if (resolved_value === null || resolved_value === undefined) {
+                    return form_data;
+                }
 
                 // allow unique constraint
                 if (!current.includes(resolved_value)) {
-                    if (current.length < max_size) { current.push(resolved_value); }
-                    
-                    else {
+                    if (current.length < max_size) {
+                        current.push(resolved_value);
+                    } else {
                         // If array is full → pop last → push new
                         current.pop();
                         current.push(resolved_value);
@@ -417,7 +467,9 @@ class InputTransformerUtil {
                 else {
                     const index = current.indexOf(resolved_value);
 
-                    if (index !== -1) { current.splice(index, 1); }
+                    if (index !== -1) {
+                        current.splice(index, 1);
+                    }
                 }
 
                 continue;
@@ -426,11 +478,11 @@ class InputTransformerUtil {
             // ----------------------------------------------------------
             // CASE 4: NORMAL OBJECT KEY
             // ----------------------------------------------------------
-            if (is_last) { current[key] = resolved_value; }
-            
-            else {
-                const next_is_index             = !isNaN(Number(next_key));
-                const next_is_array_symbol      = next_key === "[]" || array_length_pattern.test(next_key);
+            if (is_last) {
+                current[key] = resolved_value;
+            } else {
+                const next_is_index = !isNaN(Number(next_key));
+                const next_is_array_symbol = next_key === "[]" || array_length_pattern.test(next_key);
 
                 if (!(key in current)) {
                     current[key] = next_is_index || next_is_array_symbol ? [] : {};
@@ -443,20 +495,19 @@ class InputTransformerUtil {
         return form_data;
     }
 
-
     // Optional helper to reset temp storage (useful on form reset)
     public static resetTempObjectMap(): void {
         this._temp_object_map = {};
     }
 
-    public static getValueByDotPath(
-        obj: Record<string, any>,
-        path: string,
-        default_value: any = null
-    ): any {
-        if (!obj || typeof path !== "string") { return default_value; }
+    public static getValueByDotPath(obj: Record<string, any>, path: string, default_value: any = null): any {
+        if (!obj || typeof path !== "string") {
+            return default_value;
+        }
 
-        if (!path.trim()) { return default_value; }
+        if (!path.trim()) {
+            return default_value;
+        }
 
         return path.split(".").reduce((acc, key) => {
             if (acc && typeof acc === "object" && key in acc) {
@@ -465,7 +516,6 @@ class InputTransformerUtil {
             return default_value;
         }, obj);
     }
-
 }
 
 export default InputTransformerUtil;

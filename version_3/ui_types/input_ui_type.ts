@@ -1,5 +1,3 @@
-
-
 import { SVGIconKey } from "../resources/svg_icon_resource";
 
 import { Component, Ref } from "vue";
@@ -13,7 +11,7 @@ export interface InputUIContentOptionsInterface {
 
     search_icon_html_content?: string;
 
-    seperator_icon_html?: SVGIconKey
+    seperator_icon_html?: SVGIconKey;
 }
 
 export interface InputUIBooleanPropsInterface {
@@ -39,7 +37,7 @@ export interface InputUINumberPropsInterface {
 
     rows?: number;
 
-    step?: number
+    step?: number;
 }
 
 export interface ActionMethodRetrunInterface {
@@ -50,7 +48,7 @@ export interface ActionMethodRetrunInterface {
 
 export interface InputUIActionPropsInterface {
     on_key_up?: (
-        event?: KeyboardEvent, 
+        event?: KeyboardEvent,
         input_value?: InputValue,
         input_config?: { props: InputUIPropsInterface }
     ) => Promise<ActionMethodRetrunInterface>;
@@ -79,15 +77,15 @@ export interface InputUIActionPropsInterface {
 
     get_option_value?: (option: SelectOptionInterface) => string | number;
 
-    fetch_data_method?: (
-        params: { page: number; search: string | null }
-    ) => Promise<{ records: SelectOptionInterface[], total_pages: number }>;
-
+    fetch_data_method?: (params: {
+        page: number;
+        search: string | null;
+    }) => Promise<{ records: SelectOptionInterface[]; total_pages: number }>;
 }
 
-export interface InputUIFilePropsInterface {   
+export interface InputUIFilePropsInterface {
     accept?: string;
-    
+
     multiple?: boolean;
 
     enable_preview?: boolean;
@@ -100,38 +98,32 @@ export interface InputUIFilePropsInterface {
 }
 
 export interface PhoneNumberCountryInfoInterface {
-  name: string;
-  iso2: string;
-  dialCode: string;
-  priority: number;
-  areaCodes: string[] | null;
+    name: string;
+    iso2: string;
+    dialCode: string;
+    priority: number;
+    areaCodes: string[] | null;
 }
 
 export interface PhoneNumberResultInterface {
-  countryCallingCode: string;
-  nationalNumber: string;
-  number: string;
-  country: PhoneNumberCountryInfoInterface;
-  countryCode: string;
-  valid: boolean;
-  formatted: string;
+    countryCallingCode: string;
+    nationalNumber: string;
+    number: string;
+    country: PhoneNumberCountryInfoInterface;
+    countryCode: string;
+    valid: boolean;
+    formatted: string;
 }
 
-export interface InputDateRangeValueType { start_date: string, end_date: string };
+export interface InputDateRangeValueType {
+    start_date: string;
+    end_date: string;
+}
 
 /* ---------------------------------- */
 /* Input Type                         */
 /* ---------------------------------- */
-export type InputValue = 
-    | string 
-    | number 
-    | boolean 
-    | Array<any> 
-    | File
-    | File[]
-    | null 
-    | InputDateRangeValueType
-
+export type InputValue = string | number | boolean | Array<any> | File | File[] | null | InputDateRangeValueType;
 
 export type InputType =
     | "text"
@@ -152,7 +144,6 @@ export type InputType =
     | "date_range"
     | "multi_select_search";
 
-
 /* ---------------------------------- */
 /* Select Option                      */
 /* ---------------------------------- */
@@ -161,7 +152,6 @@ export interface SelectOptionInterface {
     label_text: string;
     value: string | number;
 }
-
 
 /* ---------------------------------- */
 /* Class Styles                       */
@@ -231,17 +221,14 @@ export interface InputUIClassStylesInterface {
         chips_wrapper_class_style: string;
         chip_class_style: string;
         chip_btn_class_style: string;
-    }
-    
+    };
 }
-
 
 /* ---------------------------------- */
 /* Props Interface                    */
 /* ---------------------------------- */
 
 export interface InputUIPropsInterface {
-
     id?: string;
 
     switch_btn_id?: string;
@@ -269,9 +256,7 @@ export interface InputUIPropsInterface {
     selected_text_prefix?: string | null;
 
     class_styles?: InputUIClassStylesInterface;
-
 }
-
 
 export interface InputUIStateDataInterface {
     input_value: InputValue;
@@ -292,7 +277,7 @@ export interface InputUIStateDataInterface {
 
     is_multi_search_dropdown_open: boolean;
 
-    record_options: SelectOptionInterface[],
+    record_options: SelectOptionInterface[];
 
     search_value: string | null;
 
@@ -345,7 +330,6 @@ export interface InputUIComponentsInterface {
     VueDatePicker: Component;
 
     MultiSelectSearchInputUI: Component;
-
 }
 
 export interface InputUIContentPayloadInterface {

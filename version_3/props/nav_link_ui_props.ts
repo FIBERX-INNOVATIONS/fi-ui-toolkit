@@ -10,9 +10,7 @@ import {
 
 import { SVGIconKey } from "../resources/svg_icon_resource";
 
-
 const NavLinkUIProps = {
-
     id: {
         type: String,
         required: true
@@ -48,11 +46,15 @@ const NavLinkUIProps = {
         default: () => ({})
     },
 
+    has_permission: {
+        type: Boolean,
+        default: true
+    },
+
     class_styles: {
         type: Object as PropType<NavLinkUIClassStylesInterface>,
         default: () => NavLinkUIClassStyles
     }
-
 } satisfies Record<keyof NavLinkUIPropsInterface, any>;
 
 export default NavLinkUIProps;

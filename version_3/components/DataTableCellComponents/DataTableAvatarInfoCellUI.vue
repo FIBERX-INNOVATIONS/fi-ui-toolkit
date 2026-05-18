@@ -7,9 +7,7 @@
             :alt_text="computed_refs?.img_alt_text?.value"
             :content="computed_refs?.img_content?.value"
         >
-            <span 
-                :class="class_styles?.sub_text_class_style" 
-                v-html="computed_refs?.img_sub_text?.value"></span>
+            <span :class="class_styles?.sub_text_class_style" v-html="computed_refs?.img_sub_text?.value"></span>
         </ImageRenderUI>
     </div>
 </template>
@@ -22,20 +20,11 @@ const props = defineProps(DataTableSerialCellUIProps);
 
 const controller = new DataTableSerialCellUIController(props);
 
-const { 
-    column,
-    record_index,
-} = props;
+const { column, record_index } = props;
 
-const { 
-    computed_refs,
-    components
-} = controller;
+const { computed_refs, components } = controller;
 
-const {
-    ImageRenderUI
-
-} = components;
+const { ImageRenderUI } = components;
 
 const class_styles = column?.props?.class_styles;
 </script>

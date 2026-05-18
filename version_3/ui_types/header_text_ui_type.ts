@@ -2,14 +2,7 @@
 /* Header Tag Type                    */
 /* ---------------------------------- */
 
-export type HeaderTagType =
-    | "h1"
-    | "h2"
-    | "h3"
-    | "h4"
-    | "h5"
-    | "h6";
-
+export type HeaderTagType = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
 /* ---------------------------------- */
 /* Class Styles                       */
@@ -19,13 +12,11 @@ export interface HeaderTextUIClassStylesInterface {
     text_class_style: string;
 }
 
-
 /* ---------------------------------- */
 /* Props Interface                    */
 /* ---------------------------------- */
 
 export interface HeaderTextUIPropsInterface {
-
     /** Header tag to render */
     header_tag?: HeaderTagType;
 
@@ -34,9 +25,7 @@ export interface HeaderTextUIPropsInterface {
 
     /** Optional class styles */
     class_styles?: HeaderTextUIClassStylesInterface;
-
 }
-
 
 /* ---------------------------------- */
 /* Content Payload Interface          */

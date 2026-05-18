@@ -4,11 +4,7 @@ import { Component } from "vue";
 /* Button Type                        */
 /* ---------------------------------- */
 
-export type ButtonType =
-    | "button"
-    | "submit"
-    | "reset";
-
+export type ButtonType = "button" | "submit" | "reset";
 
 /* ---------------------------------- */
 /* Content Options                    */
@@ -20,7 +16,6 @@ export interface ButtonUIContentOptionsInterface {
     loading_html_content?: string;
 }
 
-
 /* ---------------------------------- */
 /* Boolean Props                      */
 /* ---------------------------------- */
@@ -28,7 +23,6 @@ export interface ButtonUIContentOptionsInterface {
 export interface ButtonUIBooleanPropsInterface {
     disabled?: boolean;
 }
-
 
 /* ---------------------------------- */
 /* Action Return                      */
@@ -40,13 +34,11 @@ export interface ButtonActionMethodReturnInterface {
     data?: Record<string, any>;
 }
 
-
 /* ---------------------------------- */
 /* Action Props                       */
 /* ---------------------------------- */
 
 export interface ButtonUIActionPropsInterface {
-
     on_click?: (
         event?: MouseEvent,
         config?: { props: ButtonUIPropsInterface }
@@ -56,16 +48,13 @@ export interface ButtonUIActionPropsInterface {
         event?: MouseEvent,
         config?: { props: ButtonUIPropsInterface }
     ) => Promise<ButtonActionMethodReturnInterface | void>;
-
 }
-
 
 /* ---------------------------------- */
 /* Class Styles                       */
 /* ---------------------------------- */
 
 export interface ButtonUIClassStylesInterface {
-
     button_class_style: string;
 
     disabled_class_style: string;
@@ -78,17 +67,14 @@ export interface ButtonUIClassStylesInterface {
 
     text_class_style: string;
 
-    content_class_style: string
-
+    content_class_style: string;
 }
-
 
 /* ---------------------------------- */
 /* Props Interface                    */
 /* ---------------------------------- */
 
 export interface ButtonUIPropsInterface {
-
     id?: string;
 
     type?: ButtonType;
@@ -100,31 +86,27 @@ export interface ButtonUIPropsInterface {
     action_props?: ButtonUIActionPropsInterface;
 
     class_styles?: ButtonUIClassStylesInterface;
-
 }
-
 
 /* ---------------------------------- */
 /* State Interface                    */
 /* ---------------------------------- */
 
 export interface ButtonUIStateDataInterface {
-
     is_loading: boolean;
 
+    error_text: string | null;
 }
-
 
 /* ---------------------------------- */
 /* Computed                           */
 /* ---------------------------------- */
 
 export interface ButtonUIComputedDataInterface {
-
     is_disabled: boolean;
 
+    button_class: string;
 }
-
 
 /* ---------------------------------- */
 /* Components                         */

@@ -1,6 +1,6 @@
-import GlobalVariableManager        from "./global_variable_manager_util";
-import LoggerUtil                   from "./logger_util";
-import { ContentObjectType }        from "../types/util_type";
+import GlobalVariableManager from "./global_variable_manager_util";
+import LoggerUtil from "./logger_util";
+import { ContentObjectType } from "../types/util_type";
 
 class ContentManagerUtil {
     public readonly name = "content_manager_util";
@@ -13,12 +13,12 @@ class ContentManagerUtil {
     private logger: LoggerUtil;
 
     constructor() {
-        this.global_var_instance    = GlobalVariableManager.getInstance();
-        this.content_data_key       = "CONTENT_DATA";
-        this.content_data           = this.global_var_instance.getVariable(this.content_data_key) || {};
-        this.is_loaded              = false;
-        this.merged_api_responses   = {};
-        this.logger                 = new LoggerUtil({ prefix: this.name, show_timestamp: false });
+        this.global_var_instance = GlobalVariableManager.getInstance();
+        this.content_data_key = "CONTENT_DATA";
+        this.content_data = this.global_var_instance.getVariable(this.content_data_key) || {};
+        this.is_loaded = false;
+        this.merged_api_responses = {};
+        this.logger = new LoggerUtil({ prefix: this.name, show_timestamp: false });
     }
 
     /** Singleton accessor */
@@ -40,20 +40,19 @@ class ContentManagerUtil {
                 throw new Error(`Failed to fetch content data: ${response.statusText}`);
             }
 
-            const content: ContentObjectType    = await response.json();
-            const response_data         = { [json_key]: content };
+            const content: ContentObjectType = await response.json();
+            const response_data = { [json_key]: content };
 
-            this.content_data           = { ...response_data };
-            this.is_loaded              = Object.keys(this.content_data).length > 0;
+            this.content_data = { ...response_data };
+            this.is_loaded = Object.keys(this.content_data).length > 0;
 
             if (this.is_loaded) {
                 this.global_var_instance.setVariable(this.content_data_key, this.content_data);
             }
 
             return this.is_loaded;
-        } 
-        catch (error: unknown) {
-            this.logger.error("Error loading content data:", {error});
+        } catch (error: unknown) {
+            this.logger.error("Error loading content data:", { error });
             throw error;
         }
     }
@@ -84,8 +83,8 @@ class ContentManagerUtil {
 
     /** Reset/clear stored data */
     public reset(): void {
-        this.content_data   = {};
-        this.is_loaded      = false;
+        this.content_data = {};
+        this.is_loaded = false;
         this.global_var_instance.setVariable(this.content_data_key, this.content_data);
     }
 
@@ -111,7 +110,7 @@ class ContentManagerUtil {
 
         if (bracket_matches.length > 0) {
             bracket_matches.forEach((match, index) => {
-                dynamic_params[`val_${index + 1}`] = match[1];  // val_1, val_2, ...
+                dynamic_params[`val_${index + 1}`] = match[1]; // val_1, val_2, ...
             });
 
             // Replace [xxx] → [*] to build the lookup key
@@ -128,7 +127,7 @@ class ContentManagerUtil {
         // 3️⃣ Replace placeholders in template
         if (typeof template === "string") {
             Object.entries(dynamic_params).forEach(([key, value]) => {
-                const regex = new RegExp(`%${key}%`, "g"); 
+                const regex = new RegExp(`%${key}%`, "g");
                 template = template.replace(regex, value);
             });
         }

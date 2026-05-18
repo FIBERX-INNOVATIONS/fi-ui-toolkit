@@ -6,19 +6,13 @@ import { SVGIconKey } from "../resources/svg_icon_resource";
 /* Position Types                     */
 /* ---------------------------------- */
 
-export type DropdownPosition =
-    | "top"
-    | "bottom"
-    | "left"
-    | "right";
-
+export type DropdownPosition = "top" | "bottom" | "left" | "right";
 
 /* ---------------------------------- */
 /* Class Styles                       */
 /* ---------------------------------- */
 
 export interface DropdownMenuUIClassStylesInterface {
-
     wrapper_class_style: string;
 
     menu_class_style: string;
@@ -26,31 +20,25 @@ export interface DropdownMenuUIClassStylesInterface {
     menu_item_wrapper_class_style: string;
 
     visible_class_style: string;
-
 }
-
 
 /* ---------------------------------- */
 /* Props Interface                    */
 /* ---------------------------------- */
 
 export interface DropdownMenuUIPropsInterface {
-
     id?: string;
 
     menu_items: NavLinkUIPropsInterface[];
 
     class_styles?: DropdownMenuUIClassStylesInterface;
-
 }
-
 
 /* ---------------------------------- */
 /* State                              */
 /* ---------------------------------- */
 
 export interface DropdownMenuUIStateDataInterface {
-
     is_open: boolean;
 
     position: DropdownPosition;
@@ -58,33 +46,30 @@ export interface DropdownMenuUIStateDataInterface {
     top: number;
 
     left: number;
-
 }
-
 
 /* ---------------------------------- */
 /* Computed                           */
 /* ---------------------------------- */
 
 export interface DropdownMenuUIComputedDataInterface {
-
     wrapper_style: Record<string, string>;
 
-}
+    has_items: boolean;
 
+    display_items: NavLinkUIPropsInterface[];
+}
 
 /* ---------------------------------- */
 /* Components                         */
 /* ---------------------------------- */
 
 export interface DropdownMenuUIComponentsInterface {
-
     NavLinkUI: Component;
-
 }
 
 export interface ContentMenuPayloadInterface {
-    menu_text?: string ;
+    menu_text?: string;
     menu_icon?: SVGIconKey | string;
     menu_link?: string;
     menu_id_text?: string;

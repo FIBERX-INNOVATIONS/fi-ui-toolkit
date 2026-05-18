@@ -2,7 +2,7 @@ import { PropType } from "vue";
 
 import DataTableUIClassStyles from "../class_styles/data_table_ui_class_styles";
 
-import { 
+import {
     DataTableColumnRenderType,
     DataTableUIPropsInterface,
     DataTableUIActionPropsInterface,
@@ -23,7 +23,7 @@ export const DataTableUIProps = {
 
     is_loading: {
         type: Boolean,
-        default: () => (false),
+        default: () => false,
         required: false
     },
 
@@ -51,11 +51,9 @@ export const DataTableUIProps = {
         type: Object as PropType<DataTableUIActionPropsInterface>,
         default: () => ({})
     },
-    
 
     class_styles: {
         type: Object as PropType<DataTableUIClassStylesInterface>,
         default: () => DataTableUIClassStyles
     }
-
 } satisfies Record<keyof DataTableUIPropsInterface, any>;

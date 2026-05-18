@@ -1,50 +1,78 @@
-
-import BaseController  from "../base_classes/base_controller";
+import BaseController from "../base_classes/base_controller";
 
 import { ComputedDefinitionType, WatchersType } from "../types/base_type";
 
 import DataTableUIActionHandler from "../action_handlers/data_table_ui_action_handler";
 
-import { 
+import {
     DataTableUIPropsInterface,
     DataTableUIStateDataInterface,
     DataTableUIComputedDataInterface,
-    DataTableUIComponentsInterface,
+    DataTableUIComponentsInterface
 } from "../ui_types/data_table_ui_type";
 
-class DataTableUIController<T = any> extends BaseController<
+class DataTableUIController<T extends Record<string, any> = Record<string, any>> extends BaseController<
     DataTableUIPropsInterface<T>,
-    DataTableUIStateDataInterface,
+    DataTableUIStateDataInterface<T>,
     DataTableUIComputedDataInterface<T>,
     DataTableUIComponentsInterface
 > {
-
-    public action_handler: DataTableUIActionHandler<T> = 
-        new DataTableUIActionHandler<T>(this);
-
-    constructor(props: DataTableUIPropsInterface) {
-
+    constructor(props: DataTableUIPropsInterface<T>) {
         super("data_table_ui", props);
 
-        this.getComponentDefinition();
+        this.setActionHandler(new DataTableUIActionHandler<T>(this));
 
+        this.getComponentDefinition();
     }
 
-    protected getUIStateData(): DataTableUIStateDataInterface {
+    protected getUIStateData(): DataTableUIStateDataInterface<T> {
         return {
-            loading: true,
+            loading: this.props.is_loading ?? false,
 
-            sort_key: null as keyof T | null,
-            
+            sort_key: null,
+
             sort_direction: null
         };
     }
 
-    protected getUIWatchers(): WatchersType<DataTableUIPropsInterface, DataTableUIStateDataInterface> {
+    protected getUIComputedData(): ComputedDefinitionType<DataTableUIComputedDataInterface<T>> {
         return {
-            table_render_obj: () => {
-                this.logger.log("Render object changed");
-                return;
+            has_data: (): boolean => {
+                return Array.isArray(this.props.data) && this.props.data.length > 0;
+            },
+
+            is_empty: (): boolean => {
+                return !this.computed_refs.has_data.value;
+            },
+
+            display_data: (): T[] => {
+                return Array.isArray(this.props.data) ? this.props.data : [];
+            }
+        };
+    }
+
+    protected getUIWatchers(): WatchersType<DataTableUIPropsInterface<T>, DataTableUIStateDataInterface<T>> {
+        return {
+            is_loading: {
+                handler: (new_value: boolean | undefined) => {
+                    this.state_refs.loading.value = new_value ?? false;
+                }
+            },
+
+            table_render_obj: {
+                handler: () => {
+                    // Reset sort state when render config changes
+                    this.state_refs.sort_key.value = null;
+                    this.state_refs.sort_direction.value = null;
+                },
+                options: { deep: true }
+            },
+
+            data: {
+                handler: () => {
+                    // Force computed updates when data changes
+                },
+                options: { deep: true }
             }
         };
     }

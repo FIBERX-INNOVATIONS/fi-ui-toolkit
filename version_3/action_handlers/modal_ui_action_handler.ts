@@ -1,22 +1,19 @@
-
+import BaseActionHandler from "../base_classes/base_action_handler";
 import BaseController from "../base_classes/base_controller";
 
-import { 
+import {
+    ModalUIComponentsInterface,
+    ModalUIComputedDataInterface,
+    ModalUIPropsInterface,
+    ModalUIStateDataInterface
+} from "../ui_types/modal_ui_type";
+
+class ModalUIActionHandler extends BaseActionHandler<
     ModalUIPropsInterface,
     ModalUIStateDataInterface,
     ModalUIComputedDataInterface,
-    ModalUIComponentsInterface,
-} from "../ui_types/modal_ui_type";
-
-class ModalUIActionHandler {
-
-    private controller: BaseController<
-        ModalUIPropsInterface,
-        ModalUIStateDataInterface,
-        ModalUIComputedDataInterface,
-        ModalUIComponentsInterface
-    >;
-
+    ModalUIComponentsInterface
+> {
     constructor(
         controller: BaseController<
             ModalUIPropsInterface,
@@ -25,20 +22,14 @@ class ModalUIActionHandler {
             ModalUIComponentsInterface
         >
     ) {
-        this.controller = controller;
+        super(controller);
     }
 
-    public async handleClose(event?: MouseEvent) {
+    public handleClose = async (event?: MouseEvent): Promise<void> => {
+        const { on_close } = this.props.action_props || {};
 
-        const { props } = this.controller;
-
-        await props.action_props?.on_close?.(
-            event,
-            { props }
-        );
-
-    }
-
+        await this.invokeAction(on_close, event, { props: this.props });
+    };
 }
 
 export default ModalUIActionHandler;

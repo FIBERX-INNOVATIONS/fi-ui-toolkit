@@ -1,11 +1,5 @@
 <template>
-    <component
-        :is="computed_refs.component_type.value"
-        :id="id"
-        role="navigation"
-        :class="class_styles.wrapper_class_style"
-    >
-
+    <component :is="component_type" :id="id" :role="aria_role" :class="class_styles.wrapper_class_style">
         <!-- section 1 -->
         <div :class="class_styles.section_1_wrapper_class_style">
             <slot name="section_1" />
@@ -20,12 +14,10 @@
         <div :class="class_styles.section_3_wrapper_class_style">
             <slot name="section_3" />
         </div>
-
     </component>
 </template>
 
 <script setup lang="ts">
-
 import LayoutSectionsUIProps from "../props/layout_sections_ui_props";
 import LayoutSectionsUIController from "../controllers/layout_sections_ui_controller";
 
@@ -33,13 +25,9 @@ const props = defineProps(LayoutSectionsUIProps);
 
 const controller = new LayoutSectionsUIController(props);
 
-const {
-    id,
-    class_styles
-} = props;
+const { id, class_styles } = props;
 
-const {
-    computed_refs
-} = controller;
+const { computed_refs } = controller;
 
+const { component_type, aria_role } = computed_refs;
 </script>

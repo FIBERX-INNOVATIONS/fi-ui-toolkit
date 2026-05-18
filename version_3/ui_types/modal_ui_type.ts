@@ -6,21 +6,13 @@ import { OverlayUIPropsInterface } from "./overlay_ui_type";
 /* Modal Animation                    */
 /* ---------------------------------- */
 
-export type ModalAnimationType =
-    | "fade"
-    | "slide_left"
-    | "slide_right"
-    | "slide_top"
-    | "slide_bottom"
-    | "scale";
-
+export type ModalAnimationType = "fade" | "slide_left" | "slide_right" | "slide_top" | "slide_bottom" | "scale";
 
 /* ---------------------------------- */
 /* Class Styles                       */
 /* ---------------------------------- */
 
 export interface ModalUIClassStylesInterface {
-
     wrapper_class_style: string;
 
     modal_class_style: string;
@@ -40,22 +32,18 @@ export interface ModalUIClassStylesInterface {
     body_class_style: string;
 
     footer_class_style: string;
-
 }
-
 
 /* ---------------------------------- */
 /* Action Return                      */
 /* ---------------------------------- */
 
 export interface ModalUIActionReturnInterface {
-
     status: boolean;
 
     msg: string;
 
     data?: Record<string, any>;
-
 }
 
 /* ---------------------------------- */
@@ -65,31 +53,24 @@ export interface ModalUIContentPropsInterface {
     close_btn_content?: string;
 
     close_btn_icon_key?: SVGIconKey;
-
 }
-
 
 /* ---------------------------------- */
 /* Action Props                       */
 /* ---------------------------------- */
 
 export interface ModalUIActionPropsInterface {
-
     on_close?: (
         event?: MouseEvent,
         config?: { props: ModalUIPropsInterface }
     ) => Promise<ModalUIActionReturnInterface | void>;
-
 }
-
-
 
 /* ---------------------------------- */
 /* Props Interface                    */
 /* ---------------------------------- */
 
 export interface ModalUIPropsInterface {
-
     overlay_props?: OverlayUIPropsInterface;
 
     title_text?: string;
@@ -107,44 +88,34 @@ export interface ModalUIPropsInterface {
     action_props?: ModalUIActionPropsInterface;
 
     class_styles?: ModalUIClassStylesInterface;
-
 }
-
 
 /* ---------------------------------- */
 /* State                              */
 /* ---------------------------------- */
 
 export interface ModalUIStateDataInterface {
-
     is_visible: boolean;
-
 }
-
 
 /* ---------------------------------- */
 /* Computed                           */
 /* ---------------------------------- */
 
 export interface ModalUIComputedDataInterface {
-
     transition_name: string;
 
     z_index_style: Record<string, string>;
-
 }
-
 
 /* ---------------------------------- */
 /* Components                         */
 /* ---------------------------------- */
 
 export interface ModalUIComponentsInterface {
-
     LayoutSectionsUI: Component;
 
     OverlayUI: Component;
-
 }
 
 export interface ModalUIPropsExtendedInterface<

@@ -16,10 +16,7 @@ import {
 } from "../ui_types/input_ui_type";
 
 class InputUIPropsBuilder {
-
-    private static readonly content_manager =
-        ContentManagerUtil.getInstance();
-
+    private static readonly content_manager = ContentManagerUtil.getInstance();
 
     /* ---------------------------------- */
     /* Global Configuration               */
@@ -37,7 +34,6 @@ class InputUIPropsBuilder {
 
     public static default_action_props?: InputUIActionPropsInterface;
 
-
     /* ---------------------------------- */
     /* Setup                              */
     /* ---------------------------------- */
@@ -48,51 +44,36 @@ class InputUIPropsBuilder {
         boolean_props?: InputUIBooleanPropsInterface,
         number_props?: InputUINumberPropsInterface,
         content_props?: InputUIContentPayloadInterface,
-        file_props?: InputUIFilePropsInterface,
+        file_props?: InputUIFilePropsInterface
     ): void {
+        InputUIPropsBuilder.class_styles = class_styles || InputUIClassStyles;
 
-        InputUIPropsBuilder.class_styles =
-            class_styles || InputUIClassStyles;
+        InputUIPropsBuilder.default_content_props = content_props || {};
 
-        InputUIPropsBuilder.default_content_props =
-            content_props || {};
+        InputUIPropsBuilder.default_boolean_props = boolean_props || {};
 
-        InputUIPropsBuilder.default_boolean_props =
-            boolean_props || {};
+        InputUIPropsBuilder.default_number_props = number_props || {};
 
-        InputUIPropsBuilder.default_number_props =
-            number_props || {};
+        InputUIPropsBuilder.default_file_props = file_props || {};
 
-        InputUIPropsBuilder.default_file_props =
-            file_props || {};
-
-        InputUIPropsBuilder.default_action_props =
-            action_props || {};
+        InputUIPropsBuilder.default_action_props = action_props || {};
     }
-
 
     /* ---------------------------------- */
     /* Content Fetch                      */
     /* ---------------------------------- */
 
     private static getContentProps(content_key?: string) {
-
         if (!content_key) return {};
 
-        return (
-            InputUIPropsBuilder.content_manager
-                ?.get<InputUIContentPayloadInterface>(content_key) ?? {}
-        );
-
+        return InputUIPropsBuilder.content_manager?.get<InputUIContentPayloadInterface>(content_key) ?? {};
     }
-
 
     /* ---------------------------------- */
     /* Build Props                        */
     /* ---------------------------------- */
 
     private static buildPropsObject(
-
         id: string,
 
         type: InputType = "text",
@@ -100,43 +81,25 @@ class InputUIPropsBuilder {
         content_key?: string,
 
         overrides: Partial<InputUIPropsInterface> = {}
-
     ): InputUIPropsInterface {
+        const content_data = InputUIPropsBuilder.getContentProps(content_key);
 
-        const content_data =
-            InputUIPropsBuilder.getContentProps(content_key);
+        const placeholder_text = overrides.placeholder_text ?? content_data?.placeholder_text ?? "";
 
-        const placeholder_text =
-            overrides.placeholder_text ??
-            content_data?.placeholder_text ??
-            "";
+        const helper_text = overrides.helper_text ?? content_data?.helper_text ?? "";
 
-        const helper_text =
-            overrides.helper_text ??
-            content_data?.helper_text ??
-            "";
+        const selected_text_prefix = overrides.selected_text_prefix ?? content_data?.selected_text_prefix ?? "";
 
-        const selected_text_prefix = overrides.selected_text_prefix ??
-            content_data?.selected_text_prefix ??
-            "";
-
-        const option_props =
-            overrides.option_props ??
-            content_data?.options_list ??
-            [];
+        const option_props = overrides.option_props ?? content_data?.options_list ?? [];
 
         return {
-
             id,
 
             type,
 
-            switch_btn_id:
-                overrides.switch_btn_id ??
-                `${id}_switch`,
+            switch_btn_id: overrides.switch_btn_id ?? `${id}_switch`,
 
-            model_value:
-                overrides.model_value ?? null,
+            model_value: overrides.model_value ?? null,
 
             placeholder_text,
 
@@ -175,19 +138,15 @@ class InputUIPropsBuilder {
                 ...InputUIClassStyles,
                 ...(InputUIPropsBuilder.class_styles ?? {}),
                 ...(overrides.class_styles ?? {})
-
             }
         };
-
     }
-
 
     /* ---------------------------------- */
     /* Public Builder                     */
     /* ---------------------------------- */
 
     public static getReactivePropsObject(
-
         id: string,
 
         type: InputType = "text",
@@ -195,21 +154,11 @@ class InputUIPropsBuilder {
         content_key?: string,
 
         overrides: Partial<InputUIPropsInterface> = {}
-
     ): InputUIPropsInterface {
-
-        const props =
-            InputUIPropsBuilder.buildPropsObject(
-                id,
-                type,
-                content_key,
-                overrides
-            );
+        const props = InputUIPropsBuilder.buildPropsObject(id, type, content_key, overrides);
 
         return reactive<InputUIPropsInterface>(props);
-
     }
-
 }
 
 export default InputUIPropsBuilder;

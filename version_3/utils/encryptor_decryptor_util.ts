@@ -1,6 +1,4 @@
-
 import { EncryptorConfigType } from "../types/util_type";
-
 
 class EncryptorDecryptorUtil {
     private static instance: EncryptorDecryptorUtil;
@@ -14,9 +12,9 @@ class EncryptorDecryptorUtil {
             throw new Error("Corpus cannot be empty");
         }
 
-        this.corpus         = config.corpus;
-        this.shift_key      = config.shift_key;
-        this.corpus_length  = config.corpus.length;
+        this.corpus = config.corpus;
+        this.shift_key = config.shift_key;
+        this.corpus_length = config.corpus.length;
     }
 
     static init(config: EncryptorConfigType): EncryptorDecryptorUtil {
@@ -38,44 +36,43 @@ class EncryptorDecryptorUtil {
         return JSON.stringify(value);
     }
 
-    public encrypt (input: unknown): string {
+    public encrypt(input: unknown): string {
         const value = this.stringify(input);
 
         return value
-        .split("")
-        .map((char) => {
-            const index = this.corpus.indexOf(char);
+            .split("")
+            .map((char) => {
+                const index = this.corpus.indexOf(char);
 
-            if (index === -1) return char;
+                if (index === -1) return char;
 
-            const shift_index = (index + this.shift_key) % this.corpus_length;
+                const shift_index = (index + this.shift_key) % this.corpus_length;
 
-            return this.corpus[shift_index];
-        })
-        .join("");
+                return this.corpus[shift_index];
+            })
+            .join("");
     }
 
     public decrypt<T = unknown>(encrypted: string): T {
         const decrypted = encrypted
-        .split("")
-        .map((char) => {
-            const index = this.corpus.indexOf(char);
+            .split("")
+            .map((char) => {
+                const index = this.corpus.indexOf(char);
 
-            if (index === -1) return char;
+                if (index === -1) return char;
 
-            const shift_index =
-            (index - this.shift_key + this.corpus_length) % this.corpus_length;
+                const shift_index = (index - this.shift_key + this.corpus_length) % this.corpus_length;
 
-            return this.corpus[shift_index];
-        })
-        .join("");
+                return this.corpus[shift_index];
+            })
+            .join("");
 
         try {
-        return JSON.parse(decrypted) as T;
+            return JSON.parse(decrypted) as T;
         } catch {
-        return decrypted as unknown as T;
+            return decrypted as unknown as T;
         }
     }
 }
 
-export default EncryptorDecryptorUtil
+export default EncryptorDecryptorUtil;

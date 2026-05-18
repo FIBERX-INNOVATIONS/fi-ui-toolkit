@@ -6,7 +6,6 @@ import { NavLinkUIClassStylesInterface, NavLinkUIPropsInterface } from "./nav_li
 /* ---------------------------------- */
 
 export interface BreadcrumbUIClassStylesInterface {
-
     wrapper_class_style: string;
 
     list_class_style: string;
@@ -15,17 +14,14 @@ export interface BreadcrumbUIClassStylesInterface {
 
     separator_class_style: string;
 
-    nav_link_class_styles?: NavLinkUIClassStylesInterface
-
+    nav_link_class_styles?: NavLinkUIClassStylesInterface;
 }
-
 
 /* ---------------------------------- */
 /* Props Interface                    */
 /* ---------------------------------- */
 
 export interface BreadcrumbUIPropsInterface {
-
     id?: string;
 
     breadcrumb_items: NavLinkUIPropsInterface[];
@@ -33,38 +29,30 @@ export interface BreadcrumbUIPropsInterface {
     separator?: string;
 
     class_styles?: BreadcrumbUIClassStylesInterface;
-
 }
-
 
 /* ---------------------------------- */
 /* State                              */
 /* ---------------------------------- */
 
 export interface BreadcrumbUIStateDataInterface {
-
-    initialized: boolean;
-
+    items_count: number;
 }
-
 
 /* ---------------------------------- */
 /* Computed                           */
 /* ---------------------------------- */
 
 export interface BreadcrumbUIComputedDataInterface {
-
     has_items: boolean;
 
+    display_items: NavLinkUIPropsInterface[];
 }
-
 
 /* ---------------------------------- */
 /* Components                         */
 /* ---------------------------------- */
 
 export interface BreadcrumbUIComponentsInterface {
-
     NavLinkUI: Component;
-
 }
