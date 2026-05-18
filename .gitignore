@@ -31,4 +31,5 @@ coverage
 
 .env
 
-docs/
+docs/*
+!docs/useful.md
