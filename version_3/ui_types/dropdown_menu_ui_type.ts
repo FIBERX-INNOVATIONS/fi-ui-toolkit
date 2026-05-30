@@ -19,6 +19,14 @@ export interface DropdownMenuUIClassStylesInterface {
 
     menu_item_wrapper_class_style: string;
 
+    menu_item_has_children_wrapper_class_style?: string;
+
+    caret_button_class_style?: string;
+
+    caret_icon_class_style?: string;
+
+    children_wrapper_class_style?: string;
+
     visible_class_style: string;
 }
 
@@ -30,6 +38,8 @@ export interface DropdownMenuUIPropsInterface {
     id?: string;
 
     menu_items: NavLinkUIPropsInterface[];
+
+    caret_icon?: SVGIconKey | string;
 
     class_styles?: DropdownMenuUIClassStylesInterface;
 }

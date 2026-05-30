@@ -6,6 +6,8 @@ import { DropdownMenuUIClassStylesInterface, DropdownMenuUIPropsInterface } from
 
 import { NavLinkUIPropsInterface } from "../ui_types/nav_link_ui_type";
 
+import { SVGIconKey } from "../resources/svg_icon_resource";
+
 const DropdownMenuUIProps = {
     id: {
         type: String,
@@ -15,6 +17,11 @@ const DropdownMenuUIProps = {
     menu_items: {
         type: Array as PropType<NavLinkUIPropsInterface[]>,
         default: () => []
+    },
+
+    caret_icon: {
+        type: String as PropType<SVGIconKey | string>,
+        default: ""
     },
 
     class_styles: {

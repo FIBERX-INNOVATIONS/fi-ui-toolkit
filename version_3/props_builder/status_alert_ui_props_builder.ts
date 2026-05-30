@@ -88,6 +88,7 @@ class StatusAlertPropsBuilder extends BasePropSchema<StatusAlertUIPropsInterface
             visible,
             alert_status,
             status_icon,
+            close_btn_icon: "x_circile_svg_icon",
             status_content_messgae: alert_message,
             on_close: StatusAlertPropsBuilder.on_close,
             class_styles: {

@@ -13,7 +13,7 @@
             :min="number_props.min"
             :max="number_props.max"
             :step="number_props.step"
-            @input="action_handler?.handleOnInpuChange?.($event)"
+            @input="action_handler?.handleOnInputChange?.($event)"
             @keyup="action_handler?.handleOnKeyup?.($event)"
             @keydown="action_handler?.handleOnKeydown?.($event)"
             @click="action_handler?.handleOnClick?.($event)"

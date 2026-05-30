@@ -50,25 +50,25 @@ class InputUIPropsBuilder extends BasePropSchema<InputUIPropsInterface> {
     /* Setup                              */
     /* ---------------------------------- */
 
-    public static configure(
-        class_styles?: InputUIClassStylesInterface,
-        action_props?: InputUIActionPropsInterface,
-        boolean_props?: InputUIBooleanPropsInterface,
-        number_props?: InputUINumberPropsInterface,
-        content_props?: InputUIContentPayloadInterface,
-        file_props?: InputUIFilePropsInterface
-    ): void {
-        InputUIPropsBuilder.class_styles = class_styles || InputUIClassStyles;
+    public static configure(params: {
+        class_styles?: InputUIClassStylesInterface;
+        action_props?: InputUIActionPropsInterface;
+        boolean_props?: InputUIBooleanPropsInterface;
+        number_props?: InputUINumberPropsInterface;
+        content_props?: InputUIContentPayloadInterface;
+        file_props?: InputUIFilePropsInterface;
+    }): void {
+        InputUIPropsBuilder.class_styles = params.class_styles || InputUIClassStyles;
 
-        InputUIPropsBuilder.default_content_props = content_props || {};
+        InputUIPropsBuilder.default_content_props = params.content_props || {};
 
-        InputUIPropsBuilder.default_boolean_props = boolean_props || {};
+        InputUIPropsBuilder.default_boolean_props = params.boolean_props || {};
 
-        InputUIPropsBuilder.default_number_props = number_props || {};
+        InputUIPropsBuilder.default_number_props = params.number_props || {};
 
-        InputUIPropsBuilder.default_file_props = file_props || {};
+        InputUIPropsBuilder.default_file_props = params.file_props || {};
 
-        InputUIPropsBuilder.default_action_props = action_props || {};
+        InputUIPropsBuilder.default_action_props = params.action_props || {};
     }
 
     /* ---------------------------------- */

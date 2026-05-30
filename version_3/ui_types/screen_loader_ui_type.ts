@@ -13,7 +13,7 @@ export interface LoaderSymbolInterface {
 /* Class Styles                       */
 /* ---------------------------------- */
 
-export interface ScreenLoaderClassStylesInterface {
+export interface ScreenLoaderUIClassStylesInterface {
     wrapper_class_style: string;
     loader_class_style: string;
     loader_symbol_class_style: string;
@@ -27,7 +27,7 @@ export interface ScreenLoaderClassStylesInterface {
 
 export interface ScreenLoaderUIPropsInterface {
     visible?: boolean;
-    class_styles?: ScreenLoaderClassStylesInterface;
+    class_styles?: ScreenLoaderUIClassStylesInterface;
     loader_symbol?: LoaderSymbolInterface;
     loader_text?: string;
 }

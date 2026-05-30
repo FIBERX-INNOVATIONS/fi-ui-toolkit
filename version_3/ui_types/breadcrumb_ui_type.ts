@@ -1,5 +1,9 @@
 import { Component } from "vue";
-import { NavLinkUIClassStylesInterface, NavLinkUIPropsInterface } from "./nav_link_ui_type";
+import {
+    NavLinkContentPayloadResultInterface,
+    NavLinkUIClassStylesInterface,
+    NavLinkUIPropsInterface
+} from "./nav_link_ui_type";
 
 /* ---------------------------------- */
 /* Class Styles                       */
@@ -24,7 +28,7 @@ export interface BreadcrumbUIClassStylesInterface {
 export interface BreadcrumbUIPropsInterface {
     id?: string;
 
-    breadcrumb_items: NavLinkUIPropsInterface[];
+    breadcrumb_items: NavLinkContentPayloadResultInterface[];
 
     separator?: string;
 
@@ -46,7 +50,7 @@ export interface BreadcrumbUIStateDataInterface {
 export interface BreadcrumbUIComputedDataInterface {
     has_items: boolean;
 
-    display_items: NavLinkUIPropsInterface[];
+    display_items: NavLinkContentPayloadResultInterface[];
 }
 
 /* ---------------------------------- */

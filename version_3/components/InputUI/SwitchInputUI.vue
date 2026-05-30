@@ -27,7 +27,7 @@
                 v-model="input_value"
                 :required="boolean_props.required"
                 :disabled="boolean_props.disabled"
-                @change="action_handler?.handleOnInpuChange?.($event)"
+                @change="action_handler?.handleOnInputChange?.($event)"
             />
             <span
                 :class="[

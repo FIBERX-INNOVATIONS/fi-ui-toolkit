@@ -13,7 +13,11 @@ class NavLinkUIPropsBuilder extends BasePropSchema<NavLinkUIPropsInterface> {
     public static readonly static_prop_keys = [
         "id",
         "action_props",
-        "class_styles"
+        "class_styles",
+        "children",
+        "children_caret_icon",
+        "is_children_open",
+        "on_children_toggle"
     ] satisfies readonly (keyof NavLinkUIPropsInterface)[];
 
     public static class_styles?: NavLinkUIClassStylesInterface;
@@ -54,6 +58,14 @@ class NavLinkUIPropsBuilder extends BasePropSchema<NavLinkUIPropsInterface> {
                 ...NavLinkUIPropsBuilder.default_action_props,
                 ...overrides.action_props
             },
+
+            children: overrides.children ?? [],
+
+            children_caret_icon: overrides.children_caret_icon ?? undefined,
+
+            is_children_open: overrides.is_children_open ?? false,
+
+            on_children_toggle: overrides.on_children_toggle,
 
             class_styles: overrides.class_styles ?? NavLinkUIPropsBuilder.class_styles ?? NavLinkUIClassStyles
         };

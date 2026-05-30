@@ -40,7 +40,7 @@ class InputValidatorUtil {
     }
 
     static isEmpty(input: any): boolean {
-        return !input || input.toString().trim() === "";
+        return input === null || input === undefined || input === "" || (Array.isArray(input) && input.length === 0);
     }
 
     static isValidOptionalField(str: string): boolean {

@@ -41,16 +41,16 @@ class ButtonUIPropsBuilder extends BasePropSchema<ButtonUIPropsInterface> {
         return ButtonUIPropsBuilder.content_manager?.getWithRecord<string>(content_key, record, "") ?? "";
     }
 
-    public static configure(
-        class_styles?: ButtonUIClassStylesInterface,
-        action_props?: ButtonUIActionPropsInterface,
-        boolean_props?: ButtonUIBooleanPropsInterface
-    ): void {
-        ButtonUIPropsBuilder.class_styles = class_styles || ButtonUIClassStyles;
+    public static configure(params: {
+        class_styles?: ButtonUIClassStylesInterface;
+        action_props?: ButtonUIActionPropsInterface;
+        boolean_props?: ButtonUIBooleanPropsInterface;
+    }): void {
+        ButtonUIPropsBuilder.class_styles = params.class_styles || ButtonUIClassStyles;
 
-        ButtonUIPropsBuilder.default_boolean_props = boolean_props || {};
+        ButtonUIPropsBuilder.default_boolean_props = params.boolean_props || {};
 
-        ButtonUIPropsBuilder.default_action_props = action_props || {};
+        ButtonUIPropsBuilder.default_action_props = params.action_props || {};
     }
 
     private static buildPropsObject(

@@ -11,7 +11,7 @@
             :readonly="boolean_props.read_only"
             :maxlength="number_props.length"
             :disabled="boolean_props.disabled"
-            @input="action_handler?.handleOnInpuChange?.($event)"
+            @input="action_handler?.handleOnInputChange?.($event)"
             @keyup="action_handler?.handleOnKeyup?.($event)"
             @keydown="action_handler?.handleOnKeydown?.($event)"
             @click="action_handler?.handleOnClick?.($event)"

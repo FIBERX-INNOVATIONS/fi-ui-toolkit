@@ -27,8 +27,8 @@ class InputGroupUIPropsBuilder extends BasePropSchema<InputGroupUIPropsInterface
     /* Setup                              */
     /* ---------------------------------- */
 
-    public static configure(class_styles?: InputGroupUIClassStylesInterface) {
-        InputGroupUIPropsBuilder.class_styles = class_styles || InputGroupUIClassStyles;
+    public static configure(parmas: { class_styles?: InputGroupUIClassStylesInterface }) {
+        InputGroupUIPropsBuilder.class_styles = parmas.class_styles || InputGroupUIClassStyles;
     }
 
     /* ---------------------------------- */

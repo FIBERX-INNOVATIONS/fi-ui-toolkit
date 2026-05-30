@@ -11,7 +11,7 @@
             :disabled="boolean_props.disabled"
             :accept="file_props.accept"
             :multiple="file_props.multiple"
-            @change="action_handler?.handleOnFileInpuChange?.($event)"
+            @change="action_handler?.handleOnFileInputChange?.($event)"
             @click="action_handler?.handleOnClick?.($event)"
         />
 

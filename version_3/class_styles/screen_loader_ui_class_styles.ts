@@ -1,6 +1,6 @@
-import { ScreenLoaderClassStylesInterface } from "../ui_types/screen_loader_ui_type";
+import { ScreenLoaderUIClassStylesInterface } from "../ui_types/screen_loader_ui_type";
 
-const ScreenLoaderUIClassStyles: ScreenLoaderClassStylesInterface = {
+const ScreenLoaderUIClassStyles: ScreenLoaderUIClassStylesInterface = {
     wrapper_class_style: "fixed inset-0 flex items-center justify-center overflow-hidden",
     loader_class_style: "flex flex-col items-center space-y-4 animate-fade-in",
     loader_symbol_class_style: "",

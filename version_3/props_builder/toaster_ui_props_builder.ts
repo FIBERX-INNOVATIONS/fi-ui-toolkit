@@ -24,14 +24,14 @@ class ToasterUIPropsBuilder extends BasePropSchema<ToasterUIPropsInterface> {
 
     public static default_action_props?: ToasterUIActionPropsInterface;
 
-    public static configure(
-        toaster_id: string,
-        class_styles: ToasterUIClassStylesInterface,
-        action_props?: ToasterUIActionPropsInterface
-    ): void {
-        ToasterUIPropsBuilder.toaster_id = toaster_id ?? "ToasterBox";
-        ToasterUIPropsBuilder.class_styles = class_styles || ToasterUIClassStyles;
-        ToasterUIPropsBuilder.default_action_props = action_props || {};
+    public static configure(params: {
+        toaster_id: string;
+        class_styles: ToasterUIClassStylesInterface;
+        action_props?: ToasterUIActionPropsInterface;
+    }): void {
+        ToasterUIPropsBuilder.toaster_id = params.toaster_id ?? "ToasterBox";
+        ToasterUIPropsBuilder.class_styles = params.class_styles || ToasterUIClassStyles;
+        ToasterUIPropsBuilder.default_action_props = params.action_props || {};
     }
 
     /* ---------------------------------- */

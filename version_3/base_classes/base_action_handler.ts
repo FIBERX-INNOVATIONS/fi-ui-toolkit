@@ -49,14 +49,26 @@ class BaseActionHandler<
     }
 
     protected setState<K extends keyof State>(key: K, value: State[K]): void {
-        const state_ref = this.controller.state_refs[key];
+        const state_red = this.controller.state_refs[key];
 
-        if (!state_ref) {
+        if (!state_red) {
             this.logger.warn(`State ref "${String(key)}" not found`);
             return;
         }
 
-        state_ref.value = value;
+        const current_value = state_red.value;
+
+        const isObject = (v: unknown): v is Record<string, unknown> =>
+            v !== null && typeof v === "object" && !Array.isArray(v);
+
+        if (isObject(current_value) && isObject(value)) {
+            state_red.value = {
+                ...current_value,
+                ...value
+            } as State[K];
+        } else {
+            state_red.value = value;
+        }
     }
 
     protected getState<K extends keyof State>(key: K): State[K] | undefined {

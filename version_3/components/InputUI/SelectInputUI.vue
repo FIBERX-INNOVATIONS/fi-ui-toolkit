@@ -9,12 +9,12 @@
             :required="boolean_props.required"
             :readonly="boolean_props.read_only"
             :disabled="boolean_props.disabled"
-            @change="action_handler?.handleOnInpuChange?.($event)"
+            @change="action_handler?.handleOnInputChange?.($event)"
             @keyup="action_handler?.handleOnKeyup?.($event)"
             @keydown="action_handler?.handleOnKeydown?.($event)"
             @click="action_handler?.handleOnClick?.($event)"
         >
-            <option v-if="placeholder_text" disabled value="">
+            <option v-if="placeholder_text" value="">
                 {{ placeholder_text }}
             </option>
             <option v-for="option in option_props" :key="option.value" :value="option.value">

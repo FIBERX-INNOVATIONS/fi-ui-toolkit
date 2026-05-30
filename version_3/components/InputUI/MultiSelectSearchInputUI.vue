@@ -54,8 +54,8 @@
                     v-model="input_value"
                     :id="id"
                     :name="id"
-                    @input="action_handler?.handleOnInpuChange?.($event)"
-                    @change="action_handler?.handleOnInpuChange?.($event)"
+                    @input="action_handler?.handleOnInputChange?.($event)"
+                    @change="action_handler?.handleOnInputChange?.($event)"
                 />
 
                 <!-- Options -->

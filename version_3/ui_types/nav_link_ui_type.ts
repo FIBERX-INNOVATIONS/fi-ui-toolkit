@@ -42,6 +42,8 @@ export interface NavLinkUIClassStylesInterface {
     icon_img_class_style: string;
 
     content_class_style: string;
+
+    children_caret_class_style?: string;
 }
 
 /* ---------------------------------- */
@@ -66,6 +68,14 @@ export interface NavLinkUIPropsInterface {
     class_styles?: NavLinkUIClassStylesInterface;
 
     has_permission?: boolean;
+
+    children?: NavLinkUIPropsInterface[];
+
+    children_caret_icon?: SVGIconKey | string;
+
+    is_children_open?: boolean;
+
+    on_children_toggle?: (event?: MouseEvent) => void;
 }
 
 /* ---------------------------------- */
@@ -103,7 +113,9 @@ export interface NavLinkUIComponentsInterface {
 }
 
 export interface NavLinkContentPayloadResultInterface {
+    menu_id?: string;
     menu_text?: string;
     menu_icon?: SVGIconKey;
     menu_link?: string;
+    menu_img_link?: string;
 }

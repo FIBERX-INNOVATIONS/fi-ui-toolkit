@@ -4,7 +4,7 @@ import BreadcrumbUIClassStyles from "../class_styles/breadcrumb_ui_class_styles"
 
 import { BreadcrumbUIClassStylesInterface, BreadcrumbUIPropsInterface } from "../ui_types/breadcrumb_ui_type";
 
-import { NavLinkUIPropsInterface } from "../ui_types/nav_link_ui_type";
+import { NavLinkContentPayloadResultInterface } from "../ui_types/nav_link_ui_type";
 
 const BreadcrumbUIProps = {
     id: {
@@ -13,7 +13,7 @@ const BreadcrumbUIProps = {
     },
 
     breadcrumb_items: {
-        type: Array as PropType<NavLinkUIPropsInterface[]>,
+        type: Array as PropType<NavLinkContentPayloadResultInterface[]>,
         default: () => []
     },
 

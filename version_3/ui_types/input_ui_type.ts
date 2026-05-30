@@ -46,6 +46,11 @@ export interface ActionMethodRetrunInterface {
     data?: Record<string, any>;
 }
 
+export type InputUIFetchDataParamsInterface<TParams extends Record<string, unknown> = Record<string, unknown>> = {
+    page: number;
+    search: string | null;
+} & TParams;
+
 export interface InputUIActionPropsInterface {
     on_key_up?: (
         event?: KeyboardEvent,
@@ -77,10 +82,11 @@ export interface InputUIActionPropsInterface {
 
     get_option_value?: (option: SelectOptionInterface) => string | number;
 
-    fetch_data_method?: (params: {
-        page: number;
-        search: string | null;
-    }) => Promise<{ records: SelectOptionInterface[]; total_pages: number }>;
+    fetch_data_params?: Record<string, unknown>;
+
+    fetch_data_method?: <TParams extends Record<string, unknown> = Record<string, unknown>>(
+        params: InputUIFetchDataParamsInterface<TParams>
+    ) => Promise<{ records: SelectOptionInterface[]; total_pages: number }>;
 }
 
 export interface InputUIFilePropsInterface {
@@ -115,15 +121,19 @@ export interface PhoneNumberResultInterface {
     formatted: string;
 }
 
+export type InputDateRangeItemType = string | Date | null;
+
+export type InputDateRangeArrayValueType = InputDateRangeItemType[];
+
 export interface InputDateRangeValueType {
-    start_date: string;
-    end_date: string;
+    start_date: InputDateRangeItemType;
+    end_date: InputDateRangeItemType;
 }
 
 /* ---------------------------------- */
 /* Input Type                         */
 /* ---------------------------------- */
-export type InputValue = string | number | boolean | Array<any> | File | File[] | null | InputDateRangeValueType;
+export type InputValue = string | number | boolean | Date | Array<any> | File | File[] | null | InputDateRangeValueType;
 
 export type InputType =
     | "text"
@@ -263,9 +273,9 @@ export interface InputUIStateDataInterface {
 
     str_input_value: string | null;
 
-    start_date: string | null;
+    start_date: InputDateRangeItemType;
 
-    end_date: string | null;
+    end_date: InputDateRangeItemType;
 
     error_text: string | null;
 

@@ -95,8 +95,6 @@ const controller = new FilePreviewUploadUIController(props);
 
 const { upload_button_props, class_styles, multiple, content_props } = props;
 
-console.log(props);
-
 const { file_input_ref, state_refs, action_handler, components } = controller;
 
 const { ButtonUI } = components;

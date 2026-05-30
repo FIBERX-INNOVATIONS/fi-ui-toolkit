@@ -4,6 +4,8 @@ import BaseController from "../base_classes/base_controller";
 import {
     InputUIComputedDataInterface,
     InputUIComponentsInterface,
+    InputDateRangeArrayValueType,
+    InputDateRangeValueType,
     InputUIPropsInterface,
     InputUIStateDataInterface,
     InputValue,
@@ -32,6 +34,34 @@ class InputUIActionHandler extends BaseActionHandler<
         >
     ) {
         super(controller);
+    }
+
+    private static isDateRangeObject(value: unknown): value is InputDateRangeValueType {
+        return (
+            value !== null &&
+            typeof value === "object" &&
+            !Array.isArray(value) &&
+            "start_date" in value &&
+            "end_date" in value
+        );
+    }
+
+    public static toDateRangeArray(value: InputValue): InputDateRangeArrayValueType {
+        if (Array.isArray(value)) {
+            return value as InputDateRangeArrayValueType;
+        }
+
+        if (InputUIActionHandler.isDateRangeObject(value)) {
+            return [value.start_date ?? null, value.end_date ?? null];
+        }
+
+        return [];
+    }
+
+    public static toDateRangeObject(value: InputValue): InputDateRangeValueType {
+        const [start_date = null, end_date = null] = InputUIActionHandler.toDateRangeArray(value);
+
+        return { start_date, end_date };
     }
 
     private transformValue = (value: any, input_type = this.props.type): InputValue => {
@@ -133,7 +163,11 @@ class InputUIActionHandler extends BaseActionHandler<
             const current_page = this.state_refs.current_page.value;
             const search_value = this.state_refs.search_value.value;
             const record_options = this.state_refs.record_options.value;
-            const params = { page: current_page, search: search_value };
+            const params = {
+                page: current_page,
+                search: search_value,
+                ...(this.props.action_props?.fetch_data_params ?? {})
+            };
             const { records, total_pages } = await fetch_data_method(params);
 
             this.setState("total_pages", total_pages);
@@ -143,8 +177,38 @@ class InputUIActionHandler extends BaseActionHandler<
         });
     };
 
+    private getStateInputValue = (input_value: InputValue): InputValue => {
+        if (this.props.type === "date_range") {
+            return InputUIActionHandler.toDateRangeArray(input_value);
+        }
+
+        return input_value;
+    };
+
+    private getActionInputValue = (input_value: InputValue): InputValue => {
+        if (this.props.type === "date_range") {
+            return InputUIActionHandler.toDateRangeObject(input_value);
+        }
+
+        return input_value;
+    };
+
+    private syncDateRangeState = (input_value: InputValue): void => {
+        const { start_date, end_date } = InputUIActionHandler.toDateRangeObject(input_value);
+
+        this.setState("start_date", start_date);
+        this.setState("end_date", end_date);
+    };
+
     private commitInputValue = async (event: Event | undefined, input_value: InputValue): Promise<void> => {
-        this.setState("input_value", input_value);
+        const state_input_value = this.getStateInputValue(input_value);
+        const action_input_value = this.getActionInputValue(state_input_value);
+
+        this.setState("input_value", state_input_value);
+
+        if (this.props.type === "date_range") {
+            this.syncDateRangeState(state_input_value);
+        }
 
         const { on_change } = this.props.action_props || {};
 
@@ -153,26 +217,22 @@ class InputUIActionHandler extends BaseActionHandler<
             return;
         }
 
-        const result = await this.invokeAction(on_change, event, input_value, { props: this.props });
+        const result = await this.invokeAction(on_change, event, action_input_value, { props: this.props });
 
         this.setErrorFromResult(result);
     };
 
-    public handleOnInputChange = async (event: Event): Promise<void> => {
+    public handleOnInputChange = async (payload?: Event | InputValue): Promise<void> => {
         if (this.props.boolean_props?.read_only) {
             return;
         }
 
-        await this.commitInputValue(event, this.resolveInputValue(event));
+        await this.commitInputValue(this.isEvent(payload) ? payload : undefined, this.resolveInputValue(payload));
     };
-
-    public handleOnInpuChange = this.handleOnInputChange;
 
     public handleOnFileInputChange = async (event: Event): Promise<void> => {
         await this.handleOnInputChange(event);
     };
-
-    public handleOnFileInpuChange = this.handleOnFileInputChange;
 
     public handleOnKeyup = async (event: KeyboardEvent): Promise<void> => {
         const { on_key_up } = this.props.action_props || {};
@@ -204,16 +264,23 @@ class InputUIActionHandler extends BaseActionHandler<
 
     public handleOnClick = async (event: MouseEvent): Promise<void> => {
         const { on_click } = this.props.action_props || {};
-        const new_value = this.resolveInputValue(event);
+        const new_value =
+            this.props.type === "date_range"
+                ? this.getStateInputValue(this.state_refs.input_value.value)
+                : this.resolveInputValue(event);
+        const action_input_value = this.getActionInputValue(new_value);
         const current_value = InputTransformerUtil.resolveTypedValue(this.state_refs.input_value.value);
 
         if (!on_click) {
-            this.setState("input_value", new_value);
+            if (this.props.type !== "date_range") {
+                this.setState("input_value", new_value);
+            }
+
             return;
         }
 
         await this.runWithLoading("is_loading", async () => {
-            const result = await this.invokeAction(on_click, event, new_value, { props: this.props });
+            const result = await this.invokeAction(on_click, event, action_input_value, { props: this.props });
 
             if (result && !result.status && result.msg) {
                 this.setState("input_value", current_value as InputValue);

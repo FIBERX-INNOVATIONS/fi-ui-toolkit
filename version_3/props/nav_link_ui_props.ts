@@ -13,7 +13,7 @@ import { SVGIconKey } from "../resources/svg_icon_resource";
 const NavLinkUIProps = {
     id: {
         type: String,
-        required: true
+        required: false
     },
 
     link: {
@@ -49,6 +49,26 @@ const NavLinkUIProps = {
     has_permission: {
         type: Boolean,
         default: true
+    },
+
+    children: {
+        type: Array as PropType<NavLinkUIPropsInterface[]>,
+        default: () => []
+    },
+
+    children_caret_icon: {
+        type: String as PropType<SVGIconKey | string>,
+        default: ""
+    },
+
+    is_children_open: {
+        type: Boolean,
+        default: false
+    },
+
+    on_children_toggle: {
+        type: Function as PropType<(event?: MouseEvent) => void>,
+        default: undefined
     },
 
     class_styles: {

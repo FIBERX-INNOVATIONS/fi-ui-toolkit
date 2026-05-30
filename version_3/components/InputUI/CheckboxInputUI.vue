@@ -9,7 +9,7 @@
             :checked="!!input_value"
             :required="boolean_props.required"
             :readonly="boolean_props.read_only"
-            @change="action_handler?.handleOnInpuChange?.($event)"
+            @change="action_handler?.handleOnInputChange?.($event)"
             @click="action_handler?.handleOnClick?.($event)"
         />
 

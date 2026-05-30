@@ -4,7 +4,7 @@ import ScreenLoaderUIClassStyles from "../class_styles/screen_loader_ui_class_st
 
 import {
     LoaderSymbolInterface,
-    ScreenLoaderClassStylesInterface,
+    ScreenLoaderUIClassStylesInterface,
     ScreenLoaderUIPropsInterface
 } from "../ui_types/screen_loader_ui_type";
 
@@ -15,7 +15,7 @@ const ScreenLoaderUIProps = {
     },
 
     class_styles: {
-        type: Object as PropType<ScreenLoaderClassStylesInterface>,
+        type: Object as PropType<ScreenLoaderUIClassStylesInterface>,
         default: () => ScreenLoaderUIClassStyles
     },
 

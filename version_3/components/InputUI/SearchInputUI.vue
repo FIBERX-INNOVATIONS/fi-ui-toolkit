@@ -19,7 +19,7 @@
                 :required="boolean_props.required"
                 :readonly="boolean_props.read_only"
                 :disabled="boolean_props.disabled"
-                @input="action_handler?.handleOnInpuChange?.($event)"
+                @input="action_handler?.handleOnInputChange?.($event)"
                 @keyup="action_handler?.handleOnKeyup?.($event)"
                 @keydown="action_handler?.handleOnKeydown?.($event)"
             />

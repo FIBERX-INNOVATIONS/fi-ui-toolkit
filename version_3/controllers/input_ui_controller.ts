@@ -1,6 +1,6 @@
-import InputUIActionHandler from "../action_handlers/input_ui_action_handler";
+import "@vuepic/vue-datepicker/dist/main.css";
 
-import BaseController from "../base_classes/base_controller";
+import { VueDatePicker } from "@vuepic/vue-datepicker";
 
 import { ComputedDefinitionType, WatchersType } from "../types/base_type";
 
@@ -9,27 +9,43 @@ import {
     InputUIStateDataInterface,
     InputUIComputedDataInterface,
     InputUIComponentsInterface,
-    InputDateRangeValueType,
+    InputValue,
     SelectOptionInterface
 } from "../ui_types/input_ui_type";
 
-import TextInputUI from "../components/InputUI/TextInputUI.vue";
-import TextAreaInputUI from "../components/InputUI/TextAreaInputUI.vue";
-import CheckboxInputUI from "../components/InputUI/CheckboxInputUI.vue";
-import NumberInputUI from "../components/InputUI/NumberInputUI.vue";
-import SelectInputUI from "../components/InputUI/SelectInputUI.vue";
-import SelectSearchInputUI from "../components/InputUI/SelectSearchInputUI.vue";
-import SwitchInputUI from "../components/InputUI/SwitchInputUI.vue";
-import PhoneNumberInputUI from "../components/InputUI/PhoneNumberInputUI.vue";
-import OtpInputUI from "../components/InputUI/OtpInputUI.vue";
-import FileInputUI from "../components/InputUI/FileInputUI.vue";
-import SearchInputUI from "../components/InputUI/SearchInputUI.vue";
-import DateInputUI from "../components/InputUI/DateInputUI.vue";
-import DateRangeInputUI from "../components/InputUI/DateRangeInputUI.vue";
-import MultiSelectSearchInputUI from "../components/InputUI/MultiSelectSearchInputUI.vue";
+import BaseController from "../base_classes/base_controller";
 
-import { VueDatePicker } from "@vuepic/vue-datepicker";
-import "@vuepic/vue-datepicker/dist/main.css";
+import InputValidatorUtil from "../utils/input_validator_util";
+
+import InputUIActionHandler from "../action_handlers/input_ui_action_handler";
+
+import OtpInputUI from "../components/InputUI/OtpInputUI.vue";
+
+import TextInputUI from "../components/InputUI/TextInputUI.vue";
+
+import FileInputUI from "../components/InputUI/FileInputUI.vue";
+
+import DateInputUI from "../components/InputUI/DateInputUI.vue";
+
+import SearchInputUI from "../components/InputUI/SearchInputUI.vue";
+
+import NumberInputUI from "../components/InputUI/NumberInputUI.vue";
+
+import SelectInputUI from "../components/InputUI/SelectInputUI.vue";
+
+import SwitchInputUI from "../components/InputUI/SwitchInputUI.vue";
+
+import TextAreaInputUI from "../components/InputUI/TextAreaInputUI.vue";
+
+import CheckboxInputUI from "../components/InputUI/CheckboxInputUI.vue";
+
+import DateRangeInputUI from "../components/InputUI/DateRangeInputUI.vue";
+
+import PhoneNumberInputUI from "../components/InputUI/PhoneNumberInputUI.vue";
+
+import SelectSearchInputUI from "../components/InputUI/SelectSearchInputUI.vue";
+
+import MultiSelectSearchInputUI from "../components/InputUI/MultiSelectSearchInputUI.vue";
 
 class InputUIController extends BaseController<
     InputUIPropsInterface,
@@ -65,14 +81,17 @@ class InputUIController extends BaseController<
     }
 
     protected getUIStateData(): InputUIStateDataInterface {
+        const input_value = this.resolveModelValue(this.props.model_value ?? null, "");
+        const { start_date, end_date } = InputUIActionHandler.toDateRangeObject(input_value);
+
         return {
-            input_value: this.props.model_value ?? "",
+            input_value,
 
-            str_input_value: this.props.model_value?.toString() ?? "",
+            str_input_value: input_value?.toString() ?? "",
 
-            start_date: (this.props.model_value as InputDateRangeValueType)?.start_date ?? "",
+            start_date,
 
-            end_date: (this.props.model_value as InputDateRangeValueType)?.end_date ?? "",
+            end_date,
 
             selected_text: this.props.selected_text_prefix
                 ? `${this.props.selected_text_prefix ?? ""}: ${this.props.model_value ?? ""}`
@@ -148,10 +167,31 @@ class InputUIController extends BaseController<
         };
     }
 
+    private resolveModelValue(model_value: InputValue, fallback_value: InputValue): InputValue {
+        if (this.props.type === "date_range") {
+            return InputUIActionHandler.toDateRangeArray(model_value);
+        }
+
+        return model_value ?? fallback_value;
+    }
+
     protected getUIWatchers(): WatchersType<InputUIPropsInterface, InputUIStateDataInterface> {
         return {
             model_value: (new_val) => {
-                this.state_refs.input_value.value = new_val ?? null;
+                const input_value = this.resolveModelValue(new_val ?? null, null);
+
+                this.state_refs.input_value.value = input_value;
+
+                if (this.props.type === "date_range") {
+                    const { start_date, end_date } = InputUIActionHandler.toDateRangeObject(input_value);
+
+                    this.state_refs.start_date.value = start_date;
+                    this.state_refs.end_date.value = end_date;
+                }
+
+                if (InputValidatorUtil.isEmpty(new_val)) {
+                    this.state_refs.search_value.value = null;
+                }
             },
 
             route: (new_val) => {
