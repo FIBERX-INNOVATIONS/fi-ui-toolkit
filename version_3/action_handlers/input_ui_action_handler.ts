@@ -138,14 +138,6 @@ class InputUIActionHandler extends BaseActionHandler<
         const contains_target =
             dropdown_wrapper?.contains(event.target as Node) || dropdown_el?.contains(event.target as Node);
 
-        console.log({
-            select_search_id,
-            dropdown_wrapper,
-            dropdown_el,
-            target: event.target,
-            contains_wrapper: dropdown_wrapper?.contains(event.target as Node),
-            contains_dropdown: dropdown_el?.contains(event.target as Node)
-        });
         if ((dropdown_wrapper || dropdown_el) && !contains_target) {
             console.log("Clicked outside, closing dropdown");
             this.setState("is_dropdown_open", false);
