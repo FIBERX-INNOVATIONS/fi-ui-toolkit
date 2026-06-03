@@ -32,6 +32,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useRoute } from "vue-router";
 import DropdownMenuUIProps from "../props/dropdown_menu_ui_props";
 import DropdownMenuUIController from "../controllers/dropdown_menu_ui_controller";
 import { NavLinkUIPropsInterface } from "../ui_types/nav_link_ui_type";
@@ -40,20 +41,40 @@ const props = defineProps(DropdownMenuUIProps);
 
 const controller = new DropdownMenuUIController(props);
 
+const route = useRoute();
+
 const open_child_menus = ref<Record<string, boolean>>({});
 
 const menuItemKey = (item: NavLinkUIPropsInterface, index: number): string => {
     return item.id ?? `${index}`;
 };
 
+const isRouteLinkActive = (link?: string): boolean => {
+    if (!link || !link.startsWith("/")) {
+        return false;
+    }
+
+    return route.path === link;
+};
+
+const hasActiveChildMenu = (item: NavLinkUIPropsInterface): boolean => {
+    if (!item.children?.length) {
+        return false;
+    }
+
+    return item.children.some((child) => isRouteLinkActive(child.link) || hasActiveChildMenu(child));
+};
+
 const isChildMenuOpen = (item: NavLinkUIPropsInterface, index: number): boolean => {
-    return !!open_child_menus.value[menuItemKey(item, index)];
+    const key = menuItemKey(item, index);
+
+    return open_child_menus.value[key] ?? hasActiveChildMenu(item);
 };
 
 const toggleChildMenu = (item: NavLinkUIPropsInterface, index: number): void => {
     const key = menuItemKey(item, index);
 
-    open_child_menus.value[key] = !open_child_menus.value[key];
+    open_child_menus.value[key] = !isChildMenuOpen(item, index);
 };
 
 const { id, class_styles } = props;

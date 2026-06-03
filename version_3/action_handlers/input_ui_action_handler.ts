@@ -130,13 +130,24 @@ class InputUIActionHandler extends BaseActionHandler<
 
     private handleOutsideClick = (event: MouseEvent): void => {
         const input_id = this.props.id;
+        const select_search_id = `${input_id?.toLowerCase()}_select_search`;
         const dropdown_id = `${input_id?.toLowerCase()}_select_search_dropdown`;
+        const select_search_el = document.getElementById(select_search_id);
         const dropdown_el = document.getElementById(dropdown_id);
-        const dropdown_wrapper = dropdown_el?.closest(".relative");
+        const dropdown_wrapper = select_search_el?.parentElement;
         const contains_target =
             dropdown_wrapper?.contains(event.target as Node) || dropdown_el?.contains(event.target as Node);
 
-        if (dropdown_wrapper && !contains_target) {
+        console.log({
+            select_search_id,
+            dropdown_wrapper,
+            dropdown_el,
+            target: event.target,
+            contains_wrapper: dropdown_wrapper?.contains(event.target as Node),
+            contains_dropdown: dropdown_el?.contains(event.target as Node)
+        });
+        if ((dropdown_wrapper || dropdown_el) && !contains_target) {
+            console.log("Clicked outside, closing dropdown");
             this.setState("is_dropdown_open", false);
             this.setState("is_multi_search_dropdown_open", false);
             document.removeEventListener("click", this.handleOutsideClick);
@@ -316,7 +327,7 @@ class InputUIActionHandler extends BaseActionHandler<
     };
 
     public toggleDropdown = (is_open_value: boolean): void => {
-        if (this.props.boolean_props?.read_only) {
+        if (this.props.boolean_props?.read_only || this.props.boolean_props?.disabled) {
             return;
         }
 
@@ -343,7 +354,7 @@ class InputUIActionHandler extends BaseActionHandler<
         }
 
         const search_value = this.resolveInputValue(event) as string | null;
-        const is_dropdown_open = !!search_value?.length;
+        const is_dropdown_open = true;
 
         this.setState("search_value", search_value);
         this.setState("current_page", 1);
@@ -377,6 +388,7 @@ class InputUIActionHandler extends BaseActionHandler<
         this.setState("is_dropdown_open", false);
         this.setState("search_value", option.label_text);
         this.setState("selected_text", selected_text);
+        document.removeEventListener("click", this.handleOutsideClick);
 
         await this.commitInputValue(event, option.value);
     };

@@ -6,7 +6,7 @@
                 :name="`${id?.toLowerCase()}_select_search`"
                 type="text"
                 :class="input_class_style"
-                v-model="search_value"
+                v-model="state_refs.search_value.value"
                 :placeholder="placeholder_text"
                 :required="boolean_props.required"
                 :readonly="boolean_props.read_only"
@@ -17,11 +17,12 @@
             <span
                 :class="class_styles.caret_icon_class"
                 v-html="content_props.caret_html_contewnt"
-                @click="action_handler?.toggleDropdown(!is_dropdown_open)"
+                @mousedown.prevent.stop
+                @click.stop="action_handler?.toggleDropdown(!state_refs.is_dropdown_open.value)"
             ></span>
 
             <div
-                v-show="is_dropdown_open"
+                v-show="state_refs.is_dropdown_open.value"
                 :key="`${id?.toLowerCase()}_select_search_dropdown`"
                 :class="class_styles.dropdown_wrapper_class_style"
                 @scroll="action_handler?.handleDropdownScroll?.($event)"
@@ -30,7 +31,7 @@
                 <input
                     type="hidden"
                     class="hidden"
-                    v-model="input_value"
+                    v-model="state_refs.input_value.value"
                     :id="id"
                     :name="id"
                     @input="action_handler?.handleOnInputChange?.($event)"
@@ -54,14 +55,14 @@
 
                 <!-- No Results -->
                 <div
-                    v-else-if="!record_options.length && !is_loading"
+                    v-else-if="!state_refs.record_options.value?.length && !state_refs.is_loading.value"
                     :class="class_styles.options_wrapper_class_style"
                     v-html="content_props?.no_options_html_content"
                 ></div>
 
                 <!-- Loader -->
                 <div
-                    v-if="is_loading"
+                    v-if="state_refs.is_loading.value"
                     :class="class_styles.options_wrapper_class_style"
                     v-html="content_props?.loader_html_content"
                 ></div>
@@ -69,14 +70,18 @@
         </div>
 
         <span
-            v-if="selected_text_prefix && input_value"
+            v-if="selected_text_prefix && state_refs.input_value.value"
             :class="class_styles.selected_text_class_style"
             v-html="state_refs.selected_text.value"
         ></span>
 
         <span v-if="helper_text" :class="class_styles.helper_text_class_style" v-html="helper_text"></span>
 
-        <span v-if="error_text" :class="class_styles.error_text_class_style" v-html="error_text"></span>
+        <span
+            v-if="state_refs.error_text.value"
+            :class="class_styles.error_text_class_style"
+            v-html="state_refs.error_text.value"
+        ></span>
     </div>
 </template>
 
@@ -103,8 +108,6 @@ const {
 const { render_option_label } = action_props;
 
 const { state_refs, computed_refs, action_handler } = controller;
-
-const { input_value, search_value, error_text, is_dropdown_open, record_options, is_loading } = state_refs;
 
 const readonly_class_style = boolean_props.read_only ? class_styles.input_readonly_class_style : "";
 const input_class_style = [class_styles.input_class_style, readonly_class_style].join(" ");

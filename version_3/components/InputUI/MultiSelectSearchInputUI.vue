@@ -37,7 +37,8 @@
                 <span
                     :class="class_styles.caret_icon_class"
                     v-html="content_props.caret_html_contewnt"
-                    @click="action_handler?.toggleDropdown(!is_multi_search_dropdown_open)"
+                    @mousedown.prevent.stop
+                    @click.stop="action_handler?.toggleDropdown(!is_multi_search_dropdown_open)"
                 ></span>
             </div>
 
