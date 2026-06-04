@@ -22,12 +22,8 @@
             "./node_modules/@types",
             "./src/version_3/types"
         ],
-        "baseUrl": ".",
-        "paths": {
-            "@v2/*": ["src/version_2/*"]
-        },
-        "experimentalDecorators": true,
-        "ignoreDeprecations": "6.0"
+        "paths": {},
+        "experimentalDecorators": true
     },
     "include": [
         "src/**/*.vue",

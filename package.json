@@ -31,25 +31,24 @@
         "dayjs": "^1.11.21",
         "mitt": "^3.0.1",
         "qrcode": "^1.5.4",
-        "vue-router": "^4.6.4",
+        "vue-router": "^5.1.0",
         "vue3-tel-input": "^1.0.4"
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
         "@types/node": "^25.9.1",
-        "@types/qrcode": "^1.5.6",
         "eslint": "^10.4.1",
         "eslint-plugin-vue": "^10.9.2",
         "lint-staged": "^17.0.7",
         "prettier": "^3.8.3",
         "typescript": "^6.0.3",
         "typescript-eslint": "^8.60.1",
-        "vite": "^7.3.5",
+        "vite": "^8.0.16",
         "vue-eslint-parser": "^10.4.1",
         "vue-tsc": "^3.3.3"
     },
     "peerDependencies": {
-        "vue": "^3.5.17"
+        "vue": "^3.5.35"
     },
     "overrides": {
         "postcss": "^8.5.10"
@@ -60,5 +59,10 @@
             "eslint --fix"
         ],
         "src/**/*.{json,md,css}": "prettier --write"
+    },
+    "allowScripts": {
+        "core-js@3.49.0": true,
+        "fsevents@2.3.3": true,
+        "vue-demi@0.14.10": true
     }
 }
