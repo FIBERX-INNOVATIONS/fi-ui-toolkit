@@ -7,9 +7,9 @@ This guide collects the practical patterns for working with FI UI Toolkit v3 com
 Until the package has a stable root export, import the exact component, builder, type, or style object you need from `version_3`.
 
 ```ts
-import ButtonUI from "../version_3/components/ButtonUI.vue";
-import ButtonUIPropsBuilder from "../version_3/props_builder/button_ui_props_builder";
-import type { ButtonUIPropsInterface } from "../version_3/ui_types/button_ui_type";
+import ButtonUI from "../src/src/version_3/components/ButtonUI.vue";
+import ButtonUIPropsBuilder from "../src/src/version_3/props_builder/button_ui_props_builder";
+import type { ButtonUIPropsInterface } from "../src/src/version_3/ui_types/button_ui_type";
 ```
 
 ## Component Stack
@@ -31,7 +31,7 @@ When adding or fixing a component, check these files together. A bug in a compon
 Use props builders when a parent view needs to own and mutate component props.
 
 ```ts
-import ButtonUIPropsBuilder from "../version_3/props_builder/button_ui_props_builder";
+import ButtonUIPropsBuilder from "../src/src/version_3/props_builder/button_ui_props_builder";
 
 const submit_button_props = ButtonUIPropsBuilder.getReactivePropsObject("submit_btn", "", undefined, "submit", {
     content_props: {
@@ -61,7 +61,7 @@ ButtonUIPropsBuilder.setDisabled(submit_button_props, true);
 For inputs:
 
 ```ts
-import InputUIPropsBuilder from "../version_3/props_builder/input_ui_props_builder";
+import InputUIPropsBuilder from "../src/src/version_3/props_builder/input_ui_props_builder";
 
 const search_props = InputUIPropsBuilder.getReactivePropsObject("search", "search", undefined, {
     placeholder_text: "Search records"
@@ -134,8 +134,8 @@ Use this sparingly. In most cases, mutate dynamic props and leave configured sty
 </template>
 
 <script setup lang="ts">
-import ButtonUI from "../version_3/components/ButtonUI.vue";
-import ButtonUIPropsBuilder from "../version_3/props_builder/button_ui_props_builder";
+import ButtonUI from "../src/src/version_3/components/ButtonUI.vue";
+import ButtonUIPropsBuilder from "../src/src/version_3/props_builder/button_ui_props_builder";
 
 const delete_button_props = ButtonUIPropsBuilder.getReactivePropsObject("delete_btn", "", undefined, "button", {
     content_props: {
@@ -159,8 +159,8 @@ const delete_button_props = ButtonUIPropsBuilder.getReactivePropsObject("delete_
 </template>
 
 <script setup lang="ts">
-import BaseInputUI from "../version_3/components/InputUI/BaseInputUI.vue";
-import InputUIPropsBuilder from "../version_3/props_builder/input_ui_props_builder";
+import BaseInputUI from "../src/src/version_3/components/InputUI/BaseInputUI.vue";
+import InputUIPropsBuilder from "../src/src/version_3/props_builder/input_ui_props_builder";
 
 const name_input_props = InputUIPropsBuilder.getReactivePropsObject("full_name", "text", undefined, {
     placeholder_text: "Full name",
@@ -177,9 +177,9 @@ const name_input_props = InputUIPropsBuilder.getReactivePropsObject("full_name",
 ### Page Header
 
 ```ts
-import PageHeaderUIPropsBuilder from "../version_3/props_builder/page_header_ui_props_builder";
-import HeaderTextUIPropsBuilder from "../version_3/props_builder/header_text_ui_props_builder";
-import ButtonUIPropsBuilder from "../version_3/props_builder/button_ui_props_builder";
+import PageHeaderUIPropsBuilder from "../src/src/version_3/props_builder/page_header_ui_props_builder";
+import HeaderTextUIPropsBuilder from "../src/src/version_3/props_builder/header_text_ui_props_builder";
+import ButtonUIPropsBuilder from "../src/src/version_3/props_builder/button_ui_props_builder";
 
 const header_props = HeaderTextUIPropsBuilder.getReactivePropsObject("h1", "content_resource.pages.dashboard.title");
 
@@ -199,7 +199,7 @@ const page_header_props = PageHeaderUIPropsBuilder.getReactivePropsObject(
 ### Pagination
 
 ```ts
-import PaginationUIPropsBuilder from "../version_3/props_builder/pagination_ui_props_builder";
+import PaginationUIPropsBuilder from "../src/src/version_3/props_builder/pagination_ui_props_builder";
 
 const pagination_props = PaginationUIPropsBuilder.getReactivePropsObject("users_pagination", {
     current_page: 1,
@@ -214,7 +214,7 @@ PaginationUIPropsBuilder.updateFlatProps(pagination_props, {
 ### Toaster
 
 ```ts
-import ToasterUIPropsBuilder from "../version_3/props_builder/toaster_ui_props_builder";
+import ToasterUIPropsBuilder from "../src/src/version_3/props_builder/toaster_ui_props_builder";
 
 const toast_props = ToasterUIPropsBuilder.getReactivePropsObject("", "info");
 
@@ -226,7 +226,7 @@ ToasterUIPropsBuilder.updateMessage(toast_props, "Saved successfully", "success"
 Some builders resolve text from content keys. Load your content object once at application startup.
 
 ```ts
-import ContentManagerUtil from "../version_3/utils/content_manager_util";
+import ContentManagerUtil from "../src/src/version_3/utils/content_manager_util";
 
 const content_manager = ContentManagerUtil.getInstance();
 
@@ -281,10 +281,10 @@ Return `{ status, msg }` when the component should receive a success/failure res
 
 ## Styling
 
-Default styles live in `version_3/class_styles`.
+Default styles live in `src/version_3/class_styles`.
 
 ```ts
-import ButtonUIClassStyles from "../version_3/class_styles/button_ui_class_styles";
+import ButtonUIClassStyles from "../src/src/version_3/class_styles/button_ui_class_styles";
 
 const button_props = ButtonUIPropsBuilder.getReactivePropsObject("secondary_btn", "", undefined, "button", {
     class_styles: {
@@ -322,5 +322,5 @@ npm run lint
 ## Current Caveats
 
 - The repository does not currently expose a stable package entrypoint, so source-path imports are the reliable option.
-- `version_3/props_builder` is used by ESLint and formatting, but the current TypeScript project config excludes that directory from `vue-tsc`.
+- `src/version_3/props_builder` is used by ESLint and formatting, but the current TypeScript project config excludes that directory from `vue-tsc`.
 - Some older `version_2` utilities still exist for compatibility or migration reference.

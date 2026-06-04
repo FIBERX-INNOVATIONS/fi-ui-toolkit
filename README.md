@@ -7,18 +7,18 @@ The current active implementation lives in `version_3`. It is organized around s
 ## What Is Included
 
 - Vue 3 components for buttons, inputs, overlays, modals, navigation, tables, pagination, alerts, loaders, page headers, and layout sections.
-- TypeScript interfaces in `version_3/ui_types`.
-- Vue prop definitions in `version_3/props`.
-- Default Tailwind-oriented class styles in `version_3/class_styles`.
-- Controller classes in `version_3/controllers`.
-- Action handlers in `version_3/action_handlers`.
-- Reactive props builders in `version_3/props_builder`.
+- TypeScript interfaces in `src/version_3/ui_types`.
+- Vue prop definitions in `src/version_3/props`.
+- Default Tailwind-oriented class styles in `src/version_3/class_styles`.
+- Controller classes in `src/version_3/controllers`.
+- Action handlers in `src/version_3/action_handlers`.
+- Reactive props builders in `src/version_3/props_builder`.
 - Shared utilities for content, rendering HTML snippets, validation, storage, events, logging, API clients, and formatting.
 
 ## Project Shape
 
 ```text
-version_3/
+src/version_3/
   components/        Vue components and input variants
   props/             defineProps-compatible prop schemas
   props_builder/     helpers for building and updating reactive props
@@ -33,7 +33,7 @@ version_3/
 
 ## Using A Component
 
-Import components directly from `version_3/components` until a package entrypoint is added.
+Import components directly from `src/version_3/components` until a package entrypoint is added.
 
 ```vue
 <template>
@@ -41,8 +41,8 @@ Import components directly from `version_3/components` until a package entrypoin
 </template>
 
 <script setup lang="ts">
-import ButtonUI from "./version_3/components/ButtonUI.vue";
-import ButtonUIPropsBuilder from "./version_3/props_builder/button_ui_props_builder";
+import ButtonUI from "./src/src/version_3/components/ButtonUI.vue";
+import ButtonUIPropsBuilder from "./src/src/version_3/props_builder/button_ui_props_builder";
 
 const save_button_props = ButtonUIPropsBuilder.getReactivePropsObject("save_btn", "", undefined, "button", {
     content_props: {
@@ -69,7 +69,7 @@ ButtonUIPropsBuilder.setDisabled(save_button_props, true);
 For inputs:
 
 ```ts
-import InputUIPropsBuilder from "./version_3/props_builder/input_ui_props_builder";
+import InputUIPropsBuilder from "./src/src/version_3/props_builder/input_ui_props_builder";
 
 const email_input_props = InputUIPropsBuilder.getReactivePropsObject("email", "email", undefined, {
     placeholder_text: "Email address"
@@ -106,10 +106,10 @@ ButtonUIPropsBuilder.updateProps(save_button_props, { class_styles: custom_butto
 
 ## Styling
 
-Most components accept a `class_styles` object. Each component also has a default class style file in `version_3/class_styles`.
+Most components accept a `class_styles` object. Each component also has a default class style file in `src/version_3/class_styles`.
 
 ```ts
-import ButtonUIClassStyles from "./version_3/class_styles/button_ui_class_styles";
+import ButtonUIClassStyles from "./src/src/version_3/class_styles/button_ui_class_styles";
 
 const button_props = ButtonUIPropsBuilder.getReactivePropsObject("primary_btn", "", undefined, "button", {
     content_props: {
@@ -127,7 +127,7 @@ const button_props = ButtonUIPropsBuilder.getReactivePropsObject("primary_btn", 
 Some builders can read copy from `ContentManagerUtil`. Load content once, then pass content keys into builders that support them.
 
 ```ts
-import ContentManagerUtil from "./version_3/utils/content_manager_util";
+import ContentManagerUtil from "./src/src/version_3/utils/content_manager_util";
 
 const content_manager = ContentManagerUtil.getInstance();
 
