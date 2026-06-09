@@ -58,14 +58,17 @@ class BaseActionHandler<
 
         const current_value = state_red.value;
 
-        const isObject = (v: unknown): v is Record<string, unknown> =>
-            v !== null && typeof v === "object" && !Array.isArray(v);
+        const isPlainObject = (v: unknown): v is Record<string, unknown> => {
+            return v !== null && typeof v === "object" && !Array.isArray(v) && !(v instanceof Date);
+        };
 
-        if (isObject(current_value) && isObject(value)) {
+        if (isPlainObject(current_value) && isPlainObject(value)) {
             state_red.value = {
                 ...current_value,
                 ...value
             } as State[K];
+
+            return;
         } else {
             state_red.value = value;
         }

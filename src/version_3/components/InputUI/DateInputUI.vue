@@ -9,9 +9,11 @@
             :required="boolean_props.required"
             :readonly="boolean_props.read_only"
             :disabled="boolean_props.disabled"
-            @input="action_handler?.handleOnInputChange?.($event)"
+            @update:model-value="action_handler?.handleOnInputChange?.($event)"
             @click="action_handler?.handleOnClick?.($event)"
         />
+
+        <!-- @internal-model-change="action_handler?.handleOnInputChange?.($event)" -->
 
         <span v-if="helper_text" :class="class_styles.helper_text_class_style" v-html="helper_text"></span>
 
@@ -37,3 +39,9 @@ const { input_value, error_text } = state_refs;
 const readonly_class_style = boolean_props.read_only ? class_styles.input_readonly_class_style : "";
 const input_class_style = [class_styles.input_class_style, readonly_class_style].join(" ");
 </script>
+
+<style scoped>
+.dp--main.dp--theme-light {
+    width: 100%;
+}
+</style>

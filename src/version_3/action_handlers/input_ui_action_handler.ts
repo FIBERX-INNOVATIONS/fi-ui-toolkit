@@ -252,7 +252,9 @@ class InputUIActionHandler extends BaseActionHandler<
     public handleOnKeydown = async (event: KeyboardEvent): Promise<void> => {
         const input_value = this.resolveInputValue(event);
 
-        this.setState("input_value", input_value);
+        if (input_value) {
+            this.setState("input_value", input_value);
+        }
 
         const { on_key_down } = this.props.action_props || {};
 
@@ -275,7 +277,7 @@ class InputUIActionHandler extends BaseActionHandler<
         const current_value = InputTransformerUtil.resolveTypedValue(this.state_refs.input_value.value);
 
         if (!on_click) {
-            if (this.props.type !== "date_range") {
+            if (this.props.type !== "date_range" && new_value) {
                 this.setState("input_value", new_value);
             }
 
