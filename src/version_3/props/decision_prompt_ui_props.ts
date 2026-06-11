@@ -6,6 +6,7 @@ import {
     DecisionPromptUIPropsInterface,
     DecisionPromptUIClassStylesInterface,
     DecisionPromptUIContentPropsInterface,
+    DecisionPromptUIBooleanPropsInterface,
     DecisionPromptUIActionPropsInterface
 } from "../ui_types/decision_prompt_ui_type";
 
@@ -24,6 +25,11 @@ const DecisionPromptUIProps = {
 
     cancel_button_props: {
         type: Object as PropType<ButtonUIPropsInterface>,
+        default: () => ({})
+    },
+
+    boolean_props: {
+        type: Object as PropType<DecisionPromptUIBooleanPropsInterface>,
         default: () => ({})
     },
 

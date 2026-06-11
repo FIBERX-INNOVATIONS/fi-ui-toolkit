@@ -310,7 +310,7 @@ class InputUIActionHandler extends BaseActionHandler<
         await this.runWithLoading("is_loading", async () => {
             const result = await this.invokeAction(on_click, event, new_value, { props: this.props });
 
-            if (result && !result.status && result.msg) {
+            if (result && !result.status) {
                 this.setErrorFromResult(result);
                 return;
             }
