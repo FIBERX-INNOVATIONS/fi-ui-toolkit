@@ -1,6 +1,7 @@
 <template>
     <div :class="class_styles?.wrapper_class_style">
         <a
+            v-if="computed_refs?.link_url?.value"
             :href="computed_refs?.link_url?.value"
             :target="column?.props?.link_target"
             :class="class_styles?.url_link_class_style?.wrapper_class_style"
@@ -23,6 +24,11 @@
                 v-html="computed_refs?.link_text?.value"
             ></span>
         </a>
+        <span
+            v-else
+            :class="class_styles?.url_link_class_style?.text_class_style"
+            v-html="computed_refs?.link_text?.value"
+        ></span>
     </div>
 </template>
 
