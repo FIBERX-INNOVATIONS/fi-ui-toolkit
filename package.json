@@ -23,7 +23,8 @@
         "prepare": "git config core.hooksPath .githooks",
         "test": "echo \"Error: no test specified\" && exit 1",
         "typecheck": "vue-tsc --noEmit",
-        "update-dependencies": "node scripts/update-dependencies.js"
+        "update-dependencies": "node scripts/update-dependencies.js",
+        "update-country-data": "node scripts/update-country-data.js"
     },
     "dependencies": {
         "@vuepic/vue-datepicker": "^14.0.0",
