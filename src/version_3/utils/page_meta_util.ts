@@ -1,34 +1,15 @@
-import type { RouteLocationNormalizedLoaded, RouteMeta, Router } from "vue-router";
+import type { RouteLocationNormalizedLoaded, Router } from "vue-router";
 
-import ContentManagerUtil from "./content_manager_util";
+import {
+    ResolvedPageMetaInterface,
+    RoutePageMetaInterface,
+    PageMetaUtilConfigInterface,
+    MetaValueType
+} from "../types/util_type";
+
 import LoggerUtil from "./logger_util";
 
-type MetaValueType = string | null | undefined;
-
-export interface PageMetaUtilConfigInterface {
-    app_name?: string;
-    default_title?: string;
-    default_description?: string;
-    title_template?: string;
-    content_root_key?: string;
-    title_suffix_separator?: string;
-    update_open_graph?: boolean;
-    update_twitter?: boolean;
-}
-
-interface RoutePageMetaInterface extends RouteMeta {
-    page_meta_key?: MetaValueType;
-    meta_key?: MetaValueType;
-    title_key?: MetaValueType;
-    description_key?: MetaValueType;
-    title_content_key?: MetaValueType;
-    description_content_key?: MetaValueType;
-}
-
-interface ResolvedPageMetaInterface {
-    title: string;
-    description: string;
-}
+import ContentManagerUtil from "./content_manager_util";
 
 class PageMetaUtil {
     public readonly name = "page_meta_util";
@@ -77,7 +58,7 @@ class PageMetaUtil {
             route_meta.title_content_key,
             route_meta.title_key,
             page_meta_key,
-            "title",
+            "title_text",
             resolved_config
         );
 
@@ -85,7 +66,7 @@ class PageMetaUtil {
             route_meta.description_content_key,
             route_meta.description_key,
             page_meta_key,
-            "description",
+            "description_text",
             resolved_config
         );
 
@@ -110,8 +91,8 @@ class PageMetaUtil {
         }
 
         return {
-            title: formatted_title,
-            description
+            title_text: formatted_title,
+            description_text: description
         };
     }
 
@@ -126,7 +107,7 @@ class PageMetaUtil {
         explicit_key: MetaValueType,
         direct_key: MetaValueType,
         page_meta_key: MetaValueType,
-        field_key: "title" | "description",
+        field_key: "title_text" | "description_text",
         config: Required<PageMetaUtilConfigInterface>
     ): string | null {
         if (explicit_key) {

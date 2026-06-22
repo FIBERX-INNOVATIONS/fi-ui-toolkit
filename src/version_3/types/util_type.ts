@@ -2,6 +2,8 @@ import { SVGIconKey } from "../resources/svg_icon_resource";
 
 import axios, { AxiosResponse } from "axios";
 
+import type { RouteMeta } from "vue-router";
+
 export type SVGIconName = SVGIconKey;
 
 export type LoggerType = "log" | "info" | "warn" | "error" | "debug";
@@ -102,3 +104,30 @@ export type StorageFieldType<T> = {
 };
 
 export type StorageSchemaType = Record<string, StorageFieldType<any>>;
+
+export type MetaValueType = string | null | undefined;
+
+export interface PageMetaUtilConfigInterface {
+    app_name?: string;
+    default_title?: string;
+    default_description?: string;
+    title_template?: string;
+    content_root_key?: string;
+    title_suffix_separator?: string;
+    update_open_graph?: boolean;
+    update_twitter?: boolean;
+}
+
+export interface RoutePageMetaInterface extends RouteMeta {
+    page_meta_key?: MetaValueType;
+    meta_key?: MetaValueType;
+    title_key?: MetaValueType;
+    description_key?: MetaValueType;
+    title_content_key?: MetaValueType;
+    description_content_key?: MetaValueType;
+}
+
+export interface ResolvedPageMetaInterface {
+    title_text: string;
+    description_text: string;
+}
