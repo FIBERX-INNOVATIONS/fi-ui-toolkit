@@ -29,7 +29,7 @@ class RenderHtmlUtil {
         element = "span",
         order = "icon-first",
         icon_class_style = "w-8 h-8 flex items-center mr-2",
-        class_style = "flex items-center",
+        class_style = "flex items-center w-full h-full",
         href = "#"
     }: RenderHtmlOptionsInterface): string {
         const icon_html = this.buildIconHtml(icon, icon_class_style);
