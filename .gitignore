@@ -34,3 +34,5 @@ coverage
 docs/*
 !docs/useful.md
 !docs/component_creation_guide.md
+
+!docs/deposit_flow.md

@@ -3,6 +3,16 @@ import { SVGIconKey, SVGIcons } from "../resources/svg_icon_resource";
 import { RenderHtmlOptionsInterface, LoadingHtmlOptions, TitleAndSubTitleHTMLInterface } from "../types/util_type";
 
 class RenderHtmlUtil {
+    // Method to escape untrusted text before inserting it into HTML content props.
+    public static escapeHtml(value: string): string {
+        return value
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+    }
+
     /* ---------------------------------- */
     /* Private Helpers                    */
     /* ---------------------------------- */

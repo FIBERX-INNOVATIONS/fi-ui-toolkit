@@ -80,6 +80,7 @@ class InputUIController extends BaseController<
         } as InputUIComponentsInterface;
     }
 
+    // Method to initialize input state and the visible label for a preselected searchable option.
     protected getUIStateData(): InputUIStateDataInterface {
         const input_value = this.resolveModelValue(this.props.model_value ?? null, "");
         const { start_date, end_date } = InputUIActionHandler.toDateRangeObject(input_value);
@@ -107,7 +108,12 @@ class InputUIController extends BaseController<
 
             record_options: [],
 
-            search_value: null,
+            search_value:
+                this.props.type === "select_search" && input_value
+                    ? (this.props.option_props?.find((option) => {
+                          return String(option.value) === String(input_value);
+                      })?.label_text ?? String(input_value))
+                    : null,
 
             current_page: 1,
 
