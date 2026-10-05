@@ -18,6 +18,7 @@ export interface PaymentStepContentInterface {
     amount_label_text: string;
     description_label_text: string;
     next_btn_text: string;
+    confirm_btn_text: string;
     back_btn_text: string;
     empty_text: string;
     invalid_text: string;
@@ -36,6 +37,7 @@ export interface PaymentStepClassStylesInterface {
     flow_wrapper: string;
     title: string;
     subtitle: string;
+    loading_text: string;
     field: string;
     label: string;
     error: string;
@@ -70,6 +72,7 @@ export interface PaymentStepUIPropsInterface {
     action_props: {
         on_details?: (details: DepositDetailsInterface) => Promise<void>;
         on_select?: (id: string) => Promise<void>;
+        on_confirm?: () => Promise<void>;
         on_back?: () => void;
     };
 }
@@ -89,6 +92,7 @@ export interface PaymentStepComputedInterface {
     description_input: InputUIPropsInterface;
     next_button: ButtonUIPropsInterface;
     back_button: ButtonUIPropsInterface;
+    confirm_button: ButtonUIPropsInterface;
     review_rows: { label_text: string; value_text: string }[];
 }
 

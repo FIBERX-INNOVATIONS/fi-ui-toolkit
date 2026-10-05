@@ -1,8 +1,8 @@
 <template>
-    <div :class="props.class_styles.flow_wrapper" :aria-busy="is_loading">
+    <div :key="step" :class="props.class_styles.flow_wrapper" :aria-busy="is_loading">
         <p v-if="error_text" :class="props.class_styles.error" role="alert">{{ error_text }}</p>
 
-        <p v-if="is_loading" :class="props.class_styles.subtitle" role="status">
+        <p v-if="is_loading" :class="props.class_styles.loading_text" role="status">
             {{ props.content_props.loading_text }}
         </p>
 
@@ -26,6 +26,12 @@
                 :key="DepositFlowUISteps.REVIEW_STEP"
                 v-bind="step_props"
             />
+
+            <PaymentCheckoutUI
+                v-else-if="step === DepositFlowUISteps.CHECKOUT_STEP"
+                :key="DepositFlowUISteps.CHECKOUT_STEP"
+                v-bind="checkout_props"
+            />
         </template>
     </div>
 </template>
@@ -44,7 +50,7 @@ const { state_refs, computed_refs, components } = controller.getComponentDefinit
 
 const { step, is_loading, is_ready, error_text } = state_refs;
 
-const { step_props, retry_button } = computed_refs;
+const { step_props, checkout_props, retry_button } = computed_refs;
 
-const { ButtonUI, DepositDetailsUI, PaymentOptionPickerUI, TransactionIntentReviewUI } = components;
+const { ButtonUI, DepositDetailsUI, PaymentOptionPickerUI, TransactionIntentReviewUI, PaymentCheckoutUI } = components;
 </script>

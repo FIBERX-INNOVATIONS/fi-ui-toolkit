@@ -14,6 +14,7 @@ class PaymentStepUIPropsBuilder extends BasePropSchema<PaymentStepUIPropsInterfa
                 amount_label_text: "",
                 description_label_text: "",
                 next_btn_text: "",
+                confirm_btn_text: "",
                 back_btn_text: "",
                 empty_text: "",
                 invalid_text: "",

@@ -33,6 +33,7 @@ class DepositFlowUIPropsBuilder extends BasePropSchema<DepositFlowUIPropsInterfa
         const defaults = PaymentStepUIPropsBuilder.getDefaults();
         return this.createReactiveProps<DepositFlowUIPropsInterface>({
             ...defaults,
+            checkout_props: {},
             ...overrides,
             ...adapters,
             id,

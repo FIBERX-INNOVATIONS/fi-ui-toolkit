@@ -31,6 +31,13 @@ const DepositFlowUIProps = {
         required: true as const
     },
 
+    checkout_props: {
+        type: Object as PropType<DepositFlowUIPropsInterface["checkout_props"]>,
+        default: () => {
+            return {};
+        }
+    },
+
     storage: {
         type: Object as PropType<DepositFlowUIPropsInterface["storage"]>,
         required: true as const

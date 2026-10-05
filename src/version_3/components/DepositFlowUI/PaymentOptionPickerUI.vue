@@ -29,9 +29,9 @@
                     <span v-if="option.description" :class="props.class_styles.option_description">
                         {{ option.description }}
                     </span>
-                    <span v-if="option.fee_label_text" :class="props.class_styles.option_description">
+                    <!-- <span v-if="option.fee_label_text" :class="props.class_styles.option_description">
                         {{ option.fee_label_text }}
-                    </span>
+                    </span> -->
                 </span>
             </label>
         </fieldset>

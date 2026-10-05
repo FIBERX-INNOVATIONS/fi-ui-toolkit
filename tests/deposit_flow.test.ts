@@ -1,3 +1,4 @@
+import type { PaymentCheckoutTransactionInterface } from "../src/version_3/types/payment_checkout_type";
 import DepositIntentRejectedError from "../src/version_3/utils/deposit_intent_rejected_error";
 import assert from "node:assert/strict";
 import { test } from "node:test";
@@ -23,6 +24,7 @@ import type { StateRefsType } from "../src/version_3/types/base_type";
 function intent(context: DepositContextInterface): TransactionIntentInterface {
     return {
         public_id: "TEST-INTENT",
+        transaction_reference: "SERVER-REFERENCE",
         currency_code: context.currency_code,
         amount: context.amount,
         description: context.description,
@@ -38,6 +40,7 @@ function setup(overrides: Partial<DepositActionsInterface> = {}, initial_cache: 
     const contexts: DepositContextInterface[] = [];
     const props = {
         currencies: [{ code: "NGN", name: "Naira", precision: 2 }],
+        initial_values: { currency_code: "NGN", amount: "", description: "" },
         content_props: {
             request_error_text: "request failed",
             storage_error_text: "storage failed",
@@ -80,6 +83,7 @@ function setup(overrides: Partial<DepositActionsInterface> = {}, initial_cache: 
         provider_id: "",
         method_id: "",
         intent: null,
+        checkout: null,
         is_loading: false,
         is_ready: false,
         error_text: "",
@@ -142,7 +146,7 @@ test("edits update the original intent and unchanged review avoids another mutat
     await advance(flow, "20.00");
     assert.deepEqual(flow.getCounts(), { creates: 1, updates: 1 });
 });
-test("failed creates retry with the original reference and reject changed payloads", async () => {
+test("failed creates retain the original retry key when details are edited", async () => {
     const keys: string[] = [];
     const flow = setup({
         create_intent: async (_context, key) => {
@@ -155,8 +159,8 @@ test("failed creates retry with the original reference and reject changed payloa
     await flow.handler.selectMethod("method");
     assert.deepEqual(keys, ["stable-key", "stable-key"]);
     await advance(flow, "20.00");
-    assert.equal(keys.length, 2);
-    assert.equal(flow.state_refs.error_text.value, "update unavailable");
+    assert.deepEqual(keys, ["stable-key", "stable-key", "stable-key"]);
+    assert.equal(flow.state_refs.error_text.value, "request failed");
 });
 test("missing update callbacks never fall back to creating another intent", async () => {
     const flow = setup({ update_intent: undefined });
@@ -291,7 +295,7 @@ test("restored edit fields come from the server rather than an outdated cached s
     assert.equal(restored.state_refs.details.value.description, "Updated elsewhere");
 });
 
-test("definitive server rejection permits correction while uncertain failures remain frozen", async () => {
+test("definitive server rejection permits correction without saving form details", async () => {
     const submitted: string[] = [];
     const flow = setup({
         create_intent: async (context) => {
@@ -304,8 +308,286 @@ test("definitive server rejection permits correction while uncertain failures re
     });
     await flow.handler.initialize();
     await advance(flow);
-    assert.equal(flow.getSaved()?.submitted_context, undefined);
+    assert.equal(Object.hasOwn(flow.getSaved() ?? {}, "submitted_context"), false);
     await advance(flow, "20.00");
     assert.deepEqual(submitted, ["10.00", "20.00"]);
     assert.equal(flow.state_refs.step.value, "review");
+});
+
+test("only identifiers are persisted before and after edits", async () => {
+    const flow = setup();
+    await flow.handler.initialize();
+    await advance(flow);
+    await advance(flow, "20.00");
+
+    assert.deepEqual(flow.getSaved(), {
+        version: 1,
+        request_key: "stable-key",
+        intent_public_id: "TEST-INTENT",
+        transaction_reference: "SERVER-REFERENCE",
+        accounts: {}
+    });
+    assert.equal(flow.state_refs.details.value.amount, "20.00");
+});
+
+test("legacy form snapshots are removed and reopening edits the saved intent", async () => {
+    const legacy_cache = {
+        version: 1 as const,
+        request_key: "legacy-key",
+        intent_public_id: "TEST-INTENT",
+        accounts: {},
+        submitted_context: { currency_code: "OLD", amount: "99.00", description: "Do not retain" }
+    };
+    const flow = setup(
+        {
+            read_intent: async () => {
+                return intent({
+                    currency_code: "NGN",
+                    amount: "10.00",
+                    description: "Server value",
+                    provider_id: "provider",
+                    payment_method_id: "method"
+                });
+            }
+        },
+        legacy_cache
+    );
+
+    await flow.handler.initialize();
+    assert.deepEqual(flow.getSaved(), {
+        version: 1,
+        request_key: "legacy-key",
+        intent_public_id: "TEST-INTENT",
+        transaction_reference: "SERVER-REFERENCE",
+        accounts: {}
+    });
+    assert.equal(Object.hasOwn(flow.state_refs.cache.value, "submitted_context"), false);
+    assert.equal(flow.state_refs.details.value.description, "Server value");
+
+    flow.handler.back();
+    await advance(flow, "20.00");
+    assert.deepEqual(flow.getCounts(), { creates: 0, updates: 1 });
+});
+
+// Method to represent a pending hosted checkout returned by the backend.
+function checkout(
+    outcome: PaymentCheckoutTransactionInterface["outcome"] = "pending"
+): PaymentCheckoutTransactionInterface {
+    return {
+        public_id: "TEST-INTENT",
+        transaction_reference: "SERVER-REFERENCE",
+        status: outcome === "success" ? "successful" : "pending",
+        outcome,
+        next_action: { type: "redirect", url: "https://checkout.example.test/session", access_code: "ACCESS-CODE" }
+    };
+}
+
+test("confirmation initiates once, locks editing, and keeps checkout secrets out of storage", async () => {
+    let resolve!: (result: PaymentCheckoutTransactionInterface) => void;
+    let initiations = 0;
+    const flow = setup({
+        initiate_transaction: async (id) => {
+            assert.equal(id, "TEST-INTENT");
+            initiations++;
+            return new Promise((done) => {
+                resolve = done;
+            });
+        }
+    });
+    await flow.handler.initialize();
+    await advance(flow);
+    const pending = flow.handler.confirm();
+    await flow.handler.confirm();
+    flow.handler.back();
+    assert.equal(flow.state_refs.step.value, "checkout");
+    resolve(checkout());
+    await pending;
+    await advance(flow, "30.00");
+    await flow.handler.confirm();
+    assert.equal(initiations, 1);
+    assert.deepEqual(flow.getCounts(), { creates: 1, updates: 0 });
+    assert.equal(flow.state_refs.checkout.value?.next_action.type, "redirect");
+    assert.deepEqual(Object.keys(flow.getSaved()!).sort(), [
+        "accounts",
+        "intent_public_id",
+        "request_key",
+        "transaction_reference",
+        "version"
+    ]);
+});
+
+test("uncertain initiation refreshes the saved transaction without sending a second initiation", async () => {
+    let initiations = 0;
+    const flow = setup({
+        initiate_transaction: async () => {
+            initiations++;
+            throw new Error("response lost");
+        },
+        refresh_transaction: async (id) => {
+            assert.equal(id, "TEST-INTENT");
+            return { ...intent(flow.contexts[0]), checkout: checkout() };
+        }
+    });
+    await flow.handler.initialize();
+    await advance(flow);
+    await flow.handler.confirm();
+    assert.equal(flow.state_refs.error_text.value, "request failed");
+    flow.handler.back();
+    await flow.handler.confirm();
+    await flow.handler.refreshCheckout();
+    assert.equal(initiations, 1);
+    assert.equal(flow.state_refs.step.value, "checkout");
+    assert.equal(flow.state_refs.checkout.value?.next_action.type, "redirect");
+});
+
+test("an authoritative unchanged intent can restore confirmation after a failed initiation", async () => {
+    const flow = setup({
+        initiate_transaction: async () => {
+            throw new Error("not initiated");
+        },
+        refresh_transaction: async () => {
+            return intent(flow.contexts[0]);
+        }
+    });
+    await flow.handler.initialize();
+    await advance(flow);
+    await flow.handler.confirm();
+    await flow.handler.refreshCheckout();
+    assert.equal(flow.state_refs.step.value, "review");
+    assert.equal(flow.state_refs.checkout.value, null);
+});
+
+test("reopening an initiated transaction restores checkout, not editable review", async () => {
+    const flow = setup(
+        {
+            read_intent: async () => {
+                return {
+                    ...intent({
+                        currency_code: "NGN",
+                        amount: "10",
+                        description: "Deposit",
+                        provider_id: "provider",
+                        payment_method_id: "method"
+                    }),
+                    checkout: checkout()
+                };
+            }
+        },
+        { version: 1, request_key: "stable-key", intent_public_id: "TEST-INTENT", accounts: {} }
+    );
+    await flow.handler.initialize();
+    assert.equal(flow.state_refs.step.value, "checkout");
+    assert.equal(flow.state_refs.is_ready.value, true);
+    assert.equal(flow.getCounts().creates, 0);
+});
+
+test("only verified terminal outcomes allow explicitly starting a separate deposit", async () => {
+    const flow = setup({
+        initiate_transaction: async () => {
+            return checkout();
+        },
+        refresh_transaction: async () => {
+            return { ...intent(flow.contexts[0]), checkout: checkout("success") };
+        }
+    });
+    await flow.handler.initialize();
+    await advance(flow);
+    await flow.handler.confirm();
+    flow.handler.startNewDeposit();
+    assert.equal(flow.state_refs.step.value, "checkout");
+    await flow.handler.refreshCheckout();
+    assert.equal(flow.getSaved()?.intent_public_id, undefined);
+    flow.handler.startNewDeposit();
+    assert.equal(flow.state_refs.step.value, "details");
+    assert.equal(flow.state_refs.cache.value.intent_public_id, undefined);
+    assert.equal(flow.getSaved()?.intent_public_id, undefined);
+    assert.notEqual(flow.getSaved()?.request_key, "stable-key");
+});
+
+test("checkout identity mismatch cannot switch the saved transaction", async () => {
+    const flow = setup({
+        initiate_transaction: async () => {
+            return { ...checkout(), public_id: "OTHER" };
+        }
+    });
+    await flow.handler.initialize();
+    await advance(flow);
+    await flow.handler.confirm();
+    assert.equal(flow.getSaved()?.intent_public_id, "TEST-INTENT");
+    assert.equal(flow.state_refs.checkout.value?.status, "unknown");
+    assert.equal(flow.state_refs.error_text.value, "request failed");
+});
+
+test("closing during initiation preserves identifiers without navigating or notifying the host", async () => {
+    let resolve!: (result: PaymentCheckoutTransactionInterface) => void;
+    let notifications = 0;
+    const flow = setup({
+        initiate_transaction: async () => {
+            return new Promise((done) => {
+                resolve = done;
+            });
+        },
+        on_transaction_change: () => {
+            notifications++;
+        }
+    });
+    await flow.handler.initialize();
+    await advance(flow);
+    const pending = flow.handler.confirm();
+    flow.handler.cleanup();
+    resolve(checkout());
+    await pending;
+    assert.equal(notifications, 0);
+    assert.equal(flow.getSaved()?.intent_public_id, "TEST-INTENT");
+    assert.equal(flow.state_refs.checkout.value?.status, "unknown");
+});
+
+for (const outcome of ["success", "failed", "cancelled", "expired"] as const) {
+    test(`reopening a cached ${outcome} transaction starts with fresh details`, async () => {
+        const flow = setup(
+            {
+                read_intent: async () => {
+                    return {
+                        ...intent({
+                            currency_code: "NGN",
+                            amount: "99.00",
+                            description: "Old payment",
+                            provider_id: "provider",
+                            payment_method_id: "method"
+                        }),
+                        checkout: checkout(outcome)
+                    };
+                }
+            },
+            { version: 1, request_key: "old-key", intent_public_id: "TEST-INTENT", accounts: { provider: "ACCOUNT" } }
+        );
+        await flow.handler.initialize();
+        assert.equal(flow.state_refs.step.value, "details");
+        assert.equal(flow.state_refs.is_ready.value, true);
+        assert.equal(flow.state_refs.intent.value, null);
+        assert.equal(flow.state_refs.checkout.value, null);
+        assert.equal(flow.state_refs.details.value.amount, "");
+        assert.equal(flow.getSaved()?.intent_public_id, undefined);
+        assert.equal(flow.getSaved()?.transaction_reference, undefined);
+        assert.deepEqual(flow.getSaved()?.accounts, { provider: "ACCOUNT" });
+        assert.notEqual(flow.getSaved()?.request_key, "old-key");
+    });
+}
+
+test("terminal status clears storage even if initiation finishes after closing the modal", async () => {
+    let resolve!: (value: PaymentCheckoutTransactionInterface) => void;
+    const flow = setup({
+        initiate_transaction: async () => {
+            return new Promise((done) => {
+                resolve = done;
+            });
+        }
+    });
+    await flow.handler.initialize();
+    await advance(flow);
+    const pending = flow.handler.confirm();
+    flow.handler.cleanup();
+    resolve(checkout("success"));
+    await pending;
+    assert.equal(flow.getSaved()?.intent_public_id, undefined);
 });

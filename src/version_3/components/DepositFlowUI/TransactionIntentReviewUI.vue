@@ -17,6 +17,9 @@
         </dl>
 
         <p :class="props.class_styles.subtitle">{{ props.content_props.review_note_text }}</p>
+        <div v-if="props.action_props.on_confirm" :class="props.class_styles.footer">
+            <ButtonUI v-bind="confirm_button" />
+        </div>
     </section>
 </template>
 <script setup lang="ts">
@@ -30,11 +33,9 @@ const controller = new PaymentStepUIController(props, "review");
 
 const { state_refs, computed_refs, components } = controller.getComponentDefinition();
 
-const { action_handler } = controller;
-
 const { error_text } = state_refs;
 
-const { review_rows, back_button } = computed_refs;
+const { review_rows, back_button, confirm_button } = computed_refs;
 
 const { ButtonUI } = components;
 </script>

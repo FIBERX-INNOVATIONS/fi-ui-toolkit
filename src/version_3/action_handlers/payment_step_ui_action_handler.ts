@@ -26,7 +26,7 @@ class PaymentStepUIActionHandler extends BaseActionHandler<
         } catch {
             this.setState("error_text", this.props.content_props.request_error_text);
         } finally {
-            this.setState("is_submitting", true);
+            this.setState("is_submitting", false);
         }
     }
 
@@ -133,6 +133,16 @@ class PaymentStepUIActionHandler extends BaseActionHandler<
         }
         await this.submit(async () => {
             await this.props.action_props.on_select?.(this.state_refs.selected_id.value);
+        });
+    };
+
+    // Method to confirm the reviewed intent once while the backend request is pending.
+    public confirm = async (): Promise<void> => {
+        if (this.props.is_loading || this.state_refs.is_submitting.value || !this.props.intent) {
+            return;
+        }
+        await this.submit(async () => {
+            await this.props.action_props.on_confirm?.();
         });
     };
 

@@ -1,3 +1,6 @@
+import PaymentCheckoutUI from "../components/DepositFlowUI/PaymentCheckoutUI.vue";
+import PaymentCheckoutUIPropsBuilder from "../props_builder/payment_checkout_ui_props_builder";
+
 import { markRaw } from "vue";
 
 import type { ComputedDefinitionType } from "../types/base_type";
@@ -48,6 +51,7 @@ class DepositFlowUIController extends BaseController<
     protected getUIComponents(): DepositFlowComponentsInterface {
         return {
             ButtonUI: markRaw(ButtonUI),
+            PaymentCheckoutUI: markRaw(PaymentCheckoutUI),
             DepositDetailsUI: markRaw(DepositDetailsUI),
             PaymentOptionPickerUI: markRaw(PaymentOptionPickerUI),
             TransactionIntentReviewUI: markRaw(TransactionIntentReviewUI)
@@ -65,6 +69,7 @@ class DepositFlowUIController extends BaseController<
             provider_id: "",
             method_id: "",
             intent: null,
+            checkout: null,
             is_loading: false,
             is_ready: false,
             error_text: "",
@@ -86,34 +91,58 @@ class DepositFlowUIController extends BaseController<
                 });
             },
 
+            checkout_props: () => {
+                return PaymentCheckoutUIPropsBuilder.getReactivePropsObject(`${this.props.id}_checkout`, {
+                    ...this.props.checkout_props,
+                    transaction: this.state_refs.checkout.value,
+                    is_loading: this.state_refs.is_loading.value,
+                    action_props: {
+                        on_refresh: this.props.action_props.refresh_transaction
+                            ? this.action_handler.refreshCheckout
+                            : undefined,
+                        on_new_deposit: this.action_handler.startNewDeposit
+                    }
+                });
+            },
+
             step_props: () => {
                 const state = this.state_refs;
-                const step = state.step.value;
+                const step = state.step.value === "checkout" ? "review" : state.step.value;
 
                 return PaymentStepUIPropsBuilder.getReactivePropsObject(`${this.props.id}_${step}`, {
                     currencies: state.currencies.value,
+
                     initial_values: state.details.value,
+
                     description_required: this.props.description_required,
+
                     readonly_fields: this.props.readonly_fields,
+
                     options: step === DepositFlowUISteps.PROVIDER_STEP ? state.providers.value : state.methods.value,
+
                     selected_id:
                         step === DepositFlowUISteps.PROVIDER_STEP ? state.provider_id.value : state.method_id.value,
+
                     intent: state.intent.value,
+
                     is_loading: state.is_loading.value,
+
                     class_styles: this.props.class_styles,
+
                     content_props: {
                         ...this.props.content_props,
                         title_text: this.props.content_props[`${step}_title_text`],
                         subtitle_text:
                             this.props.content_props[`${step}_subtitle_text`] ?? this.props.content_props.subtitle_text
                     },
+
                     action_props: {
                         on_details: this.action_handler.submitDetails,
-                        on_select:
-                            step === DepositFlowUISteps.PROVIDER_STEP
-                                ? this.action_handler.selectProvider
-                                : this.action_handler.selectMethod,
-                        on_back: step === DepositFlowUISteps.DETAILS_STEP ? undefined : this.action_handler.back
+                        on_select: this.action_handler.submitSelected,
+                        on_back: this.action_handler.back,
+                        on_confirm: this.props.action_props.initiate_transaction
+                            ? this.action_handler.confirm
+                            : undefined
                     }
                 });
             }

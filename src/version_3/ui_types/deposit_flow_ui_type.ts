@@ -1,3 +1,6 @@
+import type { PaymentCheckoutTransactionInterface } from "../types/payment_checkout_type";
+import type { PaymentCheckoutUIPropsInterface } from "./payment_checkout_ui_type";
+
 import type { ButtonUIPropsInterface } from "./button_ui_type";
 
 import type { Component } from "vue";
@@ -37,33 +40,45 @@ export interface DepositFlowContentInterface extends PaymentStepContentInterface
 
 export interface DepositFlowUIPropsInterface {
     id: string;
+
     currencies: DepositCurrencyInterface[];
     initial_values: DepositDetailsInterface;
     description_required: boolean;
     readonly_fields: PaymentStepUIPropsInterface["readonly_fields"];
+
     content_props: DepositFlowContentInterface;
     class_styles: PaymentStepClassStylesInterface;
+
     action_props: DepositActionsInterface;
     storage: DepositStorageInterface;
+    checkout_props: Partial<PaymentCheckoutUIPropsInterface>;
 }
 
 export interface DepositFlowStateInterface {
-    step: "details" | "provider" | "method" | "review";
+    step: "details" | "provider" | "method" | "review" | "checkout";
+
     currencies: DepositCurrencyInterface[];
     details: DepositDetailsInterface;
+
     providers: PaymentOptionInterface[];
     methods: PaymentOptionInterface[];
     provider_id: string;
     method_id: string;
+
     intent: TransactionIntentInterface | null;
+    checkout: PaymentCheckoutTransactionInterface | null;
+
     is_loading: boolean;
     is_ready: boolean;
     error_text: string;
+
+    // Persisted identifiers are separate from editable in-memory state.
     cache: DepositCacheInterface;
 }
 
 export interface DepositFlowComputedInterface {
     step_props: PaymentStepUIPropsInterface;
+    checkout_props: PaymentCheckoutUIPropsInterface;
     retry_button: ButtonUIPropsInterface;
 }
 
@@ -72,4 +87,5 @@ export interface DepositFlowComponentsInterface {
     DepositDetailsUI: Component;
     PaymentOptionPickerUI: Component;
     TransactionIntentReviewUI: Component;
+    PaymentCheckoutUI: Component;
 }

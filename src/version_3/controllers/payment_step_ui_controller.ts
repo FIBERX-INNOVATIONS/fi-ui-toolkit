@@ -61,6 +61,7 @@ class PaymentStepUIController extends BaseController<
                 read_only: this.props.readonly_fields.includes(field),
                 required: field === "amount" || this.props.description_required
             },
+            number_props: field === "description" ? { length: 255 } : undefined,
             action_props: {
                 on_change: async (_event, value) => {
                     return this.action_handler.change(field, value);
@@ -70,17 +71,17 @@ class PaymentStepUIController extends BaseController<
     }
 
     // Method to create navigation buttons without injecting content as markup.
-    private getButton(direction: "next" | "back"): ButtonUIPropsInterface {
+    private getButton(direction: "next" | "back" | "confirm"): ButtonUIPropsInterface {
         const button_html_content = RenderHtmlUtil.renderHtml({
             text: this.props.content_props[`${direction}_btn_text`],
-            icon: direction === "next" ? "arrow_right_circle_svg_icon" : "arrow_left_short_circle_svg_icon",
-            order: direction === "next" ? "text-first" : "icon-first",
+            icon: direction !== "back" ? "arrow_right_circle_svg_icon" : "arrow_left_short_circle_svg_icon",
+            order: direction !== "back" ? "text-first" : "icon-first",
             icon_class_style:
-                direction === "next"
+                direction !== "back"
                     ? this.props.class_styles.button.icon_class_style
                     : this.props.class_styles.back_button.icon_class_style,
             class_style:
-                direction === "next"
+                direction !== "back"
                     ? this.props.class_styles.button.text_class_style
                     : this.props.class_styles.back_button.text_class_style
         });
@@ -103,6 +104,8 @@ class PaymentStepUIController extends BaseController<
                 on_click: async () => {
                     if (direction === "back") {
                         this.action_handler.back();
+                    } else if (direction === "confirm") {
+                        await this.action_handler.confirm();
                     } else if (this.step_kind === "details") {
                         await this.action_handler.submitDetails();
                     } else {
@@ -193,6 +196,10 @@ class PaymentStepUIController extends BaseController<
                 return this.getButton("next");
             },
 
+            confirm_button: () => {
+                return this.getButton("confirm");
+            },
+
             back_button: () => {
                 return this.getButton("back");
             },
@@ -206,6 +213,7 @@ class PaymentStepUIController extends BaseController<
                     return [];
                 }
 
+                // Method to display exact server amounts with the selected currency.
                 const amount = (value_text: string): string => {
                     return `${DecimalAmountUtil.group(value_text)} ${intent.currency_code}`;
                 };
@@ -218,7 +226,10 @@ class PaymentStepUIController extends BaseController<
                     }),
                     { label_text: content.net_label_text, value_text: amount(intent.net_amount) },
                     { label_text: content.description_label_text, value_text: intent.description },
-                    { label_text: content.reference_label_text, value_text: intent.public_id }
+                    {
+                        label_text: content.reference_label_text,
+                        value_text: intent.transaction_reference ?? intent.public_id
+                    }
                 ];
             }
         };

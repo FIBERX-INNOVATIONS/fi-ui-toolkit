@@ -4,6 +4,7 @@ const PaymentStepUIClassStyles: PaymentStepClassStylesInterface = {
     wrapper: "space-y-5 min-w-0",
     title: "text-xl font-semibold text-slate-900",
     subtitle: "text-sm leading-relaxed text-slate-500",
+    loading_text: "text-sm leading-relaxed text-slate-500",
     field: "space-y-2 min-w-0",
     label: "block text-sm font-medium text-slate-700",
     error: "rounded-xl bg-rose-50 p-3 text-sm text-rose-700",

@@ -1,6 +1,6 @@
 <template>
     <section :class="props.class_styles.wrapper" :aria-busy="props.is_loading">
-        <ButtonUI v-if="props.action_props.on_back" v-bind="back_button" />
+        <!-- <ButtonUI v-if="props.action_props.on_back" v-bind="back_button" /> -->
 
         <header>
             <h2 :class="props.class_styles.title">{{ props.content_props.title_text }}</h2>
