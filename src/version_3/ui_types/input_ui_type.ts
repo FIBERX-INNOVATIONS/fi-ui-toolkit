@@ -40,10 +40,10 @@ export interface InputUINumberPropsInterface {
     step?: number;
 }
 
-export interface ActionMethodRetrunInterface {
+export interface ActionMethodRetrunInterface<TData extends Record<string, unknown> = Record<string, unknown>> {
     status: boolean;
     msg: string;
-    data?: Record<string, any>;
+    data?: TData;
 }
 
 export type InputUIFetchDataParamsInterface<TParams extends Record<string, unknown> = Record<string, unknown>> = {
@@ -239,6 +239,7 @@ export interface InputUIClassStylesInterface {
 /* ---------------------------------- */
 
 export interface InputUIPropsInterface {
+    validation_error_text?: string;
     id?: string;
 
     switch_btn_id?: string;

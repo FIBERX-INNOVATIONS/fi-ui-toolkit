@@ -63,6 +63,7 @@ export interface TabsUIDataPropsInterface {
 /* ---------------------------------- */
 
 export interface TabsUIBooleanPropsInterface {
+    allow_empty_selection?: boolean;
     disabled?: boolean;
 }
 

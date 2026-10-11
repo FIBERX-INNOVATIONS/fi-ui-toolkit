@@ -15,6 +15,7 @@ import {
 } from "../ui_types/input_ui_type";
 
 const InputUIProps = {
+    validation_error_text: { type: String, default: undefined },
     id: {
         type: String,
         required: true

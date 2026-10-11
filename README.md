@@ -179,3 +179,7 @@ The package currently points `main` at `app.ts`, but there is no root `app.ts` i
 ## License
 
 This package is currently marked as `ISC` in `package.json`.
+
+## Withdrawal recipient forms
+
+[Withdrawal recipient form configuration](docs/withdrawal_recipient_form.md) — schema reference, progressive selection, callbacks and app overrides.

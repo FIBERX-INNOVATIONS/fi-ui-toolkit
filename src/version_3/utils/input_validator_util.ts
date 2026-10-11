@@ -22,6 +22,24 @@ class InputValidatorUtil {
 
     public static isValidateIn = (value: any, allowed: any[]) => allowed.includes(value);
 
+    // Method to identify local and staging browser environments from the current hostname.
+    public static isDevelopment(): boolean {
+        // Keep the utility safe to import and call outside a browser.
+        if (typeof window === "undefined") {
+            return false;
+        }
+
+        // Hostname excludes paths and query strings, which should not change the environment.
+        const hostname = window.location.hostname.toLowerCase();
+
+        return hostname === "localhost" || hostname === "127.0.0.1" || hostname.startsWith("staging");
+    }
+
+    // Method to identify production as the opposite of the local/staging environment check.
+    public static isProduction(): boolean {
+        return !this.isDevelopment();
+    }
+
     /** ✅ Check member roles */
     static isAdmin(name: string) {
         return ["SuperAdmin", "AdminI", "AdminT"].includes(name);
@@ -90,6 +108,28 @@ class InputValidatorUtil {
 
     static isValidURL(url: string): boolean {
         return this.url_regex_reg_exp.test(url) && this.isValidURLY(url);
+    }
+
+    // Method to validate absolute WebSocket endpoints while preserving existing HTTP URL rules.
+    public static isValidWebSocketURL(url: string): boolean {
+        // Require a host immediately after the scheme; do not silently repair whitespace or slashes.
+        if (typeof url !== "string" || !/^wss?:\/\/[^/]/i.test(url) || /[\s\\]/.test(url)) {
+            return false;
+        }
+
+        try {
+            const endpoint = new URL(url);
+
+            // WebSocket endpoints cannot include fragments, even an empty trailing "#".
+            return (
+                (endpoint.protocol === "ws:" || endpoint.protocol === "wss:") &&
+                !!endpoint.hostname &&
+                !url.includes("#")
+            );
+        } catch {
+            // Parsing rejects malformed hosts and invalid or out-of-range ports.
+            return false;
+        }
     }
 
     static isBoolean(value: any): boolean {

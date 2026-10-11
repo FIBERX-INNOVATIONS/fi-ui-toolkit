@@ -134,6 +134,10 @@ class TabsUIController extends BaseController<
     private resolveActiveTabKey(): string {
         const tab_items = this.getTabItems();
         const configured_active_tab_key = this.props.data_props?.active_tab_key;
+        // Progressive forms must allow an explicit selection instead of preselecting the first tab.
+        if (this.props.boolean_props?.allow_empty_selection && !configured_active_tab_key) {
+            return "";
+        }
         const configured_active_tab = tab_items.find((tab_item) => tab_item.tab_key === configured_active_tab_key);
 
         if (configured_active_tab && !configured_active_tab.disabled) {

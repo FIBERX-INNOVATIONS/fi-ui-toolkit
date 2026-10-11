@@ -32,6 +32,7 @@ export interface DataTableUIActionPropsInterface<T = Record<string, any>> {
 
 export interface DataTableUIClassStylesInterface {
     wrapper_class_style: string;
+    table_wrapper_class_style: string;
     table_class_style: string;
     thead_class_style: string;
     th_class_style: string;

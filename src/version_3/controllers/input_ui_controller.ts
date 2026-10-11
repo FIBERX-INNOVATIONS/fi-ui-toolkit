@@ -1,3 +1,4 @@
+import RenderHtmlUtil from "../utils/render_html_util";
 import "@vuepic/vue-datepicker/dist/main.css";
 
 import { VueDatePicker } from "@vuepic/vue-datepicker";
@@ -98,7 +99,10 @@ class InputUIController extends BaseController<
                 ? `${this.props.selected_text_prefix ?? ""}: ${this.props.model_value ?? ""}`
                 : null,
 
-            error_text: null,
+            error_text:
+                this.props.validation_error_text === undefined
+                    ? null
+                    : RenderHtmlUtil.escapeHtml(this.props.validation_error_text),
 
             is_loading: false,
 
@@ -183,6 +187,12 @@ class InputUIController extends BaseController<
 
     protected getUIWatchers(): WatchersType<InputUIPropsInterface, InputUIStateDataInterface> {
         return {
+            // Sync host validation after dependency changes or programmatic model updates.
+            validation_error_text: (message) => {
+                if (message !== undefined) {
+                    this.state_refs.error_text.value = message ? RenderHtmlUtil.escapeHtml(message) : null;
+                }
+            },
             model_value: (new_val) => {
                 const input_value = this.resolveModelValue(new_val ?? null, null);
 

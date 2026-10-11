@@ -112,6 +112,7 @@ class InputUIPropsBuilder extends BasePropSchema<InputUIPropsInterface> {
             switch_btn_id: overrides.switch_btn_id ?? `${id}_switch`,
 
             model_value: overrides.model_value ?? null,
+            validation_error_text: overrides.validation_error_text,
 
             placeholder_text,
 

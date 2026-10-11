@@ -2,6 +2,7 @@ import { DataTableUIClassStylesInterface } from "../ui_types/data_table_ui_type"
 
 const DataTableUIClassStyles: DataTableUIClassStylesInterface = {
     wrapper_class_style: "w-full overflow-x-auto",
+    table_wrapper_class_style: "w-full overflow-x-auto",
     table_class_style: "w-full border-collapse text-sm",
 
     thead_class_style: "bg-gray-100 sticky top-0",
